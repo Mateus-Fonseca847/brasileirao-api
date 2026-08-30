@@ -1,0 +1,254 @@
+{
+  "fonte": "adaoduque_brasileirao",
+  "geradoEm": "2026-08-30T02:31:48.072Z",
+  "arquivos": {
+    "partidas": 8785,
+    "estatisticas": 17570,
+    "gols": 9861,
+    "cartoes": 20953
+  },
+  "temporadas": [
+    {
+      "temporada": 2003,
+      "partidas": 552,
+      "golsNoPlacar": 1593,
+      "linhasEstatisticas": 1104,
+      "partidasComRegistroEstatistico": 552,
+      "linhasComPosseValida": 0,
+      "linhasComChutesPositivos": 0,
+      "eventosDeGol": 0,
+      "eventosDeCartao": 0
+    },
+    {
+      "temporada": 2004,
+      "partidas": 552,
+      "golsNoPlacar": 1536,
+      "linhasEstatisticas": 1104,
+      "partidasComRegistroEstatistico": 552,
+      "linhasComPosseValida": 0,
+      "linhasComChutesPositivos": 0,
+      "eventosDeGol": 0,
+      "eventosDeCartao": 0
+    },
+    {
+      "temporada": 2005,
+      "partidas": 462,
+      "golsNoPlacar": 1448,
+      "linhasEstatisticas": 924,
+      "partidasComRegistroEstatistico": 462,
+      "linhasComPosseValida": 0,
+      "linhasComChutesPositivos": 0,
+      "eventosDeGol": 0,
+      "eventosDeCartao": 0
+    },
+    {
+      "temporada": 2006,
+      "partidas": 380,
+      "golsNoPlacar": 1030,
+      "linhasEstatisticas": 760,
+      "partidasComRegistroEstatistico": 380,
+      "linhasComPosseValida": 0,
+      "linhasComChutesPositivos": 0,
+      "eventosDeGol": 0,
+      "eventosDeCartao": 0
+    },
+    {
+      "temporada": 2007,
+      "partidas": 380,
+      "golsNoPlacar": 1047,
+      "linhasEstatisticas": 760,
+      "partidasComRegistroEstatistico": 380,
+      "linhasComPosseValida": 0,
+      "linhasComChutesPositivos": 0,
+      "eventosDeGol": 0,
+      "eventosDeCartao": 0
+    },
+    {
+      "temporada": 2008,
+      "partidas": 380,
+      "golsNoPlacar": 1035,
+      "linhasEstatisticas": 760,
+      "partidasComRegistroEstatistico": 380,
+      "linhasComPosseValida": 0,
+      "linhasComChutesPositivos": 0,
+      "eventosDeGol": 0,
+      "eventosDeCartao": 0
+    },
+    {
+      "temporada": 2009,
+      "partidas": 380,
+      "golsNoPlacar": 1094,
+      "linhasEstatisticas": 760,
+      "partidasComRegistroEstatistico": 380,
+      "linhasComPosseValida": 0,
+      "linhasComChutesPositivos": 0,
+      "eventosDeGol": 0,
+      "eventosDeCartao": 0
+    },
+    {
+      "temporada": 2010,
+      "partidas": 380,
+      "golsNoPlacar": 978,
+      "linhasEstatisticas": 760,
+      "partidasComRegistroEstatistico": 380,
+      "linhasComPosseValida": 0,
+      "linhasComChutesPositivos": 0,
+      "eventosDeGol": 0,
+      "eventosDeCartao": 0
+    },
+    {
+      "temporada": 2011,
+      "partidas": 380,
+      "golsNoPlacar": 1017,
+      "linhasEstatisticas": 760,
+      "partidasComRegistroEstatistico": 380,
+      "linhasComPosseValida": 0,
+      "linhasComChutesPositivos": 0,
+      "eventosDeGol": 0,
+      "eventosDeCartao": 0
+    },
+    {
+      "temporada": 2012,
+      "partidas": 380,
+      "golsNoPlacar": 940,
+      "linhasEstatisticas": 760,
+      "partidasComRegistroEstatistico": 380,
+      "linhasComPosseValida": 0,
+      "linhasComChutesPositivos": 0,
+      "eventosDeGol": 0,
+      "eventosDeCartao": 0
+    },
+    {
+      "temporada": 2013,
+      "partidas": 380,
+      "golsNoPlacar": 936,
+      "linhasEstatisticas": 760,
+      "partidasComRegistroEstatistico": 380,
+      "linhasComPosseValida": 0,
+      "linhasComChutesPositivos": 0,
+      "eventosDeGol": 0,
+      "eventosDeCartao": 0
+    },
+    {
+      "temporada": 2014,
+      "partidas": 380,
+      "golsNoPlacar": 860,
+      "linhasEstatisticas": 760,
+      "partidasComRegistroEstatistico": 380,
+      "linhasComPosseValida": 32,
+      "linhasComChutesPositivos": 32,
+      "eventosDeGol": 860,
+      "eventosDeCartao": 1774
+    },
+    {
+      "temporada": 2015,
+      "partidas": 380,
+      "golsNoPlacar": 897,
+      "linhasEstatisticas": 760,
+      "partidasComRegistroEstatistico": 380,
+      "linhasComPosseValida": 760,
+      "linhasComChutesPositivos": 760,
+      "eventosDeGol": 897,
+      "eventosDeCartao": 1993
+    },
+    {
+      "temporada": 2016,
+      "partidas": 379,
+      "golsNoPlacar": 912,
+      "linhasEstatisticas": 758,
+      "partidasComRegistroEstatistico": 379,
+      "linhasComPosseValida": 758,
+      "linhasComChutesPositivos": 758,
+      "eventosDeGol": 912,
+      "eventosDeCartao": 1827
+    },
+    {
+      "temporada": 2017,
+      "partidas": 380,
+      "golsNoPlacar": 923,
+      "linhasEstatisticas": 760,
+      "partidasComRegistroEstatistico": 380,
+      "linhasComPosseValida": 758,
+      "linhasComChutesPositivos": 758,
+      "eventosDeGol": 923,
+      "eventosDeCartao": 1888
+    },
+    {
+      "temporada": 2018,
+      "partidas": 380,
+      "golsNoPlacar": 827,
+      "linhasEstatisticas": 760,
+      "partidasComRegistroEstatistico": 380,
+      "linhasComPosseValida": 760,
+      "linhasComChutesPositivos": 760,
+      "eventosDeGol": 827,
+      "eventosDeCartao": 1954
+    },
+    {
+      "temporada": 2019,
+      "partidas": 380,
+      "golsNoPlacar": 876,
+      "linhasEstatisticas": 760,
+      "partidasComRegistroEstatistico": 380,
+      "linhasComPosseValida": 714,
+      "linhasComChutesPositivos": 714,
+      "eventosDeGol": 876,
+      "eventosDeCartao": 1765
+    },
+    {
+      "temporada": 2020,
+      "partidas": 380,
+      "golsNoPlacar": 944,
+      "linhasEstatisticas": 760,
+      "partidasComRegistroEstatistico": 380,
+      "linhasComPosseValida": 758,
+      "linhasComChutesPositivos": 758,
+      "eventosDeGol": 944,
+      "eventosDeCartao": 1777
+    },
+    {
+      "temporada": 2021,
+      "partidas": 380,
+      "golsNoPlacar": 842,
+      "linhasEstatisticas": 760,
+      "partidasComRegistroEstatistico": 380,
+      "linhasComPosseValida": 760,
+      "linhasComChutesPositivos": 760,
+      "eventosDeGol": 842,
+      "eventosDeCartao": 1790
+    },
+    {
+      "temporada": 2022,
+      "partidas": 380,
+      "golsNoPlacar": 905,
+      "linhasEstatisticas": 760,
+      "partidasComRegistroEstatistico": 380,
+      "linhasComPosseValida": 760,
+      "linhasComChutesPositivos": 760,
+      "eventosDeGol": 905,
+      "eventosDeCartao": 1971
+    },
+    {
+      "temporada": 2023,
+      "partidas": 380,
+      "golsNoPlacar": 946,
+      "linhasEstatisticas": 760,
+      "partidasComRegistroEstatistico": 380,
+      "linhasComPosseValida": 760,
+      "linhasComChutesPositivos": 760,
+      "eventosDeGol": 946,
+      "eventosDeCartao": 2118
+    },
+    {
+      "temporada": 2024,
+      "partidas": 380,
+      "golsNoPlacar": 929,
+      "linhasEstatisticas": 760,
+      "partidasComRegistroEstatistico": 380,
+      "linhasComPosseValida": 0,
+      "linhasComChutesPositivos": 0,
+      "eventosDeGol": 929,
+      "eventosDeCartao": 2096
+    }
+  ]
+}

@@ -169,7 +169,7 @@ status: validation_only
 ## Cobertura conhecida
 
 ```text
-2003 → 2025
+2003 → 2024
 ```
 
 ## Dados disponíveis
@@ -243,7 +243,7 @@ status: candidate
 O dataset informa cobertura de partidas entre:
 
 ```text
-2003 → 2025
+2003 → 2024
 ```
 
 ## Arquivos relevantes

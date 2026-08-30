@@ -1,0 +1,18 @@
+{
+  "name": "brasileirao-api",
+  "version": "0.1.0",
+  "description": "API REST com dados históricos do Campeonato Brasileiro Série A desde 2003.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "audit:adaoduque": "tsx scripts/audit/audit-adaoduque.ts"
+  },
+  "dependencies": {
+    "csv-parse": "^6.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}
