@@ -1,0 +1,154 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum SeasonStatus {
+  IN_PROGRESS
+  VALIDATION
+  FINISHED
+
+  @@map("season_status")
+}
+
+enum MatchStatus {
+  SCHEDULED
+  FINISHED
+  CANCELLED
+  ANNULLED
+  NOT_PLAYED
+
+  @@map("match_status")
+}
+
+model Season {
+  id         String       @id @default(uuid()) @db.Uuid
+  year       Int          @unique
+  status     SeasonStatus
+  startDate  DateTime?    @map("start_date") @db.Date
+  endDate    DateTime?    @map("end_date") @db.Date
+  teamsCount Int?         @map("teams_count")
+  createdAt  DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt  DateTime     @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  seasonTeams SeasonTeam[]
+  matches     Match[]
+  standings   Standing[]
+
+  @@map("seasons")
+}
+
+model Team {
+  id        String   @id @default(uuid()) @db.Uuid
+  slug      String   @unique @db.VarChar(100)
+  name      String   @db.VarChar(150)
+  shortName String?  @map("short_name") @db.VarChar(100)
+  state     String?  @db.VarChar(2)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  seasonTeams    SeasonTeam[]
+  homeMatches    Match[]         @relation("MatchHomeTeam")
+  awayMatches    Match[]         @relation("MatchAwayTeam")
+  matchTeamStats MatchTeamStat[]
+  standings      Standing[]
+
+  @@index([name])
+  @@map("teams")
+}
+
+model SeasonTeam {
+  id        String   @id @default(uuid()) @db.Uuid
+  seasonId  String   @map("season_id") @db.Uuid
+  teamId    String   @map("team_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  season Season @relation(fields: [seasonId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@unique([seasonId, teamId])
+  @@index([seasonId])
+  @@index([teamId])
+  @@map("season_teams")
+}
+
+model Match {
+  id              String      @id @default(uuid()) @db.Uuid
+  seasonId        String      @map("season_id") @db.Uuid
+  round           Int?
+  matchDate       DateTime?   @map("match_date") @db.Date
+  kickoffTime     DateTime?   @map("kickoff_time") @db.Time(0)
+  homeTeamId      String      @map("home_team_id") @db.Uuid
+  awayTeamId      String      @map("away_team_id") @db.Uuid
+  homeGoals       Int?        @map("home_goals")
+  awayGoals       Int?        @map("away_goals")
+  playedHomeGoals Int?        @map("played_home_goals")
+  playedAwayGoals Int?        @map("played_away_goals")
+  stadium         String?     @db.VarChar(200)
+  status          MatchStatus
+  createdAt       DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  season   Season @relation(fields: [seasonId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  homeTeam Team   @relation("MatchHomeTeam", fields: [homeTeamId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  awayTeam Team   @relation("MatchAwayTeam", fields: [awayTeamId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  teamStats MatchTeamStat[]
+
+  @@index([seasonId])
+  @@index([homeTeamId])
+  @@index([awayTeamId])
+  @@index([seasonId, round])
+  @@index([matchDate])
+  @@map("matches")
+}
+
+model MatchTeamStat {
+  id          String   @id @default(uuid()) @db.Uuid
+  matchId     String   @map("match_id") @db.Uuid
+  teamId      String   @map("team_id") @db.Uuid
+  shots       Int?
+  possession  Decimal? @db.Decimal(5, 2)
+  yellowCards Int?     @map("yellow_cards")
+  redCards    Int?     @map("red_cards")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  match Match @relation(fields: [matchId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  team  Team  @relation(fields: [teamId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@unique([matchId, teamId])
+  @@index([teamId])
+  @@map("match_team_stats")
+}
+
+model Standing {
+  id               String   @id @default(uuid()) @db.Uuid
+  seasonId         String   @map("season_id") @db.Uuid
+  teamId           String   @map("team_id") @db.Uuid
+  position         Int
+  points           Int
+  played           Int
+  wins             Int
+  draws            Int
+  losses           Int
+  goalsFor         Int      @map("goals_for")
+  goalsAgainst     Int      @map("goals_against")
+  goalDifference   Int      @map("goal_difference")
+  pointsAdjustment Int      @default(0) @map("points_adjustment")
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt        DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  season Season @relation(fields: [seasonId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@unique([seasonId, teamId])
+  @@unique([seasonId, position])
+  @@index([seasonId])
+  @@index([teamId])
+  @@map("standings")
+}
