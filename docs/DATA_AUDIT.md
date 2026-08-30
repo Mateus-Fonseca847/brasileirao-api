@@ -580,3 +580,107 @@ data/audit/source-comparison-2024.json
 A comparação pode ser reproduzida através de:
 
 npm run compare:2024
+
+# 20. Validação histórica consolidada — 2018 a 2024
+
+Após a implementação de um comparador reutilizável por temporada, os resultados das partidas entre 2018 e 2024 foram confrontados entre duas fontes independentes:
+
+- Dataset de Adão Duque;
+- OpenFootball.
+
+Antes da comparação, diferenças nos nomes dos clubes foram resolvidas através da camada de aliases mantida em:
+
+data/mappings/team-aliases.json
+
+A comparação foi executada individualmente para cada temporada.
+
+## Resultado por temporada
+
+| Temporada | Partidas comparadas | Placares iguais | Divergências | Status |
+|---|---:|---:|---:|---|
+| 2018 | 380 | 380 | 0 | VERIFIED |
+| 2019 | 380 | 380 | 0 | VERIFIED |
+| 2020 | 380 | 380 | 0 | VERIFIED |
+| 2021 | 380 | 380 | 0 | VERIFIED |
+| 2022 | 380 | 380 | 0 | VERIFIED |
+| 2023 | 380 | 380 | 0 | VERIFIED |
+| 2024 | 380 | 380 | 0 | VERIFIED |
+
+## Resultado consolidado
+
+Foram verificadas:
+
+7 temporadas
+
+totalizando:
+
+2660 partidas.
+
+Foram encontrados:
+
+2660 placares coincidentes
+
+e:
+
+0 divergências.
+
+Também não permaneceram:
+
+- partidas exclusivas do dataset de Adão Duque;
+- partidas exclusivas do OpenFootball;
+- aliases de clubes pendentes;
+- linhas de partidas do OpenFootball sem interpretação.
+
+Consequentemente, os resultados das temporadas entre 2018 e 2024 receberam o estado:
+
+VERIFIED
+
+no contexto da validação cruzada entre essas duas fontes.
+
+## Observação sobre a temporada 2020
+
+A temporada 2020 foi concluída durante o ano-calendário de 2021 devido à alteração do calendário causada pela pandemia.
+
+O projeto implementa uma regra específica para associar partidas realizadas em janeiro e fevereiro de 2021 à temporada 2020.
+
+A validação completa das 380 partidas dessa temporada confirma que essa regra está funcionando corretamente para o dataset analisado.
+
+## Limite desta validação
+
+O status VERIFIED desta etapa refere-se especificamente a:
+
+- participantes dos confrontos;
+- rodadas utilizadas para relacionamento;
+- mando de campo;
+- quantidade de partidas;
+- gols do mandante;
+- gols do visitante;
+- placar final.
+
+Esta validação não implica automaticamente que estejam verificadas:
+
+- estatísticas de posse;
+- chutes;
+- cartões;
+- eventos individuais de gol;
+- artilharia.
+
+Esses conjuntos de dados possuem auditorias próprias.
+
+## Automação
+
+Cada temporada pode ser comparada através de:
+
+npm run compare:season -- ANO
+
+Exemplo:
+
+npm run compare:season -- 2022
+
+O relatório consolidado pode ser reconstruído através de:
+
+npm run audit:validation-summary
+
+O arquivo consolidado é armazenado em:
+
+data/audit/source-comparison-summary-2018-2024.json

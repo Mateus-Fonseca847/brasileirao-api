@@ -7,7 +7,9 @@
   "scripts": {
     "audit:adaoduque": "tsx scripts/audit/audit-adaoduque.ts",
     "audit:openfootball:2024": "tsx scripts/audit/audit-openfootball-2024.ts",
-    "compare:2024": "tsx scripts/compare/compare-sources-2024.ts"
+    "data:download:openfootball": "tsx scripts/acquisition/download-openfootball.ts",
+    "compare:season": "tsx scripts/compare/compare-sources.ts",
+    "audit:validation-summary": "tsx scripts/audit/build-validation-summary.ts"
   },
   "dependencies": {
     "csv-parse": "^6.1.0"

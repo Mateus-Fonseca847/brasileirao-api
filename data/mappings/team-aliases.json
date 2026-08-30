@@ -1,27 +1,59 @@
 {
+  "america-mg": [
+    "America-MG",
+    "América Mineiro",
+    "América MG"
+  ],
   "atletico-go": [
     "Atletico-GO",
-    "AC Goianiense"
-  ],
-  "botafogo": [
-    "Botafogo-RJ",
-    "Botafogo FR"
+    "AC Goianiense",
+    "Atlético Goianiense"
   ],
   "atletico-mg": [
     "Atletico-MG",
-    "CA Mineiro"
+    "CA Mineiro",
+    "Atlético Mineiro"
   ],
   "athletico-pr": [
     "Athletico-PR",
-    "CA Paranaense"
+    "CA Paranaense",
+    "Athletico Paranaense"
   ],
-  "flamengo": [
-    "Flamengo",
-    "CR Flamengo"
+  "avai": [
+    "Avai",
+    "Avaí SC"
   ],
-  "vasco": [
-    "Vasco",
-    "CR Vasco da Gama"
+  "bahia": [
+    "Bahia",
+    "EC Bahia",
+    "Bahia BA"
+  ],
+  "botafogo": [
+    "Botafogo-RJ",
+    "Botafogo FR",
+    "Botafogo RJ"
+  ],
+  "bragantino": [
+    "Bragantino",
+    "RB Bragantino",
+    "Red Bull Bragantino"
+  ],
+  "ceara": [
+    "Ceara",
+    "Ceará CE"
+  ],
+  "chapecoense": [
+    "Chapecoense"
+  ],
+  "corinthians": [
+    "Corinthians",
+    "SC Corinthians Paulista",
+    "Corinthians SP"
+  ],
+  "coritiba": [
+    "Coritiba",
+    "Coritiba FBC",
+    "Coritiba PR"
   ],
   "criciuma": [
     "Criciuma",
@@ -31,52 +63,77 @@
     "Cruzeiro",
     "Cruzeiro EC"
   ],
+  "csa": [
+    "CSA",
+    "CSA AL"
+  ],
   "cuiaba": [
     "Cuiaba",
-    "Cuiabá EC"
+    "Cuiabá EC",
+    "Cuiabá MT"
   ],
-  "bahia": [
-    "Bahia",
-    "EC Bahia"
-  ],
-  "juventude": [
-    "Juventude",
-    "EC Juventude"
-  ],
-  "vitoria": [
-    "Vitoria",
-    "EC Vitória"
+  "flamengo": [
+    "Flamengo",
+    "CR Flamengo",
+    "Flamengo RJ"
   ],
   "fluminense": [
     "Fluminense",
-    "Fluminense FC"
+    "Fluminense FC",
+    "Fluminense RJ"
   ],
   "fortaleza": [
     "Fortaleza",
-    "Fortaleza EC"
+    "Fortaleza EC",
+    "Fortaleza CE"
+  ],
+  "goias": [
+    "Goias",
+    "Goiás EC",
+    "Goiás GO"
   ],
   "gremio": [
     "Gremio",
-    "Grêmio FBPA"
-  ],
-  "bragantino": [
-    "Bragantino",
-    "RB Bragantino"
-  ],
-  "corinthians": [
-    "Corinthians",
-    "SC Corinthians Paulista"
+    "Grêmio FBPA",
+    "Grêmio Porto Alegre"
   ],
   "internacional": [
     "Internacional",
     "SC Internacional"
   ],
+  "juventude": [
+    "Juventude",
+    "EC Juventude",
+    "Juventude RS"
+  ],
   "palmeiras": [
     "Palmeiras",
     "SE Palmeiras"
   ],
+  "parana": [
+    "Parana",
+    "Paraná Clube"
+  ],
+  "santos": [
+    "Santos",
+    "Santos FC"
+  ],
   "sao-paulo": [
     "Sao Paulo",
     "São Paulo FC"
+  ],
+  "sport": [
+    "Sport",
+    "Sport Recife PE"
+  ],
+  "vasco": [
+    "Vasco",
+    "CR Vasco da Gama",
+    "Vasco da Gama RJ"
+  ],
+  "vitoria": [
+    "Vitoria",
+    "EC Vitória",
+    "Vitória BA"
   ]
 }

@@ -26,27 +26,64 @@ import {
   encontrarIdCanonico,
 } from "../normalization/team-names.js";
 
-type RegistroCsv = Record<string, string>;
+import {
+  extrairTemporadaBrasileirao,
+} from "../normalization/seasons.js";
+
+type RegistroCsv =
+  Record<string, string>;
 
 interface PartidaComparavel {
-  fonte: "adaoduque" | "openfootball";
+  fonte:
+    | "adaoduque"
+    | "openfootball";
+
   rodada: number;
+
   mandanteOriginal: string;
   visitanteOriginal: string;
+
   mandante: string;
   visitante: string;
+
   golsMandante: number;
   golsVisitante: number;
 }
 
 interface DivergenciaPlacar {
   chave: string;
+
   adaoduque: {
     placar: string;
   };
+
   openfootball: {
     placar: string;
   };
+}
+
+const argumentoTemporada =
+  process.argv[2];
+
+const temporada =
+  Number(argumentoTemporada);
+
+if (
+  !argumentoTemporada ||
+  Number.isNaN(temporada)
+) {
+  throw new Error(
+    "Informe uma temporada. Exemplo: npm run compare:season -- 2024",
+  );
+}
+
+if (
+  temporada < 2003 ||
+  temporada > 2100
+) {
+  throw new Error(
+    `Temporada inválida: ${temporada}`,
+  );
 }
 
 const caminhoArquivoAtual =
@@ -68,7 +105,7 @@ const caminhos = {
 
   openfootball: resolve(
     raizProjeto,
-    "data/raw/openfootball/2024_br1.txt",
+    `data/raw/openfootball/${temporada}_br1.txt`,
   ),
 
   aliases: resolve(
@@ -78,7 +115,7 @@ const caminhos = {
 
   relatorio: resolve(
     raizProjeto,
-    "data/audit/source-comparison-2024.json",
+    `data/audit/source-comparison-${temporada}.json`,
   ),
 };
 
@@ -100,16 +137,20 @@ async function lerCsv(
     "utf-8",
   );
 
-  return parse(conteudo, {
-    columns: true,
-    skip_empty_lines: true,
-    trim: true,
-  });
+  return parse(
+    conteudo,
+    {
+      columns: true,
+      skip_empty_lines: true,
+      trim: true,
+    },
+  );
 }
 
-async function executarComparacao(): Promise<void> {
+async function executarComparacao():
+  Promise<void> {
   console.log(
-    "Iniciando comparação Adão Duque x OpenFootball — 2024...\n",
+    `Iniciando comparação Adão Duque x OpenFootball — ${temporada}...\n`,
   );
 
   const aliases =
@@ -118,7 +159,9 @@ async function executarComparacao(): Promise<void> {
     );
 
   const registrosAdao =
-    await lerCsv(caminhos.adaoduque);
+    await lerCsv(
+      caminhos.adaoduque,
+    );
 
   const conteudoOpenFootball =
     await readFile(
@@ -134,11 +177,21 @@ async function executarComparacao(): Promise<void> {
   const aliasesNaoEncontrados =
     new Set<string>();
 
-  const partidasAdao: PartidaComparavel[] =
-    [];
+  const partidasAdao:
+    PartidaComparavel[] = [];
 
-  for (const registro of registrosAdao) {
-    if (!registro.data.endsWith("/2024")) {
+  for (
+    const registro
+    of registrosAdao
+  ) {
+    const temporadaRegistro =
+      extrairTemporadaBrasileirao(
+        registro.data,
+      );
+
+    if (
+      temporadaRegistro !== temporada
+    ) {
       continue;
     }
 
@@ -166,25 +219,37 @@ async function executarComparacao(): Promise<void> {
       );
     }
 
-    if (!mandante || !visitante) {
+    if (
+      !mandante ||
+      !visitante
+    ) {
       continue;
     }
 
     partidasAdao.push({
       fonte: "adaoduque",
-      rodada: Number(registro.rodata),
+
+      rodada:
+        Number(registro.rodata),
+
       mandanteOriginal:
         registro.mandante,
+
       visitanteOriginal:
         registro.visitante,
+
       mandante,
       visitante,
-      golsMandante: Number(
-        registro.mandante_Placar,
-      ),
-      golsVisitante: Number(
-        registro.visitante_Placar,
-      ),
+
+      golsMandante:
+        Number(
+          registro.mandante_Placar,
+        ),
+
+      golsVisitante:
+        Number(
+          registro.visitante_Placar,
+        ),
     });
   }
 
@@ -219,39 +284,56 @@ async function executarComparacao(): Promise<void> {
       );
     }
 
-    if (!mandante || !visitante) {
+    if (
+      !mandante ||
+      !visitante
+    ) {
       continue;
     }
 
     partidasOpenFootball.push({
       fonte: "openfootball",
-      rodada: partida.rodada,
+
+      rodada:
+        partida.rodada,
+
       mandanteOriginal:
         partida.mandante,
+
       visitanteOriginal:
         partida.visitante,
+
       mandante,
       visitante,
+
       golsMandante:
         partida.golsMandante,
+
       golsVisitante:
         partida.golsVisitante,
     });
   }
 
-  const mapaAdao = new Map<
-    string,
-    PartidaComparavel
-  >();
+  const mapaAdao =
+    new Map<
+      string,
+      PartidaComparavel
+    >();
 
-  const mapaOpenFootball = new Map<
-    string,
-    PartidaComparavel
-  >();
+  const mapaOpenFootball =
+    new Map<
+      string,
+      PartidaComparavel
+    >();
 
-  for (const partida of partidasAdao) {
+  for (
+    const partida
+    of partidasAdao
+  ) {
     mapaAdao.set(
-      criarChavePartida(partida),
+      criarChavePartida(
+        partida,
+      ),
       partida,
     );
   }
@@ -261,7 +343,9 @@ async function executarComparacao(): Promise<void> {
     of partidasOpenFootball
   ) {
     mapaOpenFootball.set(
-      criarChavePartida(partida),
+      criarChavePartida(
+        partida,
+      ),
       partida,
     );
   }
@@ -272,20 +356,29 @@ async function executarComparacao(): Promise<void> {
   const divergenciasPlacares:
     DivergenciaPlacar[] = [];
 
-  const somenteAdao: string[] = [];
-  const somenteOpenFootball: string[] = [];
+  const somenteAdao:
+    string[] = [];
+
+  const somenteOpenFootball:
+    string[] = [];
 
   for (
     const [
       chave,
       partidaAdao,
-    ] of mapaAdao
+    ]
+    of mapaAdao
   ) {
     const partidaOpenFootball =
-      mapaOpenFootball.get(chave);
+      mapaOpenFootball.get(
+        chave,
+      );
 
     if (!partidaOpenFootball) {
-      somenteAdao.push(chave);
+      somenteAdao.push(
+        chave,
+      );
+
       continue;
     }
 
@@ -322,12 +415,14 @@ async function executarComparacao(): Promise<void> {
     of mapaOpenFootball.keys()
   ) {
     if (!mapaAdao.has(chave)) {
-      somenteOpenFootball.push(chave);
+      somenteOpenFootball.push(
+        chave,
+      );
     }
   }
 
   const relatorio = {
-    temporada: 2024,
+    temporada,
 
     fontes: [
       "adaoduque_brasileirao",
@@ -359,10 +454,16 @@ async function executarComparacao(): Promise<void> {
 
       aliasesNaoEncontrados:
         aliasesNaoEncontrados.size,
+
+      linhasOpenFootballNaoInterpretadas:
+        resultadoOpenFootball
+          .linhasNaoInterpretadas
+          .length,
     },
 
     aliasesNaoEncontrados:
-      [...aliasesNaoEncontrados].sort(),
+      [...aliasesNaoEncontrados]
+        .sort(),
 
     divergenciasPlacares,
 
@@ -371,10 +472,16 @@ async function executarComparacao(): Promise<void> {
 
     somenteOpenFootball:
       somenteOpenFootball.sort(),
+
+    linhasOpenFootballNaoInterpretadas:
+      resultadoOpenFootball
+        .linhasNaoInterpretadas,
   };
 
   await mkdir(
-    dirname(caminhos.relatorio),
+    dirname(
+      caminhos.relatorio,
+    ),
     {
       recursive: true,
     },
@@ -382,16 +489,20 @@ async function executarComparacao(): Promise<void> {
 
   await writeFile(
     caminhos.relatorio,
+
     JSON.stringify(
       relatorio,
       null,
       2,
     ),
+
     "utf-8",
   );
 
   console.table([
     {
+      temporada,
+
       adaoduque:
         partidasAdao.length,
 
@@ -414,6 +525,11 @@ async function executarComparacao(): Promise<void> {
 
       aliasesPendentes:
         aliasesNaoEncontrados.size,
+
+      linhasNaoInterpretadas:
+        resultadoOpenFootball
+          .linhasNaoInterpretadas
+          .length,
     },
   ]);
 

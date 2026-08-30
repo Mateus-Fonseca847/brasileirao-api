@@ -1,0 +1,112 @@
+{
+  "intervalo": {
+    "inicio": 2018,
+    "fim": 2024
+  },
+  "fontes": [
+    "adaoduque_brasileirao",
+    "openfootball"
+  ],
+  "geradoEm": "2026-08-30T03:32:31.084Z",
+  "status": "VERIFIED",
+  "totais": {
+    "temporadasAnalisadas": 7,
+    "temporadasVerificadas": 7,
+    "partidas": 2660,
+    "placaresIguais": 2660,
+    "divergencias": 0
+  },
+  "temporadas": [
+    {
+      "temporada": 2018,
+      "partidasAdaoduque": 380,
+      "partidasOpenFootball": 380,
+      "correspondentes": 380,
+      "placaresIguais": 380,
+      "divergencias": 0,
+      "somenteAdaoduque": 0,
+      "somenteOpenFootball": 0,
+      "aliasesPendentes": 0,
+      "linhasNaoInterpretadas": 0,
+      "status": "VERIFIED"
+    },
+    {
+      "temporada": 2019,
+      "partidasAdaoduque": 380,
+      "partidasOpenFootball": 380,
+      "correspondentes": 380,
+      "placaresIguais": 380,
+      "divergencias": 0,
+      "somenteAdaoduque": 0,
+      "somenteOpenFootball": 0,
+      "aliasesPendentes": 0,
+      "linhasNaoInterpretadas": 0,
+      "status": "VERIFIED"
+    },
+    {
+      "temporada": 2020,
+      "partidasAdaoduque": 380,
+      "partidasOpenFootball": 380,
+      "correspondentes": 380,
+      "placaresIguais": 380,
+      "divergencias": 0,
+      "somenteAdaoduque": 0,
+      "somenteOpenFootball": 0,
+      "aliasesPendentes": 0,
+      "linhasNaoInterpretadas": 0,
+      "status": "VERIFIED"
+    },
+    {
+      "temporada": 2021,
+      "partidasAdaoduque": 380,
+      "partidasOpenFootball": 380,
+      "correspondentes": 380,
+      "placaresIguais": 380,
+      "divergencias": 0,
+      "somenteAdaoduque": 0,
+      "somenteOpenFootball": 0,
+      "aliasesPendentes": 0,
+      "linhasNaoInterpretadas": 0,
+      "status": "VERIFIED"
+    },
+    {
+      "temporada": 2022,
+      "partidasAdaoduque": 380,
+      "partidasOpenFootball": 380,
+      "correspondentes": 380,
+      "placaresIguais": 380,
+      "divergencias": 0,
+      "somenteAdaoduque": 0,
+      "somenteOpenFootball": 0,
+      "aliasesPendentes": 0,
+      "linhasNaoInterpretadas": 0,
+      "status": "VERIFIED"
+    },
+    {
+      "temporada": 2023,
+      "partidasAdaoduque": 380,
+      "partidasOpenFootball": 380,
+      "correspondentes": 380,
+      "placaresIguais": 380,
+      "divergencias": 0,
+      "somenteAdaoduque": 0,
+      "somenteOpenFootball": 0,
+      "aliasesPendentes": 0,
+      "linhasNaoInterpretadas": 0,
+      "status": "VERIFIED"
+    },
+    {
+      "temporada": 2024,
+      "partidasAdaoduque": 380,
+      "partidasOpenFootball": 380,
+      "correspondentes": 380,
+      "placaresIguais": 380,
+      "divergencias": 0,
+      "somenteAdaoduque": 0,
+      "somenteOpenFootball": 0,
+      "aliasesPendentes": 0,
+      "linhasNaoInterpretadas": 0,
+      "status": "VERIFIED"
+    }
+  ]
+}

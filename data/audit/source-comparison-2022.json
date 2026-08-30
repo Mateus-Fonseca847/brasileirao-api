@@ -1,10 +1,10 @@
 {
-  "temporada": 2024,
+  "temporada": 2022,
   "fontes": [
     "adaoduque_brasileirao",
     "openfootball"
   ],
-  "geradoEm": "2026-08-30T03:16:22.558Z",
+  "geradoEm": "2026-08-30T03:21:27.672Z",
   "resumo": {
     "partidasAdaoduque": 380,
     "partidasOpenFootball": 380,
