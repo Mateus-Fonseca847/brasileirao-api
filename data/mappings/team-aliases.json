@@ -1,0 +1,82 @@
+{
+  "atletico-go": [
+    "Atletico-GO",
+    "AC Goianiense"
+  ],
+  "botafogo": [
+    "Botafogo-RJ",
+    "Botafogo FR"
+  ],
+  "atletico-mg": [
+    "Atletico-MG",
+    "CA Mineiro"
+  ],
+  "athletico-pr": [
+    "Athletico-PR",
+    "CA Paranaense"
+  ],
+  "flamengo": [
+    "Flamengo",
+    "CR Flamengo"
+  ],
+  "vasco": [
+    "Vasco",
+    "CR Vasco da Gama"
+  ],
+  "criciuma": [
+    "Criciuma",
+    "Criciúma EC"
+  ],
+  "cruzeiro": [
+    "Cruzeiro",
+    "Cruzeiro EC"
+  ],
+  "cuiaba": [
+    "Cuiaba",
+    "Cuiabá EC"
+  ],
+  "bahia": [
+    "Bahia",
+    "EC Bahia"
+  ],
+  "juventude": [
+    "Juventude",
+    "EC Juventude"
+  ],
+  "vitoria": [
+    "Vitoria",
+    "EC Vitória"
+  ],
+  "fluminense": [
+    "Fluminense",
+    "Fluminense FC"
+  ],
+  "fortaleza": [
+    "Fortaleza",
+    "Fortaleza EC"
+  ],
+  "gremio": [
+    "Gremio",
+    "Grêmio FBPA"
+  ],
+  "bragantino": [
+    "Bragantino",
+    "RB Bragantino"
+  ],
+  "corinthians": [
+    "Corinthians",
+    "SC Corinthians Paulista"
+  ],
+  "internacional": [
+    "Internacional",
+    "SC Internacional"
+  ],
+  "palmeiras": [
+    "Palmeiras",
+    "SE Palmeiras"
+  ],
+  "sao-paulo": [
+    "Sao Paulo",
+    "São Paulo FC"
+  ]
+}

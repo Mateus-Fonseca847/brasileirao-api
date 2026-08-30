@@ -1,0 +1,22 @@
+{
+  "temporada": 2024,
+  "fontes": [
+    "adaoduque_brasileirao",
+    "openfootball"
+  ],
+  "geradoEm": "2026-08-30T02:54:49.363Z",
+  "resumo": {
+    "partidasAdaoduque": 380,
+    "partidasOpenFootball": 380,
+    "partidasCorrespondentes": 380,
+    "placaresIguais": 380,
+    "placaresDivergentes": 0,
+    "somenteAdaoduque": 0,
+    "somenteOpenFootball": 0,
+    "aliasesNaoEncontrados": 0
+  },
+  "aliasesNaoEncontrados": [],
+  "divergenciasPlacares": [],
+  "somenteAdaoduque": [],
+  "somenteOpenFootball": []
+}

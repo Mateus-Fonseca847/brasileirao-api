@@ -480,3 +480,103 @@ base histórica consolidada
 ```
 
 A utilização de fontes adicionais será feita para complementar dados ausentes, e não para substituir silenciosamente registros existentes.
+
+# 19. Validação cruzada da temporada 2024
+
+Após a auditoria individual das fontes, foi realizada uma comparação entre os dados de partidas da temporada 2024 provenientes de:
+
+- Dataset de Adão Duque;
+- OpenFootball.
+
+O objetivo foi verificar se os resultados utilizados pelo projeto coincidiam entre duas fontes independentes.
+
+## Processo de comparação
+
+Antes da comparação, os nomes das equipes precisaram ser normalizados.
+
+As fontes utilizam representações diferentes para os mesmos clubes.
+
+Exemplos:
+
+- Flamengo ↔ CR Flamengo
+- Palmeiras ↔ SE Palmeiras
+- Atletico-MG ↔ CA Mineiro
+- Internacional ↔ SC Internacional
+- Sao Paulo ↔ São Paulo FC
+
+Foi criado o arquivo:
+
+data/mappings/team-aliases.json
+
+para associar diferentes representações ao mesmo identificador canônico.
+
+A lógica de normalização foi implementada em:
+
+scripts/normalization/team-names.ts
+
+Depois da normalização, cada partida foi identificada através da combinação:
+
+rodada + equipe mandante + equipe visitante
+
+Exemplo conceitual:
+
+38|gremio|corinthians
+
+Essa chave permitiu relacionar partidas entre fontes que utilizam identificadores internos diferentes.
+
+## Resultado
+
+A comparação encontrou:
+
+| Métrica | Resultado |
+|---|---:|
+| Partidas no dataset de Adão Duque | 380 |
+| Partidas no OpenFootball | 380 |
+| Partidas correspondentes | 380 |
+| Placares iguais | 380 |
+| Placares divergentes | 0 |
+| Partidas somente no dataset de Adão Duque | 0 |
+| Partidas somente no OpenFootball | 0 |
+| Equipes sem alias conhecido | 0 |
+
+## Conclusão
+
+Todas as 380 partidas da temporada 2024 puderam ser relacionadas entre as duas fontes.
+
+Além disso:
+
+380 de 380 placares coincidiram.
+
+Portanto, os resultados da temporada 2024 passaram pela primeira validação cruzada do projeto.
+
+Para os dados básicos de partidas e resultados de 2024, o projeto passa a considerar que existe forte evidência de consistência entre as fontes analisadas.
+
+Essa validação cobre:
+
+- clubes participantes;
+- quantidade de partidas;
+- rodada;
+- confronto;
+- gols do mandante;
+- gols do visitante;
+- resultado final.
+
+Ela não valida automaticamente:
+
+- posse de bola;
+- chutes;
+- cartões;
+- eventos individuais de gol;
+- artilharia.
+
+Esses conjuntos de dados possuem processos próprios de auditoria e validação.
+
+## Relatório automatizado
+
+O resultado completo da comparação é armazenado em:
+
+data/audit/source-comparison-2024.json
+
+A comparação pode ser reproduzida através de:
+
+npm run compare:2024

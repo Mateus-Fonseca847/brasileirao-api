@@ -533,7 +533,7 @@ PROVISIONAL = temporada ainda em andamento
 | 2021      | AVAILABLE   | AVAILABLE     | AUDIT      | AUDIT            | AUDIT  | AUDIT | AUDIT   |
 | 2022      | AVAILABLE   | AVAILABLE     | AUDIT      | AUDIT            | AUDIT  | AUDIT | AUDIT   |
 | 2023      | AVAILABLE   | AVAILABLE     | AUDIT      | AUDIT            | AUDIT  | AUDIT | AUDIT   |
-| 2024      | AVAILABLE   | AVAILABLE     | AUDIT      | AUDIT            | AUDIT  | AUDIT | AUDIT   |
+| 2024      | VERIFIED    | AVAILABLE     | AUDIT      | AUDIT            | AUDIT  | AUDIT | AUDIT   |
 | 2025      | AVAILABLE   | AVAILABLE     | AUDIT      | AUDIT            | AUDIT  | AUDIT | AUDIT   |
 | 2026      | PROVISIONAL | PROVISIONAL   | AUDIT      | AUDIT            | AUDIT  | AUDIT | AUDIT   |
 
