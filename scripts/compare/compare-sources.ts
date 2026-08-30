@@ -22,6 +22,10 @@ import {
 } from "../parsers/openfootball-txt.js";
 
 import {
+  interpretarOpenFootballV0,
+} from "../parsers/openfootball-v0.js";
+
+import {
   carregarAliasesDeEquipes,
   encontrarIdCanonico,
 } from "../normalization/team-names.js";
@@ -33,10 +37,14 @@ import {
 type RegistroCsv =
   Record<string, string>;
 
+type FonteOpenFootball =
+  | "openfootball"
+  | "openfootball_v0";
+
 interface PartidaComparavel {
   fonte:
     | "adaoduque"
-    | "openfootball";
+    | FonteOpenFootball;
 
   rodada: number;
 
@@ -48,6 +56,26 @@ interface PartidaComparavel {
 
   golsMandante: number;
   golsVisitante: number;
+}
+
+interface PartidaOpenFootballComparavel {
+  rodada: number;
+
+  mandante: string;
+  visitante: string;
+
+  golsMandante: number;
+  golsVisitante: number;
+}
+
+interface ResultadoLeituraOpenFootball {
+  fonte: FonteOpenFootball;
+
+  partidas:
+    PartidaOpenFootballComparavel[];
+
+  linhasNaoInterpretadas:
+    string[];
 }
 
 interface DivergenciaPlacar {
@@ -73,16 +101,16 @@ if (
   Number.isNaN(temporada)
 ) {
   throw new Error(
-    "Informe uma temporada. Exemplo: npm run compare:season -- 2024",
+    "Informe uma temporada. Exemplo: npm run compare:season -- 2017",
   );
 }
 
 if (
   temporada < 2003 ||
-  temporada > 2100
+  temporada > 2024
 ) {
   throw new Error(
-    `Temporada inválida: ${temporada}`,
+    `Temporada fora do intervalo de comparação disponível: ${temporada}`,
   );
 }
 
@@ -101,11 +129,6 @@ const caminhos = {
   adaoduque: resolve(
     raizProjeto,
     "data/raw/adaoduque/campeonato-brasileiro-full.csv",
-  ),
-
-  openfootball: resolve(
-    raizProjeto,
-    `data/raw/openfootball/${temporada}_br1.txt`,
   ),
 
   aliases: resolve(
@@ -132,10 +155,11 @@ function criarChavePartida(
 async function lerCsv(
   caminho: string,
 ): Promise<RegistroCsv[]> {
-  const conteudo = await readFile(
-    caminho,
-    "utf-8",
-  );
+  const conteudo =
+    await readFile(
+      caminho,
+      "utf-8",
+    );
 
   return parse(
     conteudo,
@@ -145,6 +169,99 @@ async function lerCsv(
       trim: true,
     },
   );
+}
+
+async function lerOpenFootball():
+  Promise<ResultadoLeituraOpenFootball> {
+  if (temporada <= 2017) {
+    const caminho = resolve(
+      raizProjeto,
+      `data/raw/openfootball-v0/${temporada}_br1.txt`,
+    );
+
+    const conteudo =
+      await readFile(
+        caminho,
+        "utf-8",
+      );
+
+    const resultado =
+      interpretarOpenFootballV0(
+        conteudo,
+      );
+
+    return {
+      fonte:
+        "openfootball_v0",
+
+      partidas:
+        resultado.partidas.map(
+          (partida) => ({
+            rodada:
+              partida.rodada,
+
+            mandante:
+              partida.mandante,
+
+            visitante:
+              partida.visitante,
+
+            golsMandante:
+              partida.golsMandante,
+
+            golsVisitante:
+              partida.golsVisitante,
+          }),
+        ),
+
+      linhasNaoInterpretadas:
+        resultado.linhasNaoInterpretadas,
+    };
+  }
+
+  const caminho = resolve(
+    raizProjeto,
+    `data/raw/openfootball/${temporada}_br1.txt`,
+  );
+
+  const conteudo =
+    await readFile(
+      caminho,
+      "utf-8",
+    );
+
+  const resultado =
+    interpretarOpenFootballTxt(
+      conteudo,
+    );
+
+  return {
+    fonte:
+      "openfootball",
+
+    partidas:
+      resultado.partidas.map(
+        (partida) => ({
+          rodada:
+            partida.rodada,
+
+          mandante:
+            partida.mandante,
+
+          visitante:
+            partida.visitante,
+
+          golsMandante:
+            partida.golsMandante,
+
+          golsVisitante:
+            partida.golsVisitante,
+        }),
+      ),
+
+    linhasNaoInterpretadas:
+      resultado.linhasNaoInterpretadas,
+  };
 }
 
 async function executarComparacao():
@@ -163,16 +280,12 @@ async function executarComparacao():
       caminhos.adaoduque,
     );
 
-  const conteudoOpenFootball =
-    await readFile(
-      caminhos.openfootball,
-      "utf-8",
-    );
-
   const resultadoOpenFootball =
-    interpretarOpenFootballTxt(
-      conteudoOpenFootball,
-    );
+    await lerOpenFootball();
+
+  console.log(
+    `Formato OpenFootball utilizado: ${resultadoOpenFootball.fonte}\n`,
+  );
 
   const aliasesNaoEncontrados =
     new Set<string>();
@@ -227,10 +340,13 @@ async function executarComparacao():
     }
 
     partidasAdao.push({
-      fonte: "adaoduque",
+      fonte:
+        "adaoduque",
 
       rodada:
-        Number(registro.rodata),
+        Number(
+          registro.rodata,
+        ),
 
       mandanteOriginal:
         registro.mandante,
@@ -292,7 +408,8 @@ async function executarComparacao():
     }
 
     partidasOpenFootball.push({
-      fonte: "openfootball",
+      fonte:
+        resultadoOpenFootball.fonte,
 
       rodada:
         partida.rodada,
@@ -334,6 +451,7 @@ async function executarComparacao():
       criarChavePartida(
         partida,
       ),
+
       partida,
     );
   }
@@ -346,6 +464,7 @@ async function executarComparacao():
       criarChavePartida(
         partida,
       ),
+
       partida,
     );
   }
@@ -392,6 +511,7 @@ async function executarComparacao():
 
     if (placarIgual) {
       placaresIguais += 1;
+
       continue;
     }
 
@@ -414,7 +534,11 @@ async function executarComparacao():
     const chave
     of mapaOpenFootball.keys()
   ) {
-    if (!mapaAdao.has(chave)) {
+    if (
+      !mapaAdao.has(
+        chave,
+      )
+    ) {
       somenteOpenFootball.push(
         chave,
       );
@@ -426,7 +550,7 @@ async function executarComparacao():
 
     fontes: [
       "adaoduque_brasileirao",
-      "openfootball",
+      resultadoOpenFootball.fonte,
     ],
 
     geradoEm:
@@ -556,6 +680,34 @@ async function executarComparacao():
 
     console.table(
       divergenciasPlacares,
+    );
+  }
+
+  if (
+    somenteAdao.length > 0
+  ) {
+    console.log(
+      "\nPartidas encontradas somente em Adão Duque:",
+    );
+
+    console.log(
+      somenteAdao
+        .sort()
+        .join("\n"),
+    );
+  }
+
+  if (
+    somenteOpenFootball.length > 0
+  ) {
+    console.log(
+      "\nPartidas encontradas somente no OpenFootball:",
+    );
+
+    console.log(
+      somenteOpenFootball
+        .sort()
+        .join("\n"),
     );
   }
 

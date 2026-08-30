@@ -670,3 +670,53 @@ permissão de uso
 ```
 
 Somente depois desses três critérios estarem satisfeitos o dado poderá entrar definitivamente no banco da aplicação.
+
+# OpenFootball V0
+
+## Identificação
+
+source_id: openfootball_v0
+
+## Finalidade
+
+O OpenFootball V0 será utilizado como fonte independente de validação para temporadas históricas anteriores ao período coberto pelo formato atual utilizado pelo projeto.
+
+## Papel no projeto
+
+A estratégia de validação passa a ser:
+
+2003–2017 → OpenFootball V0
+
+2018–2024 → OpenFootball atual
+
+O dataset de Adão Duque permanece como uma das fontes comparadas.
+
+## Primeiro resultado validado
+
+A temporada 2017 foi utilizada como piloto.
+
+Foram comparadas:
+
+380 partidas
+
+com:
+
+380 placares coincidentes
+
+e:
+
+0 divergências.
+
+Status da temporada 2017 para partidas e resultados:
+
+VERIFIED
+
+## Licença
+
+O repositório OpenFootball v0-format é disponibilizado sob CC0 1.0 / domínio público.
+
+## Status da fonte
+
+validation_only
+
+A utilização atual da fonte está concentrada na validação cruzada dos resultados históricos.

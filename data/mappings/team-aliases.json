@@ -7,17 +7,22 @@
   "atletico-go": [
     "Atletico-GO",
     "AC Goianiense",
-    "Atlético Goianiense"
+    "Atlético Goianiense",
+    "Atlético GO"
   ],
+
   "atletico-mg": [
     "Atletico-MG",
     "CA Mineiro",
-    "Atlético Mineiro"
+    "Atlético Mineiro",
+    "Atlético MG"
   ],
+
   "athletico-pr": [
     "Athletico-PR",
     "CA Paranaense",
-    "Athletico Paranaense"
+    "Athletico Paranaense",
+    "Atlético PR"
   ],
   "avai": [
     "Avai",
@@ -31,7 +36,8 @@
   "botafogo": [
     "Botafogo-RJ",
     "Botafogo FR",
-    "Botafogo RJ"
+    "Botafogo RJ",
+    "Botafogo"
   ],
   "bragantino": [
     "Bragantino",
@@ -114,6 +120,9 @@
     "Parana",
     "Paraná Clube"
   ],
+  "ponte-preta": [
+    "Ponte Preta"
+  ],
   "santos": [
     "Santos",
     "Santos FC"
@@ -129,7 +138,7 @@
   "vasco": [
     "Vasco",
     "CR Vasco da Gama",
-    "Vasco da Gama RJ"
+    "Vasco da Gama"
   ],
   "vitoria": [
     "Vitoria",

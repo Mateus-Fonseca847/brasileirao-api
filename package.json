@@ -9,7 +9,9 @@
     "audit:openfootball:2024": "tsx scripts/audit/audit-openfootball-2024.ts",
     "data:download:openfootball": "tsx scripts/acquisition/download-openfootball.ts",
     "compare:season": "tsx scripts/compare/compare-sources.ts",
-    "audit:validation-summary": "tsx scripts/audit/build-validation-summary.ts"
+    "audit:validation-summary": "tsx scripts/audit/build-validation-summary.ts",
+    "data:download:openfootball-v0": "tsx scripts/acquisition/download-openfootball-v0.ts",
+    "audit:openfootball-v0": "tsx scripts/audit/audit-openfootball-v0.ts"
   },
   "dependencies": {
     "csv-parse": "^6.1.0"

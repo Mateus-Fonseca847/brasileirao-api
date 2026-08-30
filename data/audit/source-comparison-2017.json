@@ -1,0 +1,24 @@
+{
+  "temporada": 2017,
+  "fontes": [
+    "adaoduque_brasileirao",
+    "openfootball_v0"
+  ],
+  "geradoEm": "2026-08-30T03:52:45.038Z",
+  "resumo": {
+    "partidasAdaoduque": 380,
+    "partidasOpenFootball": 380,
+    "partidasCorrespondentes": 380,
+    "placaresIguais": 380,
+    "placaresDivergentes": 0,
+    "somenteAdaoduque": 0,
+    "somenteOpenFootball": 0,
+    "aliasesNaoEncontrados": 0,
+    "linhasOpenFootballNaoInterpretadas": 0
+  },
+  "aliasesNaoEncontrados": [],
+  "divergenciasPlacares": [],
+  "somenteAdaoduque": [],
+  "somenteOpenFootball": [],
+  "linhasOpenFootballNaoInterpretadas": []
+}

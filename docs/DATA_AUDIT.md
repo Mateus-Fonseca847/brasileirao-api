@@ -684,3 +684,103 @@ npm run audit:validation-summary
 O arquivo consolidado é armazenado em:
 
 data/audit/source-comparison-summary-2018-2024.json
+
+# 21. Validação histórica da temporada 2017
+
+A temporada 2017 foi utilizada como temporada piloto para introdução do formato histórico OpenFootball V0 no processo de validação da API.
+
+## Fonte utilizada
+
+Além do dataset de Adão Duque, foi utilizado:
+
+OpenFootball / v0-format
+
+O arquivo histórico analisado foi:
+
+data/raw/openfootball-v0/2017_br1.txt
+
+O formato utilizado nesta fonte é diferente do formato moderno do OpenFootball.
+
+Por esse motivo foi criado um parser específico:
+
+scripts/parsers/openfootball-v0.ts
+
+## Auditoria do arquivo histórico
+
+Antes da comparação entre fontes, o arquivo do OpenFootball V0 foi auditado isoladamente.
+
+Foram encontrados:
+
+| Métrica | Resultado |
+|---|---:|
+| Partidas | 380 |
+| Equipes | 20 |
+| Rodadas | 38 |
+| Gols | 923 |
+| Linhas não interpretadas | 0 |
+
+A quantidade total de gols também coincidiu com a quantidade encontrada anteriormente no dataset de Adão Duque.
+
+## Normalização dos clubes
+
+Algumas equipes possuíam representações diferentes entre as fontes.
+
+Entre os aliases identificados estavam:
+
+- Atlético GO;
+- Atlético MG;
+- Atlético PR;
+- Botafogo;
+- Vasco da Gama;
+- Ponte Preta.
+
+Essas representações foram associadas aos identificadores canônicos mantidos em:
+
+data/mappings/team-aliases.json
+
+## Comparação entre as fontes
+
+Após a normalização, foi executado:
+
+npm run compare:season -- 2017
+
+Resultado:
+
+| Métrica | Resultado |
+|---|---:|
+| Partidas no dataset de Adão Duque | 380 |
+| Partidas no OpenFootball V0 | 380 |
+| Partidas correspondentes | 380 |
+| Placares iguais | 380 |
+| Placares divergentes | 0 |
+| Partidas somente em Adão Duque | 0 |
+| Partidas somente no OpenFootball | 0 |
+| Aliases pendentes | 0 |
+| Linhas não interpretadas | 0 |
+
+## Conclusão
+
+Todas as partidas da temporada 2017 puderam ser relacionadas entre as duas fontes.
+
+Todos os 380 placares coincidiram.
+
+Portanto, os resultados da temporada 2017 recebem o estado:
+
+VERIFIED
+
+no contexto da validação cruzada entre:
+
+- adaoduque_brasileirao;
+- openfootball_v0.
+
+Esta validação se refere aos dados básicos das partidas e não implica validação automática das estatísticas avançadas.
+
+## Importância técnica
+
+A validação de 2017 também confirmou que o projeto consegue trabalhar com duas gerações diferentes do formato OpenFootball:
+
+2003–2017 → OpenFootball V0
+
+2018–2024 → OpenFootball atual
+
+O comparador seleciona automaticamente a fonte e o parser apropriados de acordo com a temporada solicitada.

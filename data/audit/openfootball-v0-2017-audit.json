@@ -1,0 +1,35 @@
+{
+  "fonte": "openfootball_v0",
+  "temporada": 2017,
+  "geradoEm": "2026-08-30T03:44:42.384Z",
+  "resumo": {
+    "partidas": 380,
+    "equipes": 20,
+    "rodadas": 38,
+    "gols": 923,
+    "linhasNaoInterpretadas": 0
+  },
+  "equipes": [
+    "Atlético GO",
+    "Atlético MG",
+    "Atlético PR",
+    "Avaí",
+    "Bahia",
+    "Botafogo",
+    "Chapecoense",
+    "Corinthians",
+    "Coritiba",
+    "Cruzeiro",
+    "Flamengo",
+    "Fluminense",
+    "Grêmio",
+    "Palmeiras",
+    "Ponte Preta",
+    "Santos",
+    "Sport",
+    "São Paulo",
+    "Vasco da Gama",
+    "Vitória"
+  ],
+  "linhasNaoInterpretadas": []
+}
