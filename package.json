@@ -5,7 +5,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "audit:adaoduque": "tsx scripts/audit/audit-adaoduque.ts"
+    "audit:adaoduque": "tsx scripts/audit/audit-adaoduque.ts",
+    "audit:openfootball:2024": "tsx scripts/audit/audit-openfootball-2024.ts"
   },
   "dependencies": {
     "csv-parse": "^6.1.0"

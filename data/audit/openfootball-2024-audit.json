@@ -1,0 +1,189 @@
+{
+  "fonte": "openfootball",
+  "temporada": 2024,
+  "geradoEm": "2026-08-30T02:45:26.788Z",
+  "resumo": {
+    "partidas": 380,
+    "equipes": 20,
+    "rodadas": 38,
+    "gols": 929,
+    "linhasNaoInterpretadas": 0
+  },
+  "equipes": [
+    "AC Goianiense",
+    "Botafogo FR",
+    "CA Mineiro",
+    "CA Paranaense",
+    "CR Flamengo",
+    "CR Vasco da Gama",
+    "Criciúma EC",
+    "Cruzeiro EC",
+    "Cuiabá EC",
+    "EC Bahia",
+    "EC Juventude",
+    "EC Vitória",
+    "Fluminense FC",
+    "Fortaleza EC",
+    "Grêmio FBPA",
+    "RB Bragantino",
+    "SC Corinthians Paulista",
+    "SC Internacional",
+    "SE Palmeiras",
+    "São Paulo FC"
+  ],
+  "partidasPorRodada": [
+    {
+      "rodada": 1,
+      "quantidade": 10
+    },
+    {
+      "rodada": 2,
+      "quantidade": 10
+    },
+    {
+      "rodada": 3,
+      "quantidade": 10
+    },
+    {
+      "rodada": 4,
+      "quantidade": 10
+    },
+    {
+      "rodada": 5,
+      "quantidade": 10
+    },
+    {
+      "rodada": 6,
+      "quantidade": 10
+    },
+    {
+      "rodada": 7,
+      "quantidade": 10
+    },
+    {
+      "rodada": 8,
+      "quantidade": 10
+    },
+    {
+      "rodada": 9,
+      "quantidade": 10
+    },
+    {
+      "rodada": 10,
+      "quantidade": 10
+    },
+    {
+      "rodada": 11,
+      "quantidade": 10
+    },
+    {
+      "rodada": 12,
+      "quantidade": 10
+    },
+    {
+      "rodada": 13,
+      "quantidade": 10
+    },
+    {
+      "rodada": 14,
+      "quantidade": 10
+    },
+    {
+      "rodada": 15,
+      "quantidade": 10
+    },
+    {
+      "rodada": 16,
+      "quantidade": 10
+    },
+    {
+      "rodada": 17,
+      "quantidade": 10
+    },
+    {
+      "rodada": 18,
+      "quantidade": 10
+    },
+    {
+      "rodada": 19,
+      "quantidade": 10
+    },
+    {
+      "rodada": 20,
+      "quantidade": 10
+    },
+    {
+      "rodada": 21,
+      "quantidade": 10
+    },
+    {
+      "rodada": 22,
+      "quantidade": 10
+    },
+    {
+      "rodada": 23,
+      "quantidade": 10
+    },
+    {
+      "rodada": 24,
+      "quantidade": 10
+    },
+    {
+      "rodada": 25,
+      "quantidade": 10
+    },
+    {
+      "rodada": 26,
+      "quantidade": 10
+    },
+    {
+      "rodada": 27,
+      "quantidade": 10
+    },
+    {
+      "rodada": 28,
+      "quantidade": 10
+    },
+    {
+      "rodada": 29,
+      "quantidade": 10
+    },
+    {
+      "rodada": 30,
+      "quantidade": 10
+    },
+    {
+      "rodada": 31,
+      "quantidade": 10
+    },
+    {
+      "rodada": 32,
+      "quantidade": 10
+    },
+    {
+      "rodada": 33,
+      "quantidade": 10
+    },
+    {
+      "rodada": 34,
+      "quantidade": 10
+    },
+    {
+      "rodada": 35,
+      "quantidade": 10
+    },
+    {
+      "rodada": 36,
+      "quantidade": 10
+    },
+    {
+      "rodada": 37,
+      "quantidade": 10
+    },
+    {
+      "rodada": 38,
+      "quantidade": 10
+    }
+  ],
+  "linhasNaoInterpretadas": []
+}
