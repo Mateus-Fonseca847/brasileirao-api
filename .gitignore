@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+.env.*
+
+# Build
+dist/
+build/
+
+# Raw datasets
+data/raw/**/*.csv
+data/raw/**/*.json
+data/raw/**/*.txt
+
+# Logs
+*.log
+
+# Operating system
+.DS_Store
+Thumbs.db
