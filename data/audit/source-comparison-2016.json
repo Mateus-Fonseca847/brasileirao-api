@@ -1,18 +1,18 @@
 {
-  "temporada": 2019,
+  "temporada": 2016,
   "fontes": [
     "adaoduque_brasileirao",
-    "openfootball"
+    "openfootball_v0"
   ],
-  "geradoEm": "2026-08-30T13:43:37.331Z",
+  "geradoEm": "2026-08-30T13:43:36.601Z",
   "resumo": {
-    "partidasAdaoduque": 380,
-    "partidasOpenFootball": 380,
-    "partidasCorrespondentes": 380,
-    "placaresIguais": 380,
+    "partidasAdaoduque": 379,
+    "partidasOpenFootball": 379,
+    "partidasCorrespondentes": 379,
+    "placaresIguais": 379,
     "resultadosAdministrativosReconhecidos": 0,
     "correcoesFonteReconhecidas": 0,
-    "resultadosValidados": 380,
+    "resultadosValidados": 379,
     "placaresDivergentes": 0,
     "somenteAdaoduque": 0,
     "somenteOpenFootball": 0,

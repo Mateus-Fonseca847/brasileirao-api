@@ -1,10 +1,10 @@
 {
-  "temporada": 2019,
+  "temporada": 2014,
   "fontes": [
     "adaoduque_brasileirao",
-    "openfootball"
+    "openfootball_v0"
   ],
-  "geradoEm": "2026-08-30T13:43:37.331Z",
+  "geradoEm": "2026-08-30T13:43:36.104Z",
   "resumo": {
     "partidasAdaoduque": 380,
     "partidasOpenFootball": 380,

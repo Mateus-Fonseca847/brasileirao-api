@@ -1,33 +1,41 @@
 {
-  "temporada": 2017,
+  "temporada": 2005,
   "fontes": [
     "adaoduque_brasileirao",
     "openfootball_v0"
   ],
-  "geradoEm": "2026-08-30T13:43:36.852Z",
+  "geradoEm": "2026-08-30T13:43:33.901Z",
   "resumo": {
-    "partidasAdaoduque": 380,
-    "partidasOpenFootball": 380,
-    "partidasCorrespondentes": 380,
-    "placaresIguais": 380,
-    "resultadosAdministrativosReconhecidos": 0,
+    "partidasAdaoduque": 462,
+    "partidasOpenFootball": 462,
+    "partidasCorrespondentes": 462,
+    "placaresIguais": 461,
+    "resultadosAdministrativosReconhecidos": 1,
     "correcoesFonteReconhecidas": 0,
-    "resultadosValidados": 380,
+    "resultadosValidados": 462,
     "placaresDivergentes": 0,
     "somenteAdaoduque": 0,
     "somenteOpenFootball": 0,
     "aliasesNaoEncontrados": 0,
     "linhasOpenFootballNaoInterpretadas": 0,
-    "partidasAnuladasConfiguradas": 0,
-    "partidasAnuladasFiltradas": 0,
+    "partidasAnuladasConfiguradas": 11,
+    "partidasAnuladasFiltradas": 11,
     "anulacoesNaoEncontradas": 0,
-    "resultadosAdministrativosConfigurados": 0,
+    "resultadosAdministrativosConfigurados": 1,
     "administrativosNaoEncontrados": 0,
     "correcoesFonteConfiguradas": 0,
     "correcoesFonteNaoEncontradas": 0
   },
   "aliasesNaoEncontrados": [],
-  "resultadosAdministrativosReconhecidos": [],
+  "resultadosAdministrativosReconhecidos": [
+    {
+      "chave": "brasiliense|vasco",
+      "autoridade": "STJD",
+      "rodadaConfigurada": 1,
+      "placarEmCampo": "2-2",
+      "placarOficial": "0-1"
+    }
+  ],
   "correcoesFonteReconhecidas": [],
   "divergenciasPlacares": [],
   "somenteAdaoduque": [],

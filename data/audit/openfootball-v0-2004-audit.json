@@ -1,0 +1,42 @@
+{
+  "fonte": "openfootball_v0",
+  "temporada": 2004,
+  "geradoEm": "2026-08-30T04:51:27.051Z",
+  "resumo": {
+    "temporada": 2004,
+    "partidas": 552,
+    "equipes": 24,
+    "rodadas": 46,
+    "gols": 1534,
+    "linhasNaoInterpretadas": 0,
+    "linhasIgnoradas": 1,
+    "status": "PARSED"
+  },
+  "equipes": [
+    "Atlético-MG",
+    "Atlético-PR",
+    "Botafogo",
+    "Corinthians",
+    "Coritiba",
+    "Criciúma",
+    "Cruzeiro",
+    "Figueirense",
+    "Flamengo",
+    "Fluminense",
+    "Goiás",
+    "Grêmio",
+    "Guarani",
+    "Internacional",
+    "Juventude",
+    "Palmeiras",
+    "Paraná",
+    "Paysandu",
+    "Ponte Preta",
+    "Santos",
+    "São Caetano",
+    "São Paulo",
+    "Vasco",
+    "Vitória"
+  ],
+  "linhasNaoInterpretadas": []
+}

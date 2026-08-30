@@ -1,0 +1,42 @@
+{
+  "fonte": "openfootball_v0",
+  "temporada": 2003,
+  "geradoEm": "2026-08-30T04:51:27.046Z",
+  "resumo": {
+    "temporada": 2003,
+    "partidas": 552,
+    "equipes": 24,
+    "rodadas": 46,
+    "gols": 1592,
+    "linhasNaoInterpretadas": 0,
+    "linhasIgnoradas": 0,
+    "status": "PARSED"
+  },
+  "equipes": [
+    "Atlético-MG",
+    "Atlético-PR",
+    "Bahia",
+    "Corinthians",
+    "Coritiba",
+    "Criciúma",
+    "Cruzeiro",
+    "Figueirense",
+    "Flamengo",
+    "Fluminense",
+    "Fortaleza",
+    "Goiás",
+    "Grêmio",
+    "Guarani",
+    "Internacional",
+    "Juventude",
+    "Paraná",
+    "Paysandu",
+    "Ponte Preta",
+    "Santos",
+    "São Caetano",
+    "São Paulo",
+    "Vasco",
+    "Vitória"
+  ],
+  "linhasNaoInterpretadas": []
+}

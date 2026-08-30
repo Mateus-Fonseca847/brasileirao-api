@@ -1,18 +1,18 @@
 {
-  "temporada": 2019,
+  "temporada": 2003,
   "fontes": [
     "adaoduque_brasileirao",
-    "openfootball"
+    "openfootball_v0"
   ],
-  "geradoEm": "2026-08-30T13:43:37.331Z",
+  "geradoEm": "2026-08-30T13:43:33.405Z",
   "resumo": {
-    "partidasAdaoduque": 380,
-    "partidasOpenFootball": 380,
-    "partidasCorrespondentes": 380,
-    "placaresIguais": 380,
+    "partidasAdaoduque": 552,
+    "partidasOpenFootball": 552,
+    "partidasCorrespondentes": 552,
+    "placaresIguais": 551,
     "resultadosAdministrativosReconhecidos": 0,
-    "correcoesFonteReconhecidas": 0,
-    "resultadosValidados": 380,
+    "correcoesFonteReconhecidas": 1,
+    "resultadosValidados": 552,
     "placaresDivergentes": 0,
     "somenteAdaoduque": 0,
     "somenteOpenFootball": 0,
@@ -23,12 +23,20 @@
     "anulacoesNaoEncontradas": 0,
     "resultadosAdministrativosConfigurados": 0,
     "administrativosNaoEncontrados": 0,
-    "correcoesFonteConfiguradas": 0,
+    "correcoesFonteConfiguradas": 1,
     "correcoesFonteNaoEncontradas": 0
   },
   "aliasesNaoEncontrados": [],
   "resultadosAdministrativosReconhecidos": [],
-  "correcoesFonteReconhecidas": [],
+  "correcoesFonteReconhecidas": [
+    {
+      "chave": "athletico-pr|criciuma",
+      "fonte": "openfootball_v0",
+      "placarNaFonte": "4-2",
+      "placarVerificado": "5-2",
+      "motivo": "incorrect_score_in_source"
+    }
+  ],
   "divergenciasPlacares": [],
   "somenteAdaoduque": [],
   "somenteOpenFootball": [],

@@ -58,6 +58,91 @@ interface PartidaComparavel {
   golsVisitante: number;
 }
 
+interface PartidaAnulada {
+  round: number;
+
+  homeTeam: string;
+  awayTeam: string;
+
+  annulledScore: {
+    home: number;
+    away: number;
+  };
+
+  replayScore: {
+    home: number;
+    away: number;
+  };
+
+  status: "ANNULLED";
+}
+
+interface RegistroPartidasAnuladas {
+  season: number;
+  reason: string;
+  decision: string;
+  matches: PartidaAnulada[];
+}
+
+interface ResultadoAdministrativo {
+  season: number;
+  round: number;
+
+  homeTeam: string;
+  awayTeam: string;
+
+  playedScore: {
+    home: number;
+    away: number;
+  };
+
+  officialScore: {
+    home: number;
+    away: number;
+  };
+
+  status:
+    "ADMINISTRATIVE_OVERRIDE";
+
+  authority: string;
+
+  replayRequired: boolean;
+}
+
+interface RegistroResultadosAdministrativos {
+  results:
+    ResultadoAdministrativo[];
+}
+
+interface CorrecaoFonte {
+  season: number;
+
+  source: FonteOpenFootball;
+
+  homeTeam: string;
+  awayTeam: string;
+
+  sourceScore: {
+    home: number;
+    away: number;
+  };
+
+  verifiedScore: {
+    home: number;
+    away: number;
+  };
+
+  status:
+    "SOURCE_CORRECTION";
+
+  reason: string;
+}
+
+interface RegistroCorrecoesFonte {
+  corrections:
+    CorrecaoFonte[];
+}
+
 interface PartidaOpenFootballComparavel {
   rodada: number;
 
@@ -82,23 +167,53 @@ interface DivergenciaPlacar {
   chave: string;
 
   adaoduque: {
+    confronto: string;
     placar: string;
   };
 
   openfootball: {
+    confronto: string;
     placar: string;
   };
+}
+
+interface ResultadoAdministrativoReconhecido {
+  chave: string;
+
+  autoridade: string;
+
+  rodadaConfigurada: number;
+
+  placarEmCampo: string;
+
+  placarOficial: string;
+}
+
+interface CorrecaoFonteReconhecida {
+  chave: string;
+
+  fonte: FonteOpenFootball;
+
+  placarNaFonte: string;
+
+  placarVerificado: string;
+
+  motivo: string;
 }
 
 const argumentoTemporada =
   process.argv[2];
 
 const temporada =
-  Number(argumentoTemporada);
+  Number(
+    argumentoTemporada,
+  );
 
 if (
   !argumentoTemporada ||
-  Number.isNaN(temporada)
+  Number.isNaN(
+    temporada,
+  )
 ) {
   throw new Error(
     "Informe uma temporada. Exemplo: npm run compare:season -- 2017",
@@ -115,15 +230,20 @@ if (
 }
 
 const caminhoArquivoAtual =
-  fileURLToPath(import.meta.url);
+  fileURLToPath(
+    import.meta.url,
+  );
 
 const diretorioArquivoAtual =
-  dirname(caminhoArquivoAtual);
+  dirname(
+    caminhoArquivoAtual,
+  );
 
-const raizProjeto = resolve(
-  diretorioArquivoAtual,
-  "../..",
-);
+const raizProjeto =
+  resolve(
+    diretorioArquivoAtual,
+    "../..",
+  );
 
 const caminhos = {
   adaoduque: resolve(
@@ -136,20 +256,320 @@ const caminhos = {
     "data/mappings/team-aliases.json",
   ),
 
+  partidasAnuladas: resolve(
+    raizProjeto,
+    "data/mappings/annulled-matches.json",
+  ),
+
+  resultadosAdministrativos: resolve(
+    raizProjeto,
+    "data/mappings/administrative-results.json",
+  ),
+
+  correcoesFonte: resolve(
+    raizProjeto,
+    "data/mappings/source-corrections.json",
+  ),
+
   relatorio: resolve(
     raizProjeto,
     `data/audit/source-comparison-${temporada}.json`,
   ),
 };
 
-function criarChavePartida(
+function criarChaveConfronto(
   partida: PartidaComparavel,
 ): string {
   return [
-    partida.rodada,
     partida.mandante,
     partida.visitante,
+  ]
+    .sort()
+    .join("|");
+}
+
+function obterGolsEquipe(
+  partida: PartidaComparavel,
+  equipe: string,
+): number | null {
+  if (
+    partida.mandante ===
+    equipe
+  ) {
+    return partida
+      .golsMandante;
+  }
+
+  if (
+    partida.visitante ===
+    equipe
+  ) {
+    return partida
+      .golsVisitante;
+  }
+
+  return null;
+}
+
+function criarAssinaturaPlacar(
+  partida: PartidaComparavel,
+): string {
+  const equipes =
+    [
+      partida.mandante,
+      partida.visitante,
+    ].sort();
+
+  const [
+    equipeA,
+    equipeB,
+  ] = equipes;
+
+  const golsEquipeA =
+    obterGolsEquipe(
+      partida,
+      equipeA,
+    );
+
+  const golsEquipeB =
+    obterGolsEquipe(
+      partida,
+      equipeB,
+    );
+
+  return [
+    `${equipeA}:${golsEquipeA}`,
+    `${equipeB}:${golsEquipeB}`,
   ].join("|");
+}
+
+function formatarConfronto(
+  partida: PartidaComparavel,
+): string {
+  return (
+    `${partida.mandante}` +
+    "|" +
+    `${partida.visitante}`
+  );
+}
+
+function formatarPlacar(
+  partida: PartidaComparavel,
+): string {
+  return (
+    `${partida.golsMandante}` +
+    "-" +
+    `${partida.golsVisitante}`
+  );
+}
+
+function mesmoParDeEquipes(
+  partida: PartidaComparavel,
+  equipeA: string,
+  equipeB: string,
+): boolean {
+  return (
+    (
+      partida.mandante ===
+        equipeA &&
+      partida.visitante ===
+        equipeB
+    ) ||
+    (
+      partida.mandante ===
+        equipeB &&
+      partida.visitante ===
+        equipeA
+    )
+  );
+}
+
+function correspondePlacarPorEquipe(
+  partida: PartidaComparavel,
+  equipeMandanteConfigurada:
+    string,
+  equipeVisitanteConfigurada:
+    string,
+  golsMandanteConfigurado:
+    number,
+  golsVisitanteConfigurado:
+    number,
+): boolean {
+  if (
+    !mesmoParDeEquipes(
+      partida,
+      equipeMandanteConfigurada,
+      equipeVisitanteConfigurada,
+    )
+  ) {
+    return false;
+  }
+
+  const golsMandante =
+    obterGolsEquipe(
+      partida,
+      equipeMandanteConfigurada,
+    );
+
+  const golsVisitante =
+    obterGolsEquipe(
+      partida,
+      equipeVisitanteConfigurada,
+    );
+
+  return (
+    golsMandante ===
+      golsMandanteConfigurado &&
+    golsVisitante ===
+      golsVisitanteConfigurado
+  );
+}
+
+function correspondeResultadoAdministrativo(
+  partidaAdao:
+    PartidaComparavel,
+  partidaOpenFootball:
+    PartidaComparavel,
+  resultado:
+    ResultadoAdministrativo,
+): boolean {
+  const oficialCorresponde =
+    correspondePlacarPorEquipe(
+      partidaAdao,
+
+      resultado.homeTeam,
+      resultado.awayTeam,
+
+      resultado
+        .officialScore
+        .home,
+
+      resultado
+        .officialScore
+        .away,
+    );
+
+  if (
+    !oficialCorresponde
+  ) {
+    return false;
+  }
+
+  return correspondePlacarPorEquipe(
+    partidaOpenFootball,
+
+    resultado.homeTeam,
+    resultado.awayTeam,
+
+    resultado
+      .playedScore
+      .home,
+
+    resultado
+      .playedScore
+      .away,
+  );
+}
+
+function correspondeCorrecaoFonte(
+  partidaAdao:
+    PartidaComparavel,
+  partidaOpenFootball:
+    PartidaComparavel,
+  correcao:
+    CorrecaoFonte,
+): boolean {
+  const verificadoCorresponde =
+    correspondePlacarPorEquipe(
+      partidaAdao,
+
+      correcao.homeTeam,
+      correcao.awayTeam,
+
+      correcao
+        .verifiedScore
+        .home,
+
+      correcao
+        .verifiedScore
+        .away,
+    );
+
+  if (
+    !verificadoCorresponde
+  ) {
+    return false;
+  }
+
+  return correspondePlacarPorEquipe(
+    partidaOpenFootball,
+
+    correcao.homeTeam,
+    correcao.awayTeam,
+
+    correcao
+      .sourceScore
+      .home,
+
+    correcao
+      .sourceScore
+      .away,
+  );
+}
+
+function criarChavePartidaAnulada(
+  rodada: number,
+  mandante: string,
+  visitante: string,
+  golsMandante: number,
+  golsVisitante: number,
+): string {
+  return [
+    rodada,
+    mandante,
+    visitante,
+    `${golsMandante}-${golsVisitante}`,
+  ].join("|");
+}
+
+function agruparPartidasPorConfronto(
+  partidas:
+    PartidaComparavel[],
+): Map<
+  string,
+  PartidaComparavel[]
+> {
+  const mapa =
+    new Map<
+      string,
+      PartidaComparavel[]
+    >();
+
+  for (
+    const partida
+    of partidas
+  ) {
+    const chave =
+      criarChaveConfronto(
+        partida,
+      );
+
+    const existentes =
+      mapa.get(
+        chave,
+      ) ?? [];
+
+    existentes.push(
+      partida,
+    );
+
+    mapa.set(
+      chave,
+      existentes,
+    );
+  }
+
+  return mapa;
 }
 
 async function lerCsv(
@@ -173,11 +593,14 @@ async function lerCsv(
 
 async function lerOpenFootball():
   Promise<ResultadoLeituraOpenFootball> {
-  if (temporada <= 2017) {
-    const caminho = resolve(
-      raizProjeto,
-      `data/raw/openfootball-v0/${temporada}_br1.txt`,
-    );
+  if (
+    temporada <= 2017
+  ) {
+    const caminho =
+      resolve(
+        raizProjeto,
+        `data/raw/openfootball-v0/${temporada}_br1.txt`,
+      );
 
     const conteudo =
       await readFile(
@@ -215,14 +638,16 @@ async function lerOpenFootball():
         ),
 
       linhasNaoInterpretadas:
-        resultado.linhasNaoInterpretadas,
+        resultado
+          .linhasNaoInterpretadas,
     };
   }
 
-  const caminho = resolve(
-    raizProjeto,
-    `data/raw/openfootball/${temporada}_br1.txt`,
-  );
+  const caminho =
+    resolve(
+      raizProjeto,
+      `data/raw/openfootball/${temporada}_br1.txt`,
+    );
 
   const conteudo =
     await readFile(
@@ -260,8 +685,127 @@ async function lerOpenFootball():
       ),
 
     linhasNaoInterpretadas:
-      resultado.linhasNaoInterpretadas,
+      resultado
+        .linhasNaoInterpretadas,
   };
+}
+
+async function carregarPartidasAnuladas():
+  Promise<PartidaAnulada[]> {
+  if (
+    temporada !== 2005
+  ) {
+    return [];
+  }
+
+  const conteudo =
+    await readFile(
+      caminhos.partidasAnuladas,
+      "utf-8",
+    );
+
+  const registro =
+    JSON.parse(
+      conteudo,
+    ) as RegistroPartidasAnuladas;
+
+  if (
+    registro.season !==
+    temporada
+  ) {
+    throw new Error(
+      `Registro de partidas anuladas pertence à temporada ${registro.season}.`,
+    );
+  }
+
+  return registro.matches;
+}
+
+async function carregarResultadosAdministrativos():
+  Promise<
+    ResultadoAdministrativo[]
+  > {
+  const conteudo =
+    await readFile(
+      caminhos
+        .resultadosAdministrativos,
+      "utf-8",
+    );
+
+  const registro =
+    JSON.parse(
+      conteudo,
+    ) as RegistroResultadosAdministrativos;
+
+  return registro.results.filter(
+    (resultado) =>
+      resultado.season ===
+      temporada,
+  );
+}
+
+async function carregarCorrecoesFonte(
+  fonte: FonteOpenFootball,
+): Promise<CorrecaoFonte[]> {
+  const conteudo =
+    await readFile(
+      caminhos.correcoesFonte,
+      "utf-8",
+    );
+
+  const registro =
+    JSON.parse(
+      conteudo,
+    ) as RegistroCorrecoesFonte;
+
+  return registro.corrections.filter(
+    (correcao) =>
+      correcao.season ===
+        temporada &&
+      correcao.source ===
+        fonte,
+  );
+}
+
+function criarMapaDeAnulacoes(
+  partidasAnuladas:
+    PartidaAnulada[],
+): Map<string, number> {
+  const mapa =
+    new Map<
+      string,
+      number
+    >();
+
+  for (
+    const partida
+    of partidasAnuladas
+  ) {
+    const chave =
+      criarChavePartidaAnulada(
+        partida.round,
+        partida.homeTeam,
+        partida.awayTeam,
+        partida
+          .annulledScore
+          .home,
+        partida
+          .annulledScore
+          .away,
+      );
+
+    const quantidadeAtual =
+      mapa.get(
+        chave,
+      ) ?? 0;
+
+    mapa.set(
+      chave,
+      quantidadeAtual + 1,
+    );
+  }
+
+  return mapa;
 }
 
 async function executarComparacao():
@@ -287,6 +831,22 @@ async function executarComparacao():
     `Formato OpenFootball utilizado: ${resultadoOpenFootball.fonte}\n`,
   );
 
+  const partidasAnuladas =
+    await carregarPartidasAnuladas();
+
+  const anulacoesPendentes =
+    criarMapaDeAnulacoes(
+      partidasAnuladas,
+    );
+
+  const resultadosAdministrativos =
+    await carregarResultadosAdministrativos();
+
+  const correcoesFonte =
+    await carregarCorrecoesFonte(
+      resultadoOpenFootball.fonte,
+    );
+
   const aliasesNaoEncontrados =
     new Set<string>();
 
@@ -303,7 +863,8 @@ async function executarComparacao():
       );
 
     if (
-      temporadaRegistro !== temporada
+      temporadaRegistro !==
+      temporada
     ) {
       continue;
     }
@@ -320,13 +881,17 @@ async function executarComparacao():
         aliases,
       );
 
-    if (!mandante) {
+    if (
+      !mandante
+    ) {
       aliasesNaoEncontrados.add(
         registro.mandante,
       );
     }
 
-    if (!visitante) {
+    if (
+      !visitante
+    ) {
       aliasesNaoEncontrados.add(
         registro.visitante,
       );
@@ -359,12 +924,14 @@ async function executarComparacao():
 
       golsMandante:
         Number(
-          registro.mandante_Placar,
+          registro
+            .mandante_Placar,
         ),
 
       golsVisitante:
         Number(
-          registro.visitante_Placar,
+          registro
+            .visitante_Placar,
         ),
     });
   }
@@ -372,9 +939,13 @@ async function executarComparacao():
   const partidasOpenFootball:
     PartidaComparavel[] = [];
 
+  let partidasAnuladasFiltradas =
+    0;
+
   for (
     const partida
-    of resultadoOpenFootball.partidas
+    of resultadoOpenFootball
+      .partidas
   ) {
     const mandante =
       encontrarIdCanonico(
@@ -388,13 +959,17 @@ async function executarComparacao():
         aliases,
       );
 
-    if (!mandante) {
+    if (
+      !mandante
+    ) {
       aliasesNaoEncontrados.add(
         partida.mandante,
       );
     }
 
-    if (!visitante) {
+    if (
+      !visitante
+    ) {
       aliasesNaoEncontrados.add(
         partida.visitante,
       );
@@ -404,6 +979,42 @@ async function executarComparacao():
       !mandante ||
       !visitante
     ) {
+      continue;
+    }
+
+    const chaveAnulacao =
+      criarChavePartidaAnulada(
+        partida.rodada,
+        mandante,
+        visitante,
+        partida.golsMandante,
+        partida.golsVisitante,
+      );
+
+    const quantidadePendente =
+      anulacoesPendentes.get(
+        chaveAnulacao,
+      ) ?? 0;
+
+    if (
+      quantidadePendente > 0
+    ) {
+      partidasAnuladasFiltradas +=
+        1;
+
+      if (
+        quantidadePendente === 1
+      ) {
+        anulacoesPendentes.delete(
+          chaveAnulacao,
+        );
+      } else {
+        anulacoesPendentes.set(
+          chaveAnulacao,
+          quantidadePendente - 1,
+        );
+      }
+
       continue;
     }
 
@@ -431,49 +1042,44 @@ async function executarComparacao():
     });
   }
 
-  const mapaAdao =
-    new Map<
-      string,
-      PartidaComparavel
-    >();
-
-  const mapaOpenFootball =
-    new Map<
-      string,
-      PartidaComparavel
-    >();
-
-  for (
-    const partida
-    of partidasAdao
-  ) {
-    mapaAdao.set(
-      criarChavePartida(
-        partida,
-      ),
-
-      partida,
+  const gruposAdao =
+    agruparPartidasPorConfronto(
+      partidasAdao,
     );
-  }
 
-  for (
-    const partida
-    of partidasOpenFootball
-  ) {
-    mapaOpenFootball.set(
-      criarChavePartida(
-        partida,
-      ),
-
-      partida,
+  const gruposOpenFootball =
+    agruparPartidasPorConfronto(
+      partidasOpenFootball,
     );
-  }
 
-  let partidasCorrespondentes = 0;
-  let placaresIguais = 0;
+  const todasChaves =
+    new Set<string>([
+      ...gruposAdao.keys(),
+      ...gruposOpenFootball.keys(),
+    ]);
+
+  let partidasCorrespondentes =
+    0;
+
+  let placaresIguais =
+    0;
 
   const divergenciasPlacares:
     DivergenciaPlacar[] = [];
+
+  const resultadosAdministrativosReconhecidos:
+    ResultadoAdministrativoReconhecido[] =
+      [];
+
+  const correcoesFonteReconhecidas:
+    CorrecaoFonteReconhecida[] =
+      [];
+
+  const indicesAdministrativosReconhecidos =
+    new Set<number>();
+
+  const indicesCorrecoesReconhecidas =
+    new Set<number>();
 
   const somenteAdao:
     string[] = [];
@@ -482,68 +1088,492 @@ async function executarComparacao():
     string[] = [];
 
   for (
-    const [
-      chave,
-      partidaAdao,
-    ]
-    of mapaAdao
-  ) {
-    const partidaOpenFootball =
-      mapaOpenFootball.get(
-        chave,
-      );
-
-    if (!partidaOpenFootball) {
-      somenteAdao.push(
-        chave,
-      );
-
-      continue;
-    }
-
-    partidasCorrespondentes += 1;
-
-    const placarIgual =
-      partidaAdao.golsMandante ===
-        partidaOpenFootball.golsMandante &&
-      partidaAdao.golsVisitante ===
-        partidaOpenFootball.golsVisitante;
-
-    if (placarIgual) {
-      placaresIguais += 1;
-
-      continue;
-    }
-
-    divergenciasPlacares.push({
-      chave,
-
-      adaoduque: {
-        placar:
-          `${partidaAdao.golsMandante}-${partidaAdao.golsVisitante}`,
-      },
-
-      openfootball: {
-        placar:
-          `${partidaOpenFootball.golsMandante}-${partidaOpenFootball.golsVisitante}`,
-      },
-    });
-  }
-
-  for (
     const chave
-    of mapaOpenFootball.keys()
+    of [...todasChaves].sort()
   ) {
-    if (
-      !mapaAdao.has(
+    const partidasGrupoAdao =
+      gruposAdao.get(
         chave,
-      )
+      ) ?? [];
+
+    const partidasGrupoOpenFootball =
+      gruposOpenFootball.get(
+        chave,
+      ) ?? [];
+
+    const usadosAdao =
+      new Set<number>();
+
+    const usadosOpenFootball =
+      new Set<number>();
+
+    /*
+     * Primeiro procuramos partidas cujo
+     * resultado por clube é exatamente
+     * igual.
+     *
+     * A ordem mandante/visitante não é
+     * relevante para esta comparação.
+     */
+
+    for (
+      let indiceAdao = 0;
+      indiceAdao <
+      partidasGrupoAdao.length;
+      indiceAdao += 1
     ) {
-      somenteOpenFootball.push(
+      const partidaAdao =
+        partidasGrupoAdao[
+          indiceAdao
+        ];
+
+      const assinaturaAdao =
+        criarAssinaturaPlacar(
+          partidaAdao,
+        );
+
+      let indiceEncontrado =
+        -1;
+
+      for (
+        let indiceOpen = 0;
+        indiceOpen <
+        partidasGrupoOpenFootball.length;
+        indiceOpen += 1
+      ) {
+        if (
+          usadosOpenFootball.has(
+            indiceOpen,
+          )
+        ) {
+          continue;
+        }
+
+        const partidaOpenFootball =
+          partidasGrupoOpenFootball[
+            indiceOpen
+          ];
+
+        const assinaturaOpenFootball =
+          criarAssinaturaPlacar(
+            partidaOpenFootball,
+          );
+
+        if (
+          assinaturaAdao ===
+          assinaturaOpenFootball
+        ) {
+          indiceEncontrado =
+            indiceOpen;
+
+          break;
+        }
+      }
+
+      if (
+        indiceEncontrado === -1
+      ) {
+        continue;
+      }
+
+      usadosAdao.add(
+        indiceAdao,
+      );
+
+      usadosOpenFootball.add(
+        indiceEncontrado,
+      );
+
+      partidasCorrespondentes +=
+        1;
+
+      placaresIguais +=
+        1;
+    }
+
+    /*
+     * Depois dos placares iguais,
+     * verificamos exceções históricas
+     * conhecidas.
+     */
+
+    for (
+      let indiceAdao = 0;
+      indiceAdao <
+      partidasGrupoAdao.length;
+      indiceAdao += 1
+    ) {
+      if (
+        usadosAdao.has(
+          indiceAdao,
+        )
+      ) {
+        continue;
+      }
+
+      const partidaAdao =
+        partidasGrupoAdao[
+          indiceAdao
+        ];
+
+      let encontrouExcecao =
+        false;
+
+      for (
+        let indiceOpen = 0;
+        indiceOpen <
+        partidasGrupoOpenFootball.length;
+        indiceOpen += 1
+      ) {
+        if (
+          usadosOpenFootball.has(
+            indiceOpen,
+          )
+        ) {
+          continue;
+        }
+
+        const partidaOpenFootball =
+          partidasGrupoOpenFootball[
+            indiceOpen
+          ];
+
+        let indiceAdministrativo =
+          -1;
+
+        for (
+          let indice = 0;
+          indice <
+          resultadosAdministrativos.length;
+          indice += 1
+        ) {
+          if (
+            indicesAdministrativosReconhecidos.has(
+              indice,
+            )
+          ) {
+            continue;
+          }
+
+          const resultado =
+            resultadosAdministrativos[
+              indice
+            ];
+
+          if (
+            correspondeResultadoAdministrativo(
+              partidaAdao,
+              partidaOpenFootball,
+              resultado,
+            )
+          ) {
+            indiceAdministrativo =
+              indice;
+
+            break;
+          }
+        }
+
+        if (
+          indiceAdministrativo !==
+          -1
+        ) {
+          const resultado =
+            resultadosAdministrativos[
+              indiceAdministrativo
+            ];
+
+          indicesAdministrativosReconhecidos.add(
+            indiceAdministrativo,
+          );
+
+          usadosAdao.add(
+            indiceAdao,
+          );
+
+          usadosOpenFootball.add(
+            indiceOpen,
+          );
+
+          partidasCorrespondentes +=
+            1;
+
+          resultadosAdministrativosReconhecidos.push({
+            chave,
+
+            autoridade:
+              resultado.authority,
+
+            rodadaConfigurada:
+              resultado.round,
+
+            placarEmCampo:
+              `${resultado.playedScore.home}-${resultado.playedScore.away}`,
+
+            placarOficial:
+              `${resultado.officialScore.home}-${resultado.officialScore.away}`,
+          });
+
+          encontrouExcecao =
+            true;
+
+          break;
+        }
+
+        let indiceCorrecao =
+          -1;
+
+        for (
+          let indice = 0;
+          indice <
+          correcoesFonte.length;
+          indice += 1
+        ) {
+          if (
+            indicesCorrecoesReconhecidas.has(
+              indice,
+            )
+          ) {
+            continue;
+          }
+
+          const correcao =
+            correcoesFonte[
+              indice
+            ];
+
+          if (
+            correspondeCorrecaoFonte(
+              partidaAdao,
+              partidaOpenFootball,
+              correcao,
+            )
+          ) {
+            indiceCorrecao =
+              indice;
+
+            break;
+          }
+        }
+
+        if (
+          indiceCorrecao !==
+          -1
+        ) {
+          const correcao =
+            correcoesFonte[
+              indiceCorrecao
+            ];
+
+          indicesCorrecoesReconhecidas.add(
+            indiceCorrecao,
+          );
+
+          usadosAdao.add(
+            indiceAdao,
+          );
+
+          usadosOpenFootball.add(
+            indiceOpen,
+          );
+
+          partidasCorrespondentes +=
+            1;
+
+          correcoesFonteReconhecidas.push({
+            chave,
+
+            fonte:
+              correcao.source,
+
+            placarNaFonte:
+              `${correcao.sourceScore.home}-${correcao.sourceScore.away}`,
+
+            placarVerificado:
+              `${correcao.verifiedScore.home}-${correcao.verifiedScore.away}`,
+
+            motivo:
+              correcao.reason,
+          });
+
+          encontrouExcecao =
+            true;
+
+          break;
+        }
+      }
+
+      if (
+        encontrouExcecao
+      ) {
+        continue;
+      }
+    }
+
+    /*
+     * Tudo que ainda restar no mesmo
+     * confronto é considerado uma
+     * partida correspondente com
+     * placar divergente.
+     *
+     * Partidas extras de uma fonte
+     * ficam classificadas como
+     * somente naquela fonte.
+     */
+
+    const indicesAdaoRestantes =
+      partidasGrupoAdao
+        .map(
+          (
+            _,
+            indice,
+          ) =>
+            indice,
+        )
+        .filter(
+          (indice) =>
+            !usadosAdao.has(
+              indice,
+            ),
+        );
+
+    const indicesOpenRestantes =
+      partidasGrupoOpenFootball
+        .map(
+          (
+            _,
+            indice,
+          ) =>
+            indice,
+        )
+        .filter(
+          (indice) =>
+            !usadosOpenFootball.has(
+              indice,
+            ),
+        );
+
+    const quantidadeCorrespondente =
+      Math.min(
+        indicesAdaoRestantes.length,
+        indicesOpenRestantes.length,
+      );
+
+    for (
+      let indice = 0;
+      indice <
+      quantidadeCorrespondente;
+      indice += 1
+    ) {
+      const partidaAdao =
+        partidasGrupoAdao[
+          indicesAdaoRestantes[
+            indice
+          ]
+        ];
+
+      const partidaOpenFootball =
+        partidasGrupoOpenFootball[
+          indicesOpenRestantes[
+            indice
+          ]
+        ];
+
+      partidasCorrespondentes +=
+        1;
+
+      divergenciasPlacares.push({
         chave,
+
+        adaoduque: {
+          confronto:
+            formatarConfronto(
+              partidaAdao,
+            ),
+
+          placar:
+            formatarPlacar(
+              partidaAdao,
+            ),
+        },
+
+        openfootball: {
+          confronto:
+            formatarConfronto(
+              partidaOpenFootball,
+            ),
+
+          placar:
+            formatarPlacar(
+              partidaOpenFootball,
+            ),
+        },
+      });
+    }
+
+    for (
+      let indice =
+        quantidadeCorrespondente;
+      indice <
+      indicesAdaoRestantes.length;
+      indice += 1
+    ) {
+      const partida =
+        partidasGrupoAdao[
+          indicesAdaoRestantes[
+            indice
+          ]
+        ];
+
+      somenteAdao.push(
+        `${chave} [${formatarConfronto(partida)} ${formatarPlacar(partida)}]`,
+      );
+    }
+
+    for (
+      let indice =
+        quantidadeCorrespondente;
+      indice <
+      indicesOpenRestantes.length;
+      indice += 1
+    ) {
+      const partida =
+        partidasGrupoOpenFootball[
+          indicesOpenRestantes[
+            indice
+          ]
+        ];
+
+      somenteOpenFootball.push(
+        `${chave} [${formatarConfronto(partida)} ${formatarPlacar(partida)}]`,
       );
     }
   }
+
+  const anulacoesNaoEncontradas =
+    [...anulacoesPendentes.values()]
+      .reduce(
+        (
+          total,
+          quantidade,
+        ) =>
+          total +
+          quantidade,
+        0,
+      );
+
+  const administrativosNaoEncontrados =
+    resultadosAdministrativos.length -
+    indicesAdministrativosReconhecidos.size;
+
+  const correcoesFonteNaoEncontradas =
+    correcoesFonte.length -
+    indicesCorrecoesReconhecidas.size;
+
+  const resultadosValidados =
+    placaresIguais +
+    resultadosAdministrativosReconhecidos.length +
+    correcoesFonteReconhecidas.length;
 
   const relatorio = {
     temporada,
@@ -554,7 +1584,8 @@ async function executarComparacao():
     ],
 
     geradoEm:
-      new Date().toISOString(),
+      new Date()
+        .toISOString(),
 
     resumo: {
       partidasAdaoduque:
@@ -566,6 +1597,14 @@ async function executarComparacao():
       partidasCorrespondentes,
 
       placaresIguais,
+
+      resultadosAdministrativosReconhecidos:
+        resultadosAdministrativosReconhecidos.length,
+
+      correcoesFonteReconhecidas:
+        correcoesFonteReconhecidas.length,
+
+      resultadosValidados,
 
       placaresDivergentes:
         divergenciasPlacares.length,
@@ -583,11 +1622,32 @@ async function executarComparacao():
         resultadoOpenFootball
           .linhasNaoInterpretadas
           .length,
+
+      partidasAnuladasConfiguradas:
+        partidasAnuladas.length,
+
+      partidasAnuladasFiltradas,
+
+      anulacoesNaoEncontradas,
+
+      resultadosAdministrativosConfigurados:
+        resultadosAdministrativos.length,
+
+      administrativosNaoEncontrados,
+
+      correcoesFonteConfiguradas:
+        correcoesFonte.length,
+
+      correcoesFonteNaoEncontradas,
     },
 
     aliasesNaoEncontrados:
       [...aliasesNaoEncontrados]
         .sort(),
+
+    resultadosAdministrativosReconhecidos,
+
+    correcoesFonteReconhecidas,
 
     divergenciasPlacares,
 
@@ -638,6 +1698,14 @@ async function executarComparacao():
 
       placaresIguais,
 
+      administrativos:
+        resultadosAdministrativosReconhecidos.length,
+
+      correcoesFonte:
+        correcoesFonteReconhecidas.length,
+
+      resultadosValidados,
+
       divergencias:
         divergenciasPlacares.length,
 
@@ -654,11 +1722,56 @@ async function executarComparacao():
         resultadoOpenFootball
           .linhasNaoInterpretadas
           .length,
+
+      anuladasConfiguradas:
+        partidasAnuladas.length,
+
+      anuladasFiltradas:
+        partidasAnuladasFiltradas,
+
+      anulacoesNaoEncontradas,
+
+      administrativosConfigurados:
+        resultadosAdministrativos.length,
+
+      administrativosNaoEncontrados,
+
+      correcoesFonteConfiguradas:
+        correcoesFonte.length,
+
+      correcoesFonteNaoEncontradas,
     },
   ]);
 
   if (
-    aliasesNaoEncontrados.size > 0
+    resultadosAdministrativosReconhecidos.length >
+    0
+  ) {
+    console.log(
+      "\nResultados administrativos reconhecidos:",
+    );
+
+    console.table(
+      resultadosAdministrativosReconhecidos,
+    );
+  }
+
+  if (
+    correcoesFonteReconhecidas.length >
+    0
+  ) {
+    console.log(
+      "\nCorreções conhecidas de fonte:",
+    );
+
+    console.table(
+      correcoesFonteReconhecidas,
+    );
+  }
+
+  if (
+    aliasesNaoEncontrados.size >
+    0
   ) {
     console.log(
       "\nAliases não encontrados:",
@@ -672,10 +1785,11 @@ async function executarComparacao():
   }
 
   if (
-    divergenciasPlacares.length > 0
+    divergenciasPlacares.length >
+    0
   ) {
     console.log(
-      "\nPlacares divergentes:",
+      "\nPlacares divergentes não explicados:",
     );
 
     console.table(
@@ -684,7 +1798,8 @@ async function executarComparacao():
   }
 
   if (
-    somenteAdao.length > 0
+    somenteAdao.length >
+    0
   ) {
     console.log(
       "\nPartidas encontradas somente em Adão Duque:",
@@ -698,7 +1813,8 @@ async function executarComparacao():
   }
 
   if (
-    somenteOpenFootball.length > 0
+    somenteOpenFootball.length >
+    0
   ) {
     console.log(
       "\nPartidas encontradas somente no OpenFootball:",
@@ -708,6 +1824,33 @@ async function executarComparacao():
       somenteOpenFootball
         .sort()
         .join("\n"),
+    );
+  }
+
+  if (
+    anulacoesNaoEncontradas >
+    0
+  ) {
+    console.log(
+      "\nAtenção: existem partidas anuladas configuradas que não foram encontradas na fonte.",
+    );
+  }
+
+  if (
+    administrativosNaoEncontrados >
+    0
+  ) {
+    console.log(
+      "\nAtenção: existem resultados administrativos configurados que não foram reconhecidos.",
+    );
+  }
+
+  if (
+    correcoesFonteNaoEncontradas >
+    0
+  ) {
+    console.log(
+      "\nAtenção: existem correções de fonte configuradas que não foram reconhecidas.",
     );
   }
 
@@ -726,7 +1869,9 @@ executarComparacao().catch(
       "\nFalha durante a comparação:",
     );
 
-    console.error(erro);
+    console.error(
+      erro,
+    );
 
     process.exitCode = 1;
   },

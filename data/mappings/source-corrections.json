@@ -1,0 +1,36 @@
+{
+  "corrections": [
+    {
+      "season": 2003,
+      "source": "openfootball_v0",
+      "homeTeam": "athletico-pr",
+      "awayTeam": "criciuma",
+      "sourceScore": {
+        "home": 4,
+        "away": 2
+      },
+      "verifiedScore": {
+        "home": 5,
+        "away": 2
+      },
+      "status": "SOURCE_CORRECTION",
+      "reason": "incorrect_score_in_source"
+    },
+    {
+      "season": 2004,
+      "source": "openfootball_v0",
+      "homeTeam": "criciuma",
+      "awayTeam": "internacional",
+      "sourceScore": {
+        "home": 1,
+        "away": 0
+      },
+      "verifiedScore": {
+        "home": 2,
+        "away": 1
+      },
+      "status": "SOURCE_CORRECTION",
+      "reason": "incorrect_score_in_source"
+    }
+  ]
+}

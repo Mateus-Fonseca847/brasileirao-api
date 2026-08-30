@@ -1,0 +1,21 @@
+{
+  "results": [
+    {
+      "season": 2005,
+      "round": 1,
+      "homeTeam": "brasiliense",
+      "awayTeam": "vasco",
+      "playedScore": {
+        "home": 2,
+        "away": 2
+      },
+      "officialScore": {
+        "home": 0,
+        "away": 1
+      },
+      "status": "ADMINISTRATIVE_OVERRIDE",
+      "authority": "STJD",
+      "replayRequired": false
+    }
+  ]
+}

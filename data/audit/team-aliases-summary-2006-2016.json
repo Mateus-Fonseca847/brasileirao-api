@@ -1,0 +1,340 @@
+{
+  "intervalo": {
+    "inicio": 2006,
+    "fim": 2016
+  },
+  "geradoEm": "2026-08-30T13:19:49.925Z",
+  "resumo": {
+    "temporadasAnalisadas": 11,
+    "aliasesUnicos": 28,
+    "temporadasComAliases": 11
+  },
+  "porTemporada": [
+    {
+      "temporada": 2006,
+      "quantidadeAliases": 1,
+      "aliases": [
+        "Santa Cruz"
+      ]
+    },
+    {
+      "temporada": 2007,
+      "quantidadeAliases": 10,
+      "aliases": [
+        "America-RN",
+        "América-RN",
+        "AMÉRICA-RN",
+        "C ruzeiro",
+        "Fl amengo",
+        "G oiás",
+        "Nautico",
+        "Náutico",
+        "P araná",
+        "S antos"
+      ]
+    },
+    {
+      "temporada": 2008,
+      "quantidadeAliases": 5,
+      "aliases": [
+        "F igueirense",
+        "Ipatinga",
+        "Nautico",
+        "Náutico",
+        "Portuguesa"
+      ]
+    },
+    {
+      "temporada": 2009,
+      "quantidadeAliases": 8,
+      "aliases": [
+        "Barueri",
+        "Cori tiba",
+        "G rêmio",
+        "Nautico",
+        "Náutico",
+        "Santo Andre",
+        "Santo André",
+        "Santo s"
+      ]
+    },
+    {
+      "temporada": 2010,
+      "quantidadeAliases": 2,
+      "aliases": [
+        "Gremio Prudente",
+        "Grêmio Prudente"
+      ]
+    },
+    {
+      "temporada": 2011,
+      "quantidadeAliases": 1,
+      "aliases": [
+        "Palmeira"
+      ]
+    },
+    {
+      "temporada": 2012,
+      "quantidadeAliases": 6,
+      "aliases": [
+        "Nautico",
+        "Náutico",
+        "Palmeira",
+        "Portugues",
+        "Portuguesa",
+        "Sport Recife"
+      ]
+    },
+    {
+      "temporada": 2013,
+      "quantidadeAliases": 4,
+      "aliases": [
+        "Nautico",
+        "Náutico",
+        "Portugues",
+        "Portuguesa"
+      ]
+    },
+    {
+      "temporada": 2014,
+      "quantidadeAliases": 2,
+      "aliases": [
+        "Palmeira",
+        "Sport Recife"
+      ]
+    },
+    {
+      "temporada": 2015,
+      "quantidadeAliases": 4,
+      "aliases": [
+        "Joinvile",
+        "Joinville",
+        "Palmeira",
+        "Sport Recife"
+      ]
+    },
+    {
+      "temporada": 2016,
+      "quantidadeAliases": 2,
+      "aliases": [
+        "Santa Cruz",
+        "Vitória-BA"
+      ]
+    }
+  ],
+  "aliasesConsolidados": [
+    {
+      "alias": "Nautico",
+      "temporadas": [
+        2007,
+        2008,
+        2009,
+        2012,
+        2013
+      ],
+      "quantidadeTemporadas": 5
+    },
+    {
+      "alias": "Náutico",
+      "temporadas": [
+        2007,
+        2008,
+        2009,
+        2012,
+        2013
+      ],
+      "quantidadeTemporadas": 5
+    },
+    {
+      "alias": "Palmeira",
+      "temporadas": [
+        2011,
+        2012,
+        2014,
+        2015
+      ],
+      "quantidadeTemporadas": 4
+    },
+    {
+      "alias": "Portuguesa",
+      "temporadas": [
+        2008,
+        2012,
+        2013
+      ],
+      "quantidadeTemporadas": 3
+    },
+    {
+      "alias": "Sport Recife",
+      "temporadas": [
+        2012,
+        2014,
+        2015
+      ],
+      "quantidadeTemporadas": 3
+    },
+    {
+      "alias": "Portugues",
+      "temporadas": [
+        2012,
+        2013
+      ],
+      "quantidadeTemporadas": 2
+    },
+    {
+      "alias": "Santa Cruz",
+      "temporadas": [
+        2006,
+        2016
+      ],
+      "quantidadeTemporadas": 2
+    },
+    {
+      "alias": "America-RN",
+      "temporadas": [
+        2007
+      ],
+      "quantidadeTemporadas": 1
+    },
+    {
+      "alias": "América-RN",
+      "temporadas": [
+        2007
+      ],
+      "quantidadeTemporadas": 1
+    },
+    {
+      "alias": "AMÉRICA-RN",
+      "temporadas": [
+        2007
+      ],
+      "quantidadeTemporadas": 1
+    },
+    {
+      "alias": "Barueri",
+      "temporadas": [
+        2009
+      ],
+      "quantidadeTemporadas": 1
+    },
+    {
+      "alias": "C ruzeiro",
+      "temporadas": [
+        2007
+      ],
+      "quantidadeTemporadas": 1
+    },
+    {
+      "alias": "Cori tiba",
+      "temporadas": [
+        2009
+      ],
+      "quantidadeTemporadas": 1
+    },
+    {
+      "alias": "F igueirense",
+      "temporadas": [
+        2008
+      ],
+      "quantidadeTemporadas": 1
+    },
+    {
+      "alias": "Fl amengo",
+      "temporadas": [
+        2007
+      ],
+      "quantidadeTemporadas": 1
+    },
+    {
+      "alias": "G oiás",
+      "temporadas": [
+        2007
+      ],
+      "quantidadeTemporadas": 1
+    },
+    {
+      "alias": "G rêmio",
+      "temporadas": [
+        2009
+      ],
+      "quantidadeTemporadas": 1
+    },
+    {
+      "alias": "Gremio Prudente",
+      "temporadas": [
+        2010
+      ],
+      "quantidadeTemporadas": 1
+    },
+    {
+      "alias": "Grêmio Prudente",
+      "temporadas": [
+        2010
+      ],
+      "quantidadeTemporadas": 1
+    },
+    {
+      "alias": "Ipatinga",
+      "temporadas": [
+        2008
+      ],
+      "quantidadeTemporadas": 1
+    },
+    {
+      "alias": "Joinvile",
+      "temporadas": [
+        2015
+      ],
+      "quantidadeTemporadas": 1
+    },
+    {
+      "alias": "Joinville",
+      "temporadas": [
+        2015
+      ],
+      "quantidadeTemporadas": 1
+    },
+    {
+      "alias": "P araná",
+      "temporadas": [
+        2007
+      ],
+      "quantidadeTemporadas": 1
+    },
+    {
+      "alias": "S antos",
+      "temporadas": [
+        2007
+      ],
+      "quantidadeTemporadas": 1
+    },
+    {
+      "alias": "Santo Andre",
+      "temporadas": [
+        2009
+      ],
+      "quantidadeTemporadas": 1
+    },
+    {
+      "alias": "Santo André",
+      "temporadas": [
+        2009
+      ],
+      "quantidadeTemporadas": 1
+    },
+    {
+      "alias": "Santo s",
+      "temporadas": [
+        2009
+      ],
+      "quantidadeTemporadas": 1
+    },
+    {
+      "alias": "Vitória-BA",
+      "temporadas": [
+        2016
+      ],
+      "quantidadeTemporadas": 1
+    }
+  ]
+}

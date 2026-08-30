@@ -11,7 +11,10 @@
     "compare:season": "tsx scripts/compare/compare-sources.ts",
     "audit:validation-summary": "tsx scripts/audit/build-validation-summary.ts",
     "data:download:openfootball-v0": "tsx scripts/acquisition/download-openfootball-v0.ts",
-    "audit:openfootball-v0": "tsx scripts/audit/audit-openfootball-v0.ts"
+    "audit:openfootball-v0": "tsx scripts/audit/audit-openfootball-v0.ts",
+    "audit:historical-anomalies": "tsx scripts/audit/audit-historical-anomalies.ts",
+    "audit:historical-range": "tsx scripts/audit/audit-historical-range.ts",
+    "audit:team-aliases-range": "tsx scripts/audit/audit-team-aliases-range.ts"
   },
   "dependencies": {
     "csv-parse": "^6.1.0"

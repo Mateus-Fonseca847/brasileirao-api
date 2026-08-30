@@ -1,0 +1,46 @@
+{
+  "intervalo": {
+    "inicio": 2018,
+    "fim": 2020
+  },
+  "geradoEm": "2026-08-30T13:36:04.152Z",
+  "resumo": {
+    "temporadasAnalisadas": 3,
+    "aliasesUnicos": 1,
+    "temporadasComAliases": 3
+  },
+  "porTemporada": [
+    {
+      "temporada": 2018,
+      "quantidadeAliases": 1,
+      "aliases": [
+        "Vasco da Gama RJ"
+      ]
+    },
+    {
+      "temporada": 2019,
+      "quantidadeAliases": 1,
+      "aliases": [
+        "Vasco da Gama RJ"
+      ]
+    },
+    {
+      "temporada": 2020,
+      "quantidadeAliases": 1,
+      "aliases": [
+        "Vasco da Gama RJ"
+      ]
+    }
+  ],
+  "aliasesConsolidados": [
+    {
+      "alias": "Vasco da Gama RJ",
+      "temporadas": [
+        2018,
+        2019,
+        2020
+      ],
+      "quantidadeTemporadas": 3
+    }
+  ]
+}

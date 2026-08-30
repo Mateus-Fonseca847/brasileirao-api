@@ -514,15 +514,23 @@ A lógica de normalização foi implementada em:
 
 scripts/normalization/team-names.ts
 
-Depois da normalização, cada partida foi identificada através da combinação:
+Depois da normalização, a estratégia de correspondência das partidas foi refinada durante a auditoria histórica.
 
-rodada + equipe mandante + equipe visitante
+Inicialmente, a rodada fazia parte da identidade utilizada na comparação. Essa abordagem foi abandonada após a identificação de partidas adiadas ou remarcadas que apareciam associadas a rodadas diferentes entre as fontes.
 
-Exemplo conceitual:
+Consequentemente:
 
-38|gremio|corinthians
+rodada != identidade permanente da partida
 
-Essa chave permitiu relacionar partidas entre fontes que utilizam identificadores internos diferentes.
+O comparador passou a trabalhar com os identificadores canônicos das equipes e a tratar individualmente as ocorrências de cada confronto.
+
+Também foi necessário evitar estruturas em que uma única chave pudesse sobrescrever partidas repetidas. Em 2009, por exemplo, dois registros entre Botafogo e Flamengo expuseram essa limitação.
+
+A estratégia atual agrupa as ocorrências do mesmo par de clubes e compara o resultado associado a cada equipe, consumindo cada ocorrência somente uma vez.
+
+A rodada permanece armazenada como metadado da partida, mas não é utilizada como identificador permanente.
+
+A condição de mandante e visitante também permanece preservada nos dados das fontes. Divergências conhecidas nessa informação devem ser registradas separadamente como correções de proveniência e não corrigidas diretamente nos arquivos raw.
 
 ## Resultado
 
@@ -784,3 +792,238 @@ A validação de 2017 também confirmou que o projeto consegue trabalhar com dua
 2018–2024 → OpenFootball atual
 
 O comparador seleciona automaticamente a fonte e o parser apropriados de acordo com a temporada solicitada.
+
+
+---
+
+# Validação histórica global dos resultados — 2003 a 2024
+
+Após a construção dos parsers, normalizadores, mapeamentos históricos e mecanismos de tratamento de exceções, foi executada uma regressão completa das temporadas do Campeonato Brasileiro Série A entre 2003 e 2024.
+
+A auditoria foi executada através de:
+
+npm run audit:historical-range -- 2003 2024
+
+O relatório consolidado foi armazenado em:
+
+data/audit/historical-validation-summary-2003-2024.json
+
+## Resultado global
+
+Foram analisadas:
+
+22 temporadas
+
+correspondentes ao período:
+
+2003 → 2024
+
+O dataset principal contém nesse intervalo:
+
+8785 partidas oficiais
+
+O resultado final da validação foi:
+
+| Métrica | Resultado |
+|---|---:|
+| Temporadas analisadas | 22 |
+| Temporadas validadas | 22 |
+| Temporadas pendentes | 0 |
+| Partidas oficiais | 8785 |
+| Divergências de placar não explicadas | 0 |
+| Aliases pendentes | 0 |
+| Linhas não interpretadas | 0 |
+
+Todas as temporadas analisadas atingiram o estado:
+
+VALIDATED
+
+## Exceções históricas modeladas
+
+A validação não depende da alteração manual dos arquivos raw.
+
+Situações excepcionais são mantidas em arquivos de mapeamento e tratadas explicitamente pelo pipeline.
+
+### 2003 — correção conhecida de fonte
+
+Partida:
+
+Athletico-PR 5 x 2 Criciúma
+
+O OpenFootball V0 registra incorretamente:
+
+Athletico-PR 4 x 2 Criciúma
+
+O resultado 5 x 2 foi confirmado através de fontes históricas independentes.
+
+A correção permanece registrada separadamente como:
+
+SOURCE_CORRECTION
+
+### 2004 — correção conhecida de fonte
+
+Partida:
+
+Criciúma 2 x 1 Internacional
+
+O OpenFootball V0 registra:
+
+Criciúma 1 x 0 Internacional
+
+O resultado histórico verificado é:
+
+Criciúma 2 x 1 Internacional
+
+A diferença também permanece registrada como:
+
+SOURCE_CORRECTION
+
+### 2005 — partidas anuladas
+
+A temporada de 2005 possui 11 partidas originalmente disputadas que foram posteriormente anuladas pelo STJD no contexto do escândalo conhecido como Máfia do Apito.
+
+Essas partidas foram posteriormente disputadas novamente.
+
+Consequentemente, é necessário distinguir:
+
+partidas físicas existentes na fonte histórica
+!=
+partidas oficiais consideradas na competição
+
+Os 11 registros anulados são mantidos na camada raw e identificados através de:
+
+data/mappings/annulled-matches.json
+
+Após a exclusão lógica das partidas anuladas, ambas as fontes apresentam:
+
+462 partidas oficiais
+
+### 2005 — resultado administrativo
+
+A partida entre Brasiliense e Vasco terminou em campo:
+
+Brasiliense 2 x 2 Vasco
+
+Entretanto, o resultado oficial da competição foi posteriormente definido administrativamente como:
+
+Brasiliense 0 x 1 Vasco
+
+O caso é tratado como:
+
+ADMINISTRATIVE_OVERRIDE
+
+e permanece registrado em:
+
+data/mappings/administrative-results.json
+
+Assim, o resultado disputado em campo não é apagado, enquanto o resultado oficial pode ser preservado separadamente.
+
+### 2009 — orientação do confronto na fonte
+
+Durante a validação foi identificado que o OpenFootball V0 apresenta o confronto de 19 de julho de 2009 como:
+
+Botafogo 2 x 2 Flamengo
+
+Fontes históricas registram a partida como:
+
+Flamengo 2 x 2 Botafogo
+
+O placar associado a cada equipe está correto, mas a condição de mandante e visitante aparece invertida na fonte.
+
+A inconsistência é registrada separadamente em:
+
+data/mappings/source-fixture-corrections.json
+
+com o estado:
+
+SOURCE_FIXTURE_CORRECTION
+
+O arquivo raw original permanece inalterado.
+
+### 2016 — 379 partidas
+
+A temporada de 2016 possui:
+
+379 partidas disputadas
+
+A partida Chapecoense x Atlético-MG da última rodada não foi realizada.
+
+Consequentemente:
+
+379 partidas != dado incompleto
+
+e a temporada é considerada integralmente validada dentro do conjunto de partidas efetivamente disputadas.
+
+## Normalização dos clubes
+
+A validação histórica também revelou diversas representações diferentes para os mesmos clubes.
+
+Exemplos encontrados incluem:
+
+Nautico
+Náutico
+
+America-RN
+América-RN
+
+Sport Recife
+Sport
+
+Vasco da Gama RJ
+Vasco da Gama
+
+Além de erros presentes nas próprias fontes, como:
+
+C ruzeiro
+Fl amengo
+G oiás
+S antos
+Santo s
+Palmeira
+Joinvile
+
+Essas representações são normalizadas através de:
+
+data/mappings/team-aliases.json
+
+Os erros encontrados nas fontes são aceitos somente como aliases de entrada e nunca utilizados como nomes canônicos das equipes.
+
+## Escopo da validação concluída
+
+O estado VALIDATED desta etapa significa que os resultados das partidas foram reconciliados entre as fontes disponíveis, considerando:
+
+- normalização dos nomes dos clubes;
+- partidas anuladas;
+- resultados administrativos;
+- correções conhecidas de placar nas fontes;
+- partidas adiadas ou associadas a rodadas diferentes;
+- confrontos repetidos;
+- variações de nomenclatura;
+- particularidades históricas da competição.
+
+A validação dos resultados não implica que todos os demais campos possuam cobertura equivalente.
+
+Elementos como:
+
+- posse de bola;
+- finalizações;
+- cartões;
+- eventos individuais de gol;
+- jogadores;
+- escalações;
+
+continuam sujeitos às suas próprias auditorias de cobertura e qualidade.
+
+## Estado final desta etapa
+
+A camada histórica de resultados entre:
+
+2003 → 2024
+
+foi considerada validada para continuidade do pipeline de normalização e persistência.
+
+Nenhum dado ausente foi inventado.
+
+Nenhum arquivo raw foi alterado para forçar concordância entre as fontes.
+
+As diferenças conhecidas permanecem explicitamente registradas como parte da proveniência dos dados.

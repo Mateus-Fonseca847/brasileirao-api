@@ -1,0 +1,26 @@
+{
+  "corrections": [
+    {
+      "season": 2009,
+      "source": "openfootball_v0",
+      "sourceFixture": {
+        "homeTeam": "botafogo",
+        "awayTeam": "flamengo",
+        "score": {
+          "home": 2,
+          "away": 2
+        }
+      },
+      "verifiedFixture": {
+        "homeTeam": "flamengo",
+        "awayTeam": "botafogo",
+        "score": {
+          "home": 2,
+          "away": 2
+        }
+      },
+      "status": "SOURCE_FIXTURE_CORRECTION",
+      "reason": "home_away_swapped_in_source"
+    }
+  ]
+}

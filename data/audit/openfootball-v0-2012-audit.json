@@ -1,13 +1,13 @@
 {
   "fonte": "openfootball_v0",
-  "temporada": 2017,
-  "geradoEm": "2026-08-30T04:51:27.080Z",
+  "temporada": 2012,
+  "geradoEm": "2026-08-30T04:51:27.069Z",
   "resumo": {
-    "temporada": 2017,
+    "temporada": 2012,
     "partidas": 380,
     "equipes": 20,
     "rodadas": 38,
-    "gols": 923,
+    "gols": 940,
     "linhasNaoInterpretadas": 0,
     "linhasIgnoradas": 0,
     "status": "PARSED"
@@ -15,24 +15,24 @@
   "equipes": [
     "Atlético GO",
     "Atlético MG",
-    "Atlético PR",
-    "Avaí",
     "Bahia",
     "Botafogo",
-    "Chapecoense",
     "Corinthians",
     "Coritiba",
     "Cruzeiro",
+    "Figueirense",
     "Flamengo",
     "Fluminense",
     "Grêmio",
-    "Palmeiras",
+    "Internacional",
+    "Náutico",
+    "Palmeira",
     "Ponte Preta",
+    "Portugues",
     "Santos",
-    "Sport",
+    "Sport Recife",
     "São Paulo",
-    "Vasco da Gama",
-    "Vitória"
+    "Vasco da Gama"
   ],
   "linhasNaoInterpretadas": []
 }

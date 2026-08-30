@@ -1,0 +1,426 @@
+{
+  "temporada": 2003,
+  "geradoEm": "2026-08-30T04:40:55.850Z",
+  "totais": {
+    "adaoduque": {
+      "partidas": 552,
+      "gols": 1593
+    },
+    "openfootball": {
+      "partidas": 552,
+      "gols": 1592
+    }
+  },
+  "rodadasDivergentes": 3,
+  "confrontosRepetidos": {
+    "adaoduque": [],
+    "openfootball": []
+  },
+  "detalhesRodadasDivergentes": [
+    {
+      "resumo": {
+        "rodada": 6,
+        "partidasAdaoduque": 12,
+        "partidasOpenFootball": 12,
+        "golsAdaoduque": 41,
+        "golsOpenFootball": 40,
+        "diferencaPartidas": 0,
+        "diferencaGols": -1
+      },
+      "adaoduque": [
+        {
+          "mandante": "Atletico-MG",
+          "visitante": "Coritiba",
+          "placar": "1-2"
+        },
+        {
+          "mandante": "Parana",
+          "visitante": "Bahia",
+          "placar": "3-1"
+        },
+        {
+          "mandante": "Vitoria",
+          "visitante": "Internacional",
+          "placar": "0-3"
+        },
+        {
+          "mandante": "Guarani",
+          "visitante": "Cruzeiro",
+          "placar": "1-1"
+        },
+        {
+          "mandante": "Corinthians",
+          "visitante": "Flamengo",
+          "placar": "1-1"
+        },
+        {
+          "mandante": "Goias",
+          "visitante": "Juventude",
+          "placar": "7-0"
+        },
+        {
+          "mandante": "Figueirense",
+          "visitante": "Ponte Preta",
+          "placar": "0-0"
+        },
+        {
+          "mandante": "Santos",
+          "visitante": "Fortaleza",
+          "placar": "4-0"
+        },
+        {
+          "mandante": "Gremio",
+          "visitante": "Fluminense",
+          "placar": "0-1"
+        },
+        {
+          "mandante": "Athletico-PR",
+          "visitante": "Criciuma",
+          "placar": "5-2"
+        },
+        {
+          "mandante": "Paysandu",
+          "visitante": "Sao Paulo",
+          "placar": "5-2"
+        },
+        {
+          "mandante": "Vasco",
+          "visitante": "Sao Caetano",
+          "placar": "1-0"
+        }
+      ],
+      "openfootball": [
+        {
+          "mandante": "Atlético-MG",
+          "visitante": "Coritiba",
+          "placar": "1-2"
+        },
+        {
+          "mandante": "Paraná",
+          "visitante": "Bahia",
+          "placar": "3-1"
+        },
+        {
+          "mandante": "Vitória",
+          "visitante": "Internacional",
+          "placar": "0-3"
+        },
+        {
+          "mandante": "Guarani",
+          "visitante": "Cruzeiro",
+          "placar": "1-1"
+        },
+        {
+          "mandante": "Corinthians",
+          "visitante": "Flamengo",
+          "placar": "1-1"
+        },
+        {
+          "mandante": "Goiás",
+          "visitante": "Juventude",
+          "placar": "7-0"
+        },
+        {
+          "mandante": "Figueirense",
+          "visitante": "Ponte Preta",
+          "placar": "0-0"
+        },
+        {
+          "mandante": "Santos",
+          "visitante": "Fortaleza",
+          "placar": "4-0"
+        },
+        {
+          "mandante": "Grêmio",
+          "visitante": "Fluminense",
+          "placar": "0-1"
+        },
+        {
+          "mandante": "Atlético-PR",
+          "visitante": "Criciúma",
+          "placar": "4-2"
+        },
+        {
+          "mandante": "Paysandu",
+          "visitante": "São Paulo",
+          "placar": "5-2"
+        },
+        {
+          "mandante": "Vasco",
+          "visitante": "São Caetano",
+          "placar": "1-0"
+        }
+      ]
+    },
+    {
+      "resumo": {
+        "rodada": 14,
+        "partidasAdaoduque": 11,
+        "partidasOpenFootball": 12,
+        "golsAdaoduque": 40,
+        "golsOpenFootball": 42,
+        "diferencaPartidas": 1,
+        "diferencaGols": 2
+      },
+      "adaoduque": [
+        {
+          "mandante": "Bahia",
+          "visitante": "Coritiba",
+          "placar": "2-2"
+        },
+        {
+          "mandante": "Vasco",
+          "visitante": "Criciuma",
+          "placar": "2-0"
+        },
+        {
+          "mandante": "Atletico-MG",
+          "visitante": "Gremio",
+          "placar": "3-2"
+        },
+        {
+          "mandante": "Internacional",
+          "visitante": "Parana",
+          "placar": "2-1"
+        },
+        {
+          "mandante": "Sao Paulo",
+          "visitante": "Goias",
+          "placar": "1-0"
+        },
+        {
+          "mandante": "Paysandu",
+          "visitante": "Flamengo",
+          "placar": "2-2"
+        },
+        {
+          "mandante": "Ponte Preta",
+          "visitante": "Corinthians",
+          "placar": "3-3"
+        },
+        {
+          "mandante": "Sao Caetano",
+          "visitante": "Vitoria",
+          "placar": "2-1"
+        },
+        {
+          "mandante": "Figueirense",
+          "visitante": "Fortaleza",
+          "placar": "2-2"
+        },
+        {
+          "mandante": "Juventude",
+          "visitante": "Cruzeiro",
+          "placar": "0-1"
+        },
+        {
+          "mandante": "Fluminense",
+          "visitante": "Guarani",
+          "placar": "5-2"
+        }
+      ],
+      "openfootball": [
+        {
+          "mandante": "Bahia",
+          "visitante": "Coritiba",
+          "placar": "2-2"
+        },
+        {
+          "mandante": "Vasco",
+          "visitante": "Criciúma",
+          "placar": "2-0"
+        },
+        {
+          "mandante": "Atlético-MG",
+          "visitante": "Grêmio",
+          "placar": "3-2"
+        },
+        {
+          "mandante": "Internacional",
+          "visitante": "Paraná",
+          "placar": "2-1"
+        },
+        {
+          "mandante": "São Paulo",
+          "visitante": "Goiás",
+          "placar": "1-0"
+        },
+        {
+          "mandante": "Paysandu",
+          "visitante": "Flamengo",
+          "placar": "2-2"
+        },
+        {
+          "mandante": "Ponte Preta",
+          "visitante": "Corinthians",
+          "placar": "3-3"
+        },
+        {
+          "mandante": "São Caetano",
+          "visitante": "Vitória",
+          "placar": "2-1"
+        },
+        {
+          "mandante": "Figueirense",
+          "visitante": "Fortaleza",
+          "placar": "2-2"
+        },
+        {
+          "mandante": "Juventude",
+          "visitante": "Cruzeiro",
+          "placar": "0-1"
+        },
+        {
+          "mandante": "Fluminense",
+          "visitante": "Guarani",
+          "placar": "5-2"
+        },
+        {
+          "mandante": "Atlético-PR",
+          "visitante": "Santos",
+          "placar": "0-2"
+        }
+      ]
+    },
+    {
+      "resumo": {
+        "rodada": 15,
+        "partidasAdaoduque": 13,
+        "partidasOpenFootball": 12,
+        "golsAdaoduque": 28,
+        "golsOpenFootball": 26,
+        "diferencaPartidas": -1,
+        "diferencaGols": -2
+      },
+      "adaoduque": [
+        {
+          "mandante": "Fortaleza",
+          "visitante": "Vasco",
+          "placar": "0-1"
+        },
+        {
+          "mandante": "Coritiba",
+          "visitante": "Sao Caetano",
+          "placar": "2-0"
+        },
+        {
+          "mandante": "Gremio",
+          "visitante": "Juventude",
+          "placar": "1-4"
+        },
+        {
+          "mandante": "Santos",
+          "visitante": "Bahia",
+          "placar": "4-0"
+        },
+        {
+          "mandante": "Flamengo",
+          "visitante": "Figueirense",
+          "placar": "0-2"
+        },
+        {
+          "mandante": "Corinthians",
+          "visitante": "Fluminense",
+          "placar": "1-0"
+        },
+        {
+          "mandante": "Guarani",
+          "visitante": "Sao Paulo",
+          "placar": "0-1"
+        },
+        {
+          "mandante": "Criciuma",
+          "visitante": "Paysandu",
+          "placar": "2-0"
+        },
+        {
+          "mandante": "Vitoria",
+          "visitante": "Athletico-PR",
+          "placar": "1-0"
+        },
+        {
+          "mandante": "Cruzeiro",
+          "visitante": "Internacional",
+          "placar": "3-2"
+        },
+        {
+          "mandante": "Parana",
+          "visitante": "Atletico-MG",
+          "placar": "1-1"
+        },
+        {
+          "mandante": "Athletico-PR",
+          "visitante": "Santos",
+          "placar": "0-2"
+        },
+        {
+          "mandante": "Goias",
+          "visitante": "Ponte Preta",
+          "placar": "0-0"
+        }
+      ],
+      "openfootball": [
+        {
+          "mandante": "Fortaleza",
+          "visitante": "Vasco",
+          "placar": "0-1"
+        },
+        {
+          "mandante": "Coritiba",
+          "visitante": "São Caetano",
+          "placar": "2-0"
+        },
+        {
+          "mandante": "Grêmio",
+          "visitante": "Juventude",
+          "placar": "1-4"
+        },
+        {
+          "mandante": "Santos",
+          "visitante": "Bahia",
+          "placar": "4-0"
+        },
+        {
+          "mandante": "Flamengo",
+          "visitante": "Figueirense",
+          "placar": "0-2"
+        },
+        {
+          "mandante": "Corinthians",
+          "visitante": "Fluminense",
+          "placar": "1-0"
+        },
+        {
+          "mandante": "Guarani",
+          "visitante": "São Paulo",
+          "placar": "0-1"
+        },
+        {
+          "mandante": "Criciúma",
+          "visitante": "Paysandu",
+          "placar": "2-0"
+        },
+        {
+          "mandante": "Vitória",
+          "visitante": "Atlético-PR",
+          "placar": "1-0"
+        },
+        {
+          "mandante": "Cruzeiro",
+          "visitante": "Internacional",
+          "placar": "3-2"
+        },
+        {
+          "mandante": "Paraná",
+          "visitante": "Atlético-MG",
+          "placar": "1-1"
+        },
+        {
+          "mandante": "Goiás",
+          "visitante": "Ponte Preta",
+          "placar": "0-0"
+        }
+      ]
+    }
+  ]
+}

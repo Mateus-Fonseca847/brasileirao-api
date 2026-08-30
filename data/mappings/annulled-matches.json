@@ -1,0 +1,161 @@
+{
+  "season": 2005,
+  "reason": "match_fixing",
+  "decision": "STJD",
+  "matches": [
+    {
+      "round": 3,
+      "homeTeam": "vasco",
+      "awayTeam": "botafogo",
+      "annulledScore": {
+        "home": 0,
+        "away": 1
+      },
+      "replayScore": {
+        "home": 1,
+        "away": 0
+      },
+      "status": "ANNULLED"
+    },
+    {
+      "round": 10,
+      "homeTeam": "ponte-preta",
+      "awayTeam": "sao-paulo",
+      "annulledScore": {
+        "home": 1,
+        "away": 0
+      },
+      "replayScore": {
+        "home": 2,
+        "away": 0
+      },
+      "status": "ANNULLED"
+    },
+    {
+      "round": 12,
+      "homeTeam": "paysandu",
+      "awayTeam": "cruzeiro",
+      "annulledScore": {
+        "home": 1,
+        "away": 2
+      },
+      "replayScore": {
+        "home": 4,
+        "away": 1
+      },
+      "status": "ANNULLED"
+    },
+    {
+      "round": 14,
+      "homeTeam": "juventude",
+      "awayTeam": "figueirense",
+      "annulledScore": {
+        "home": 1,
+        "away": 4
+      },
+      "replayScore": {
+        "home": 2,
+        "away": 2
+      },
+      "status": "ANNULLED"
+    },
+    {
+      "round": 16,
+      "homeTeam": "santos",
+      "awayTeam": "corinthians",
+      "annulledScore": {
+        "home": 4,
+        "away": 2
+      },
+      "replayScore": {
+        "home": 2,
+        "away": 3
+      },
+      "status": "ANNULLED"
+    },
+    {
+      "round": 18,
+      "homeTeam": "vasco",
+      "awayTeam": "figueirense",
+      "annulledScore": {
+        "home": 2,
+        "away": 1
+      },
+      "replayScore": {
+        "home": 3,
+        "away": 3
+      },
+      "status": "ANNULLED"
+    },
+    {
+      "round": 19,
+      "homeTeam": "cruzeiro",
+      "awayTeam": "botafogo",
+      "annulledScore": {
+        "home": 4,
+        "away": 1
+      },
+      "replayScore": {
+        "home": 2,
+        "away": 2
+      },
+      "status": "ANNULLED"
+    },
+    {
+      "round": 20,
+      "homeTeam": "juventude",
+      "awayTeam": "fluminense",
+      "annulledScore": {
+        "home": 2,
+        "away": 0
+      },
+      "replayScore": {
+        "home": 3,
+        "away": 4
+      },
+      "status": "ANNULLED"
+    },
+    {
+      "round": 21,
+      "homeTeam": "internacional",
+      "awayTeam": "coritiba",
+      "annulledScore": {
+        "home": 3,
+        "away": 2
+      },
+      "replayScore": {
+        "home": 3,
+        "away": 2
+      },
+      "status": "ANNULLED"
+    },
+    {
+      "round": 24,
+      "homeTeam": "sao-paulo",
+      "awayTeam": "corinthians",
+      "annulledScore": {
+        "home": 3,
+        "away": 2
+      },
+      "replayScore": {
+        "home": 1,
+        "away": 1
+      },
+      "status": "ANNULLED"
+    },
+    {
+      "round": 25,
+      "homeTeam": "fluminense",
+      "awayTeam": "brasiliense",
+      "annulledScore": {
+        "home": 3,
+        "away": 0
+      },
+      "replayScore": {
+        "home": 1,
+        "away": 1
+      },
+      "status": "ANNULLED"
+    }
+  ]
+}

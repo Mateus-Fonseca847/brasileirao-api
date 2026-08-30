@@ -4,25 +4,28 @@
     "América Mineiro",
     "América MG"
   ],
+  "america-rn": [
+    "America-RN"
+  ],
   "atletico-go": [
     "Atletico-GO",
     "AC Goianiense",
     "Atlético Goianiense",
     "Atlético GO"
   ],
-
   "atletico-mg": [
     "Atletico-MG",
     "CA Mineiro",
     "Atlético Mineiro",
-    "Atlético MG"
+    "Atlético MG",
+    "Atlético - MG"
   ],
-
   "athletico-pr": [
     "Athletico-PR",
     "CA Paranaense",
     "Athletico Paranaense",
-    "Atlético PR"
+    "Atlético PR",
+    "Atlético-PR"
   ],
   "avai": [
     "Avai",
@@ -44,6 +47,9 @@
     "RB Bragantino",
     "Red Bull Bragantino"
   ],
+  "brasiliense": [
+    "Brasiliense"
+  ],
   "ceara": [
     "Ceara",
     "Ceará CE"
@@ -59,7 +65,8 @@
   "coritiba": [
     "Coritiba",
     "Coritiba FBC",
-    "Coritiba PR"
+    "Coritiba PR",
+    "Cori tiba"
   ],
   "criciuma": [
     "Criciuma",
@@ -67,7 +74,8 @@
   ],
   "cruzeiro": [
     "Cruzeiro",
-    "Cruzeiro EC"
+    "Cruzeiro EC",
+    "C ruzeiro"
   ],
   "csa": [
     "CSA",
@@ -78,10 +86,15 @@
     "Cuiabá EC",
     "Cuiabá MT"
   ],
+  "figueirense": [
+    "Figueirense",
+    "F igueirense"
+  ],
   "flamengo": [
     "Flamengo",
     "CR Flamengo",
-    "Flamengo RJ"
+    "Flamengo RJ",
+    "Fl amengo"
   ],
   "fluminense": [
     "Fluminense",
@@ -96,53 +109,97 @@
   "goias": [
     "Goias",
     "Goiás EC",
-    "Goiás GO"
+    "Goiás GO",
+    "G oiás"
   ],
   "gremio": [
     "Gremio",
     "Grêmio FBPA",
-    "Grêmio Porto Alegre"
+    "Grêmio Porto Alegre",
+    "G rêmio"
+  ],
+  "gremio-barueri": [
+    "Barueri",
+    "Gremio Prudente"
+  ],
+  "guarani": [
+    "Guarani"
   ],
   "internacional": [
     "Internacional",
     "SC Internacional"
+  ],
+  "ipatinga": [
+    "Ipatinga"
+  ],
+  "joinville": [
+    "Joinville",
+    "Joinvile"
   ],
   "juventude": [
     "Juventude",
     "EC Juventude",
     "Juventude RS"
   ],
+  "nautico": [
+    "Nautico"
+  ],
   "palmeiras": [
     "Palmeiras",
-    "SE Palmeiras"
+    "SE Palmeiras",
+    "Palmeira"
   ],
   "parana": [
     "Parana",
-    "Paraná Clube"
+    "Paraná Clube",
+    "P araná"
+  ],
+  "paysandu": [
+    "Paysandu"
   ],
   "ponte-preta": [
-    "Ponte Preta"
+    "Ponte Preta",
+    "PontePreta"
+  ],
+  "portuguesa": [
+    "Portuguesa",
+    "Portugues"
+  ],
+  "santa-cruz": [
+    "Santa Cruz"
+  ],
+  "santo-andre": [
+    "Santo Andre"
   ],
   "santos": [
     "Santos",
-    "Santos FC"
+    "Santos FC",
+    "S antos",
+    "Santo s"
+  ],
+  "sao-caetano": [
+    "Sao Caetano"
   ],
   "sao-paulo": [
     "Sao Paulo",
-    "São Paulo FC"
+    "São Paulo FC",
+    "SãoPaulo"
   ],
   "sport": [
     "Sport",
-    "Sport Recife PE"
+    "Sport Recife PE",
+    "Sport Recife"
   ],
   "vasco": [
     "Vasco",
     "CR Vasco da Gama",
-    "Vasco da Gama"
+    "Vasco da Gama",
+    "Vasco da Gama RJ"
   ],
   "vitoria": [
     "Vitoria",
     "EC Vitória",
-    "Vitória BA"
+    "Vitória BA",
+    "Vitória-BA"
   ]
 }

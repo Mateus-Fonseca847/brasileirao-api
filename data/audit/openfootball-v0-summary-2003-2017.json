@@ -1,0 +1,165 @@
+{
+  "fonte": "openfootball_v0",
+  "intervalo": {
+    "inicio": 2003,
+    "fim": 2017
+  },
+  "geradoEm": "2026-08-30T04:51:27.083Z",
+  "resumo": {
+    "temporadasAnalisadas": 15,
+    "temporadasInterpretadas": 15,
+    "temporadasComRevisao": 0
+  },
+  "temporadas": [
+    {
+      "temporada": 2003,
+      "partidas": 552,
+      "equipes": 24,
+      "rodadas": 46,
+      "gols": 1592,
+      "linhasNaoInterpretadas": 0,
+      "linhasIgnoradas": 0,
+      "status": "PARSED"
+    },
+    {
+      "temporada": 2004,
+      "partidas": 552,
+      "equipes": 24,
+      "rodadas": 46,
+      "gols": 1534,
+      "linhasNaoInterpretadas": 0,
+      "linhasIgnoradas": 1,
+      "status": "PARSED"
+    },
+    {
+      "temporada": 2005,
+      "partidas": 473,
+      "equipes": 27,
+      "rodadas": 42,
+      "gols": 1490,
+      "linhasNaoInterpretadas": 0,
+      "linhasIgnoradas": 0,
+      "status": "PARSED"
+    },
+    {
+      "temporada": 2006,
+      "partidas": 380,
+      "equipes": 22,
+      "rodadas": 38,
+      "gols": 1030,
+      "linhasNaoInterpretadas": 0,
+      "linhasIgnoradas": 0,
+      "status": "PARSED"
+    },
+    {
+      "temporada": 2007,
+      "partidas": 380,
+      "equipes": 27,
+      "rodadas": 38,
+      "gols": 1047,
+      "linhasNaoInterpretadas": 0,
+      "linhasIgnoradas": 0,
+      "status": "PARSED"
+    },
+    {
+      "temporada": 2008,
+      "partidas": 380,
+      "equipes": 23,
+      "rodadas": 38,
+      "gols": 1035,
+      "linhasNaoInterpretadas": 0,
+      "linhasIgnoradas": 0,
+      "status": "PARSED"
+    },
+    {
+      "temporada": 2009,
+      "partidas": 380,
+      "equipes": 25,
+      "rodadas": 38,
+      "gols": 1094,
+      "linhasNaoInterpretadas": 0,
+      "linhasIgnoradas": 0,
+      "status": "PARSED"
+    },
+    {
+      "temporada": 2010,
+      "partidas": 380,
+      "equipes": 22,
+      "rodadas": 38,
+      "gols": 978,
+      "linhasNaoInterpretadas": 0,
+      "linhasIgnoradas": 0,
+      "status": "PARSED"
+    },
+    {
+      "temporada": 2011,
+      "partidas": 380,
+      "equipes": 20,
+      "rodadas": 38,
+      "gols": 1017,
+      "linhasNaoInterpretadas": 0,
+      "linhasIgnoradas": 0,
+      "status": "PARSED"
+    },
+    {
+      "temporada": 2012,
+      "partidas": 380,
+      "equipes": 20,
+      "rodadas": 38,
+      "gols": 940,
+      "linhasNaoInterpretadas": 0,
+      "linhasIgnoradas": 0,
+      "status": "PARSED"
+    },
+    {
+      "temporada": 2013,
+      "partidas": 380,
+      "equipes": 20,
+      "rodadas": 38,
+      "gols": 936,
+      "linhasNaoInterpretadas": 0,
+      "linhasIgnoradas": 0,
+      "status": "PARSED"
+    },
+    {
+      "temporada": 2014,
+      "partidas": 380,
+      "equipes": 20,
+      "rodadas": 38,
+      "gols": 860,
+      "linhasNaoInterpretadas": 0,
+      "linhasIgnoradas": 0,
+      "status": "PARSED"
+    },
+    {
+      "temporada": 2015,
+      "partidas": 380,
+      "equipes": 20,
+      "rodadas": 38,
+      "gols": 897,
+      "linhasNaoInterpretadas": 0,
+      "linhasIgnoradas": 0,
+      "status": "PARSED"
+    },
+    {
+      "temporada": 2016,
+      "partidas": 379,
+      "equipes": 20,
+      "rodadas": 38,
+      "gols": 912,
+      "linhasNaoInterpretadas": 0,
+      "linhasIgnoradas": 0,
+      "status": "PARSED"
+    },
+    {
+      "temporada": 2017,
+      "partidas": 380,
+      "equipes": 20,
+      "rodadas": 38,
+      "gols": 923,
+      "linhasNaoInterpretadas": 0,
+      "linhasIgnoradas": 0,
+      "status": "PARSED"
+    }
+  ]
+}
