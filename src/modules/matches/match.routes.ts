@@ -1,6 +1,12 @@
 import type { FastifyInstance } from "fastify";
 
 import { HttpError } from "../../http/errors.js";
+import {
+  errorResponseSchema,
+  matchResponseSchema,
+  matchStatsResponseSchema,
+  paginatedMatchesResponseSchema,
+} from "../../http/openapi.js";
 import { validateRequest } from "../../http/validation.js";
 import { mapMatchStatsToResponse, mapMatchToResponse } from "./match.mapper.js";
 import { matchIdParamsSchema, matchQuerySchema } from "./match.schemas.js";
@@ -19,7 +25,45 @@ export async function registerMatchRoutes(app: FastifyInstance): Promise<void> {
       page?: string;
       limit?: string;
     };
-  }>("/matches", async (request) => {
+  }>(
+    "/matches",
+    {
+      schema: {
+        tags: ["matches"],
+        summary: "List matches with filters and pagination",
+        querystring: {
+          type: "object",
+          properties: {
+            season: {
+              type: "string",
+              description: "Season year greater than or equal to 2003.",
+            },
+            team: {
+              type: "string",
+              description: "Canonical lowercase kebab-case team slug.",
+            },
+            round: {
+              type: "string",
+              description: "Positive round number.",
+            },
+            page: {
+              type: "string",
+              description: "Positive page number. Defaults to 1.",
+            },
+            limit: {
+              type: "string",
+              description: "Positive page size. Defaults to 50, maximum 100.",
+            },
+          },
+        },
+        response: {
+          200: paginatedMatchesResponseSchema,
+          400: errorResponseSchema,
+          404: errorResponseSchema,
+        },
+      },
+    },
+    async (request) => {
     const filters = validateRequest(matchQuerySchema, request.query);
     const result = await listMatches(filters);
 
@@ -44,13 +88,37 @@ export async function registerMatchRoutes(app: FastifyInstance): Promise<void> {
         totalPages: Math.ceil(result.total / filters.limit),
       },
     };
-  });
+    },
+  );
 
   app.get<{
     Params: {
       id: string;
     };
-  }>("/matches/:id/stats", async (request) => {
+  }>(
+    "/matches/:id/stats",
+    {
+      schema: {
+        tags: ["matches"],
+        summary: "Get match team statistics",
+        params: {
+          type: "object",
+          required: ["id"],
+          properties: {
+            id: {
+              type: "string",
+              description: "Public match UUID.",
+            },
+          },
+        },
+        response: {
+          200: matchStatsResponseSchema,
+          400: errorResponseSchema,
+          404: errorResponseSchema,
+        },
+      },
+    },
+    async (request) => {
     const { id } = validateRequest(matchIdParamsSchema, request.params);
     const match = await findMatchStatsById(id);
 
@@ -59,13 +127,37 @@ export async function registerMatchRoutes(app: FastifyInstance): Promise<void> {
     }
 
     return mapMatchStatsToResponse(match);
-  });
+    },
+  );
 
   app.get<{
     Params: {
       id: string;
     };
-  }>("/matches/:id", async (request) => {
+  }>(
+    "/matches/:id",
+    {
+      schema: {
+        tags: ["matches"],
+        summary: "Get a match by id",
+        params: {
+          type: "object",
+          required: ["id"],
+          properties: {
+            id: {
+              type: "string",
+              description: "Public match UUID.",
+            },
+          },
+        },
+        response: {
+          200: matchResponseSchema,
+          400: errorResponseSchema,
+          404: errorResponseSchema,
+        },
+      },
+    },
+    async (request) => {
     const { id } = validateRequest(matchIdParamsSchema, request.params);
     const match = await findMatchById(id);
 
@@ -74,5 +166,6 @@ export async function registerMatchRoutes(app: FastifyInstance): Promise<void> {
     }
 
     return mapMatchToResponse(match);
-  });
+    },
+  );
 }

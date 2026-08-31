@@ -1,6 +1,7 @@
 import Fastify, { type FastifyInstance } from "fastify";
 
 import { registerErrorHandler } from "./http/errors.js";
+import { registerOpenApi } from "./http/openapi.js";
 import { registerHealthRoute } from "./http/routes/health.js";
 import { registerMatchRoutes } from "./modules/matches/match.routes.js";
 import { registerSeasonRoutes } from "./modules/seasons/season.routes.js";
@@ -13,6 +14,7 @@ export async function buildApp(): Promise<FastifyInstance> {
   });
 
   registerErrorHandler(app);
+  await registerOpenApi(app);
   await registerHealthRoute(app);
   await registerMatchRoutes(app);
   await registerSeasonRoutes(app);
