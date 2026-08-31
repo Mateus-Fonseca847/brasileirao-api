@@ -3,6 +3,7 @@ import Fastify, { type FastifyInstance } from "fastify";
 import { registerErrorHandler } from "./http/errors.js";
 import { registerOpenApi } from "./http/openapi.js";
 import { registerHealthRoute } from "./http/routes/health.js";
+import { registerSecurity } from "./http/security.js";
 import { registerMatchRoutes } from "./modules/matches/match.routes.js";
 import { registerSeasonRoutes } from "./modules/seasons/season.routes.js";
 import { registerStandingRoutes } from "./modules/standings/standing.routes.js";
@@ -14,6 +15,7 @@ export async function buildApp(): Promise<FastifyInstance> {
   });
 
   registerErrorHandler(app);
+  await registerSecurity(app);
   await registerOpenApi(app);
   await registerHealthRoute(app);
   await registerMatchRoutes(app);
