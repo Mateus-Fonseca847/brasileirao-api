@@ -62,7 +62,7 @@ describe("season routes", () => {
     });
   });
 
-  it("returns bad request when the season year is invalid", async () => {
+  it("returns bad request when the season year is text", async () => {
     const response = await app.inject({
       method: "GET",
       url: "/seasons/abc",
@@ -71,6 +71,32 @@ describe("season routes", () => {
     expect(response.statusCode).toBe(400);
     expect(response.json()).toEqual({
       error: "Season year must be a valid integer.",
+      statusCode: 400,
+    });
+  });
+
+  it("returns bad request when the season year is decimal", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/seasons/2024.5",
+    });
+
+    expect(response.statusCode).toBe(400);
+    expect(response.json()).toEqual({
+      error: "Season year must be a valid integer.",
+      statusCode: 400,
+    });
+  });
+
+  it("returns bad request when the season year is below 2003", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/seasons/2002",
+    });
+
+    expect(response.statusCode).toBe(400);
+    expect(response.json()).toEqual({
+      error: "Season year must be greater than or equal to 2003.",
       statusCode: 400,
     });
   });
