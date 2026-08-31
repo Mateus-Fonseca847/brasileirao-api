@@ -1,0 +1,90 @@
+[
+  {
+    "season": 2003,
+    "team": "sao-caetano",
+    "adjustment": 3,
+    "provenance": "DERIVED_FROM_FINAL_POINTS",
+    "source": "czekster",
+    "reason": null
+  },
+  {
+    "season": 2003,
+    "team": "internacional",
+    "adjustment": 2,
+    "provenance": "DERIVED_FROM_FINAL_POINTS",
+    "source": "czekster",
+    "reason": null
+  },
+  {
+    "season": 2003,
+    "team": "corinthians",
+    "adjustment": 2,
+    "provenance": "DERIVED_FROM_FINAL_POINTS",
+    "source": "czekster",
+    "reason": null
+  },
+  {
+    "season": 2003,
+    "team": "juventude",
+    "adjustment": 3,
+    "provenance": "DERIVED_FROM_FINAL_POINTS",
+    "source": "czekster",
+    "reason": null
+  },
+  {
+    "season": 2003,
+    "team": "fluminense",
+    "adjustment": 2,
+    "provenance": "DERIVED_FROM_FINAL_POINTS",
+    "source": "czekster",
+    "reason": null
+  },
+  {
+    "season": 2003,
+    "team": "ponte-preta",
+    "adjustment": -1,
+    "provenance": "DERIVED_FROM_FINAL_POINTS",
+    "source": "czekster",
+    "reason": null
+  },
+  {
+    "season": 2003,
+    "team": "paysandu",
+    "adjustment": -8,
+    "provenance": "DERIVED_FROM_FINAL_POINTS",
+    "source": "czekster",
+    "reason": null
+  },
+  {
+    "season": 2004,
+    "team": "sao-caetano",
+    "adjustment": -24,
+    "provenance": "DERIVED_FROM_FINAL_POINTS",
+    "source": "czekster",
+    "reason": null
+  },
+  {
+    "season": 2010,
+    "team": "gremio-barueri",
+    "adjustment": -3,
+    "provenance": "DERIVED_FROM_FINAL_POINTS",
+    "source": "czekster",
+    "reason": null
+  },
+  {
+    "season": 2013,
+    "team": "flamengo",
+    "adjustment": -4,
+    "provenance": "DERIVED_FROM_FINAL_POINTS",
+    "source": "czekster",
+    "reason": null
+  },
+  {
+    "season": 2013,
+    "team": "portuguesa",
+    "adjustment": -4,
+    "provenance": "DERIVED_FROM_FINAL_POINTS",
+    "source": "czekster",
+    "reason": null
+  }
+]

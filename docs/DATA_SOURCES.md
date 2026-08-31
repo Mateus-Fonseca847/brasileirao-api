@@ -169,7 +169,7 @@ status: validation_only
 ## Cobertura conhecida
 
 ```text
-2003 → 2024
+2003 → 2019
 ```
 
 ## Dados disponíveis
