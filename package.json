@@ -16,13 +16,16 @@
     "audit:historical-range": "tsx scripts/audit/audit-historical-range.ts",
     "audit:team-aliases-range": "tsx scripts/audit/audit-team-aliases-range.ts",
     "audit:czekster-standings": "tsx scripts/audit/audit-czekster-standings.ts",
+    "audit:adaoduque-cards": "tsx scripts/audit/audit-adaoduque-cards.ts",
     "normalize:standings": "tsx scripts/normalization/generate-standings.ts",
+    "normalize:match-team-cards": "tsx scripts/normalization/generate-match-team-cards.ts",
     "db:check": "tsx scripts/database/check-connection.ts",
     "db:import:seasons": "tsx scripts/database/import-seasons.ts",
     "db:import:teams": "tsx scripts/database/import-teams.ts",
     "db:import:season-teams": "tsx scripts/database/import-season-teams.ts",
     "db:import:matches": "tsx scripts/database/import-matches.ts",
     "db:import:match-team-stats": "tsx scripts/database/import-match-team-stats.ts",
+    "db:import:match-team-cards": "tsx scripts/database/import-match-team-cards.ts",
     "db:import:standings": "tsx scripts/database/import-standings.ts"
   },
   "dependencies": {
