@@ -8,6 +8,7 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc -p tsconfig.build.json",
     "start": "node dist/src/server.js",
+    "test": "vitest run",
     "audit:adaoduque": "tsx scripts/audit/audit-adaoduque.ts",
     "audit:openfootball:2024": "tsx scripts/audit/audit-openfootball-2024.ts",
     "data:download:openfootball": "tsx scripts/acquisition/download-openfootball.ts",
@@ -44,6 +45,7 @@
     "@types/pg": "^8.23.1",
     "prisma": "^7.10.0",
     "tsx": "^4.0.0",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "vitest": "^4.1.11"
   }
 }
