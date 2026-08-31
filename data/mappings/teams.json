@@ -1,0 +1,178 @@
+[
+  {
+    "slug": "america-mg",
+    "name": "América Mineiro"
+  },
+  {
+    "slug": "america-rn",
+    "name": "America-RN"
+  },
+  {
+    "slug": "athletico-pr",
+    "name": "Athletico Paranaense"
+  },
+  {
+    "slug": "atletico-go",
+    "name": "Atlético Goianiense"
+  },
+  {
+    "slug": "atletico-mg",
+    "name": "Atlético Mineiro"
+  },
+  {
+    "slug": "avai",
+    "name": "Avai"
+  },
+  {
+    "slug": "bahia",
+    "name": "Bahia"
+  },
+  {
+    "slug": "botafogo",
+    "name": "Botafogo"
+  },
+  {
+    "slug": "bragantino",
+    "name": "Red Bull Bragantino"
+  },
+  {
+    "slug": "brasiliense",
+    "name": "Brasiliense"
+  },
+  {
+    "slug": "ceara",
+    "name": "Ceará CE"
+  },
+  {
+    "slug": "chapecoense",
+    "name": "Chapecoense"
+  },
+  {
+    "slug": "corinthians",
+    "name": "Corinthians"
+  },
+  {
+    "slug": "coritiba",
+    "name": "Coritiba"
+  },
+  {
+    "slug": "criciuma",
+    "name": "Criciuma"
+  },
+  {
+    "slug": "cruzeiro",
+    "name": "Cruzeiro"
+  },
+  {
+    "slug": "csa",
+    "name": "CSA"
+  },
+  {
+    "slug": "cuiaba",
+    "name": "Cuiaba"
+  },
+  {
+    "slug": "figueirense",
+    "name": "Figueirense"
+  },
+  {
+    "slug": "flamengo",
+    "name": "Flamengo"
+  },
+  {
+    "slug": "fluminense",
+    "name": "Fluminense"
+  },
+  {
+    "slug": "fortaleza",
+    "name": "Fortaleza"
+  },
+  {
+    "slug": "goias",
+    "name": "Goias"
+  },
+  {
+    "slug": "gremio",
+    "name": "Gremio"
+  },
+  {
+    "slug": "gremio-barueri",
+    "name": "Grêmio Barueri"
+  },
+  {
+    "slug": "guarani",
+    "name": "Guarani"
+  },
+  {
+    "slug": "internacional",
+    "name": "Internacional"
+  },
+  {
+    "slug": "ipatinga",
+    "name": "Ipatinga"
+  },
+  {
+    "slug": "joinville",
+    "name": "Joinville"
+  },
+  {
+    "slug": "juventude",
+    "name": "Juventude"
+  },
+  {
+    "slug": "nautico",
+    "name": "Nautico"
+  },
+  {
+    "slug": "palmeiras",
+    "name": "Palmeiras"
+  },
+  {
+    "slug": "parana",
+    "name": "Paraná Clube"
+  },
+  {
+    "slug": "paysandu",
+    "name": "Paysandu"
+  },
+  {
+    "slug": "ponte-preta",
+    "name": "Ponte Preta"
+  },
+  {
+    "slug": "portuguesa",
+    "name": "Portuguesa"
+  },
+  {
+    "slug": "santa-cruz",
+    "name": "Santa Cruz"
+  },
+  {
+    "slug": "santo-andre",
+    "name": "Santo Andre"
+  },
+  {
+    "slug": "santos",
+    "name": "Santos"
+  },
+  {
+    "slug": "sao-caetano",
+    "name": "Sao Caetano"
+  },
+  {
+    "slug": "sao-paulo",
+    "name": "Sao Paulo"
+  },
+  {
+    "slug": "sport",
+    "name": "Sport Recife"
+  },
+  {
+    "slug": "vasco",
+    "name": "Vasco da Gama"
+  },
+  {
+    "slug": "vitoria",
+    "name": "Vitoria"
+  }
+]
