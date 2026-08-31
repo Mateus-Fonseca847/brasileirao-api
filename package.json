@@ -17,7 +17,8 @@
     "audit:team-aliases-range": "tsx scripts/audit/audit-team-aliases-range.ts",
     "db:check": "tsx scripts/database/check-connection.ts",
     "db:import:seasons": "tsx scripts/database/import-seasons.ts",
-    "db:import:teams": "tsx scripts/database/import-teams.ts"
+    "db:import:teams": "tsx scripts/database/import-teams.ts",
+    "db:import:season-teams": "tsx scripts/database/import-season-teams.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.0",
