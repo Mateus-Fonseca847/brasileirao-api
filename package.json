@@ -19,7 +19,8 @@
     "db:import:seasons": "tsx scripts/database/import-seasons.ts",
     "db:import:teams": "tsx scripts/database/import-teams.ts",
     "db:import:season-teams": "tsx scripts/database/import-season-teams.ts",
-    "db:import:matches": "tsx scripts/database/import-matches.ts"
+    "db:import:matches": "tsx scripts/database/import-matches.ts",
+    "db:import:match-team-stats": "tsx scripts/database/import-match-team-stats.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.0",
