@@ -14,6 +14,12 @@ const matchInclude = {
   awayTeam: true,
 } satisfies Prisma.MatchInclude;
 
+const matchStatsInclude = {
+  homeTeam: true,
+  awayTeam: true,
+  teamStats: true,
+} satisfies Prisma.MatchInclude;
+
 export type MatchListResult =
   | {
       status: "ok";
@@ -103,5 +109,14 @@ export function findMatchById(id: string) {
       id,
     },
     include: matchInclude,
+  });
+}
+
+export function findMatchStatsById(id: string) {
+  return prisma.match.findUnique({
+    where: {
+      id,
+    },
+    include: matchStatsInclude,
   });
 }

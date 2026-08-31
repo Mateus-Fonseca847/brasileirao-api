@@ -2,9 +2,13 @@ import type { FastifyInstance } from "fastify";
 
 import { HttpError } from "../../http/errors.js";
 import { validateRequest } from "../../http/validation.js";
-import { mapMatchToResponse } from "./match.mapper.js";
+import { mapMatchStatsToResponse, mapMatchToResponse } from "./match.mapper.js";
 import { matchIdParamsSchema, matchQuerySchema } from "./match.schemas.js";
-import { findMatchById, listMatches } from "./match.service.js";
+import {
+  findMatchById,
+  findMatchStatsById,
+  listMatches,
+} from "./match.service.js";
 
 export async function registerMatchRoutes(app: FastifyInstance): Promise<void> {
   app.get<{
@@ -30,6 +34,21 @@ export async function registerMatchRoutes(app: FastifyInstance): Promise<void> {
     }
 
     return result.matches.map(mapMatchToResponse);
+  });
+
+  app.get<{
+    Params: {
+      id: string;
+    };
+  }>("/matches/:id/stats", async (request) => {
+    const { id } = validateRequest(matchIdParamsSchema, request.params);
+    const match = await findMatchStatsById(id);
+
+    if (!match) {
+      throw new HttpError(404, "Match not found.");
+    }
+
+    return mapMatchStatsToResponse(match);
   });
 
   app.get<{

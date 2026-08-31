@@ -34,6 +34,20 @@ type PublicMatch = {
   };
 };
 
+type PublicMatchStats = {
+  matchId: string;
+  home: PublicTeamStats;
+  away: PublicTeamStats;
+};
+
+type PublicTeamStats = {
+  team: PublicMatch["homeTeam"];
+  shots: number | null;
+  possession: number | null;
+  yellowCards: number | null;
+  redCards: number | null;
+};
+
 function expectNoInternalMatchFields(match: Record<string, unknown>): void {
   expect(match).not.toHaveProperty("seasonId");
   expect(match).not.toHaveProperty("homeTeamId");
@@ -46,6 +60,21 @@ function expectNoInternalMatchFields(match: Record<string, unknown>): void {
   expect(match.awayTeam).not.toHaveProperty("id");
   expect(match.awayTeam).not.toHaveProperty("createdAt");
   expect(match.awayTeam).not.toHaveProperty("updatedAt");
+}
+
+function expectNoInternalStatsFields(stats: PublicMatchStats): void {
+  expect(stats.home).not.toHaveProperty("id");
+  expect(stats.home).not.toHaveProperty("createdAt");
+  expect(stats.home).not.toHaveProperty("updatedAt");
+  expect(stats.away).not.toHaveProperty("id");
+  expect(stats.away).not.toHaveProperty("createdAt");
+  expect(stats.away).not.toHaveProperty("updatedAt");
+  expect(stats.home.team).not.toHaveProperty("id");
+  expect(stats.home.team).not.toHaveProperty("createdAt");
+  expect(stats.home.team).not.toHaveProperty("updatedAt");
+  expect(stats.away.team).not.toHaveProperty("id");
+  expect(stats.away.team).not.toHaveProperty("createdAt");
+  expect(stats.away.team).not.toHaveProperty("updatedAt");
 }
 
 describe("match routes", () => {
@@ -246,6 +275,134 @@ describe("match routes", () => {
     expect(response.json()).toEqual({
       error: "Match id must be a valid UUID.",
       statusCode: 400,
+    });
+  });
+
+  it("returns match stats with home and away teams", async () => {
+    const listResponse = await app.inject({
+      method: "GET",
+      url: "/matches?season=2024&round=1",
+    });
+    const [match] = listResponse.json<PublicMatch[]>();
+    const response = await app.inject({
+      method: "GET",
+      url: `/matches/${match?.id}/stats`,
+    });
+    const body = response.json<PublicMatchStats>();
+
+    expect(response.statusCode).toBe(200);
+    expect(body.matchId).toBe(match?.id);
+    expect(body.home.team).toEqual(match?.homeTeam);
+    expect(body.away.team).toEqual(match?.awayTeam);
+    expectNoInternalStatsFields(body);
+  });
+
+  it("returns bad request for malformed stats match id", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/matches/not-a-uuid/stats",
+    });
+
+    expect(response.statusCode).toBe(400);
+    expect(response.json()).toEqual({
+      error: "Match id must be a valid UUID.",
+      statusCode: 400,
+    });
+  });
+
+  it("returns not found for an unknown stats match id", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/matches/00000000-0000-4000-8000-000000000000/stats",
+    });
+
+    expect(response.statusCode).toBe(404);
+    expect(response.json()).toEqual({
+      error: "Match not found.",
+      statusCode: 404,
+    });
+  });
+
+  it("returns unavailable 2003 stats as null", async () => {
+    const listResponse = await app.inject({
+      method: "GET",
+      url: "/matches?season=2003&round=1",
+    });
+    const [match] = listResponse.json<PublicMatch[]>();
+    const response = await app.inject({
+      method: "GET",
+      url: `/matches/${match?.id}/stats`,
+    });
+    const body = response.json<PublicMatchStats>();
+
+    expect(response.statusCode).toBe(200);
+    expect(body.home).toMatchObject({
+      shots: null,
+      possession: null,
+      yellowCards: null,
+      redCards: null,
+    });
+    expect(body.away).toMatchObject({
+      shots: null,
+      possession: null,
+      yellowCards: null,
+      redCards: null,
+    });
+  });
+
+  it("preserves 2024 shots and possession as null while card values are available", async () => {
+    const listResponse = await app.inject({
+      method: "GET",
+      url: "/matches?season=2024&round=1",
+    });
+    const [match] = listResponse.json<PublicMatch[]>();
+    const response = await app.inject({
+      method: "GET",
+      url: `/matches/${match?.id}/stats`,
+    });
+    const body = response.json<PublicMatchStats>();
+
+    expect(response.statusCode).toBe(200);
+    expect(body.home.shots).toBeNull();
+    expect(body.home.possession).toBeNull();
+    expect(body.away.shots).toBeNull();
+    expect(body.away.possession).toBeNull();
+    expect(body.home.yellowCards).not.toBeNull();
+    expect(body.home.redCards).not.toBeNull();
+    expect(body.away.yellowCards).not.toBeNull();
+    expect(body.away.redCards).not.toBeNull();
+  });
+
+  it("returns validated shots and possession when available", async () => {
+    const listResponse = await app.inject({
+      method: "GET",
+      url: "/matches?season=2015&round=1&team=fluminense",
+    });
+    const [match] = listResponse.json<PublicMatch[]>();
+    const response = await app.inject({
+      method: "GET",
+      url: `/matches/${match?.id}/stats`,
+    });
+    const body = response.json<PublicMatchStats>();
+
+    expect(response.statusCode).toBe(200);
+    expect(body.home).toMatchObject({
+      team: {
+        slug: "fluminense",
+      },
+      shots: 26,
+      possession: 74,
+      yellowCards: 2,
+      redCards: 0,
+    });
+    expect(body.away).toMatchObject({
+      team: {
+        slug: "joinville",
+      },
+      shots: 3,
+      possession: 26,
+      yellowCards: 1,
+      redCards: 1,
     });
   });
 });
