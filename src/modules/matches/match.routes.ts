@@ -16,6 +16,8 @@ export async function registerMatchRoutes(app: FastifyInstance): Promise<void> {
       season?: string;
       team?: string;
       round?: string;
+      page?: string;
+      limit?: string;
     };
   }>("/matches", async (request) => {
     const filters = validateRequest(matchQuerySchema, request.query);
@@ -33,7 +35,15 @@ export async function registerMatchRoutes(app: FastifyInstance): Promise<void> {
       throw new HttpError(500, "Unexpected match query result.");
     }
 
-    return result.matches.map(mapMatchToResponse);
+    return {
+      data: result.matches.map(mapMatchToResponse),
+      pagination: {
+        page: filters.page,
+        limit: filters.limit,
+        total: result.total,
+        totalPages: Math.ceil(result.total / filters.limit),
+      },
+    };
   });
 
   app.get<{

@@ -48,6 +48,16 @@ type PublicTeamStats = {
   redCards: number | null;
 };
 
+type PaginatedMatchesResponse = {
+  data: PublicMatch[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+};
+
 function expectNoInternalMatchFields(match: Record<string, unknown>): void {
   expect(match).not.toHaveProperty("seasonId");
   expect(match).not.toHaveProperty("homeTeamId");
@@ -95,12 +105,20 @@ describe("match routes", () => {
       method: "GET",
       url: "/matches?season=2024",
     });
-    const body = response.json<PublicMatch[]>();
+    const body = response.json<PaginatedMatchesResponse>();
 
     expect(response.statusCode).toBe(200);
-    expect(body).toHaveLength(380);
-    expect(body.every((match) => match.season === 2024)).toBe(true);
-    expectNoInternalMatchFields(body[0] as unknown as Record<string, unknown>);
+    expect(body.data).toHaveLength(50);
+    expect(body.pagination).toEqual({
+      page: 1,
+      limit: 50,
+      total: 380,
+      totalPages: 8,
+    });
+    expect(body.data.every((match) => match.season === 2024)).toBe(true);
+    expectNoInternalMatchFields(
+      body.data[0] as unknown as Record<string, unknown>,
+    );
   });
 
   it("returns 2016 matches filtered by season", async () => {
@@ -110,7 +128,7 @@ describe("match routes", () => {
     });
 
     expect(response.statusCode).toBe(200);
-    expect(response.json()).toHaveLength(379);
+    expect(response.json<PaginatedMatchesResponse>().pagination.total).toBe(379);
   });
 
   it("returns matches filtered by team", async () => {
@@ -118,12 +136,12 @@ describe("match routes", () => {
       method: "GET",
       url: "/matches?team=flamengo",
     });
-    const body = response.json<PublicMatch[]>();
+    const body = response.json<PaginatedMatchesResponse>();
 
     expect(response.statusCode).toBe(200);
-    expect(body.length).toBeGreaterThan(0);
+    expect(body.data.length).toBeGreaterThan(0);
     expect(
-      body.every(
+      body.data.every(
         (match) =>
           match.homeTeam.slug === "flamengo" ||
           match.awayTeam.slug === "flamengo",
@@ -136,12 +154,13 @@ describe("match routes", () => {
       method: "GET",
       url: "/matches?season=2024&team=flamengo",
     });
-    const body = response.json<PublicMatch[]>();
+    const body = response.json<PaginatedMatchesResponse>();
 
     expect(response.statusCode).toBe(200);
-    expect(body).toHaveLength(38);
+    expect(body.data).toHaveLength(38);
+    expect(body.pagination.total).toBe(38);
     expect(
-      body.every(
+      body.data.every(
         (match) =>
           match.season === 2024 &&
           (match.homeTeam.slug === "flamengo" ||
@@ -155,13 +174,14 @@ describe("match routes", () => {
       method: "GET",
       url: "/matches?season=2024&round=1",
     });
-    const body = response.json<PublicMatch[]>();
+    const body = response.json<PaginatedMatchesResponse>();
 
     expect(response.statusCode).toBe(200);
-    expect(body).toHaveLength(10);
-    expect(body.every((match) => match.season === 2024 && match.round === 1)).toBe(
-      true,
-    );
+    expect(body.data).toHaveLength(10);
+    expect(body.pagination.total).toBe(10);
+    expect(
+      body.data.every((match) => match.season === 2024 && match.round === 1),
+    ).toBe(true);
   });
 
   it("combines season, team and round filters", async () => {
@@ -169,12 +189,12 @@ describe("match routes", () => {
       method: "GET",
       url: "/matches?season=2024&team=flamengo&round=1",
     });
-    const body = response.json<PublicMatch[]>();
+    const body = response.json<PaginatedMatchesResponse>();
 
     expect(response.statusCode).toBe(200);
-    expect(body.length).toBeGreaterThan(0);
+    expect(body.data.length).toBeGreaterThan(0);
     expect(
-      body.every(
+      body.data.every(
         (match) =>
           match.season === 2024 &&
           match.round === 1 &&
@@ -191,13 +211,122 @@ describe("match routes", () => {
     });
 
     expect(response.statusCode).toBe(200);
-    expect(response.json()).toEqual([]);
+    expect(response.json<PaginatedMatchesResponse>()).toMatchObject({
+      data: [],
+      pagination: {
+        page: 1,
+        limit: 50,
+        total: 0,
+        totalPages: 0,
+      },
+    });
+  });
+
+  it("uses the default page and limit", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/matches?season=2024",
+    });
+    const body = response.json<PaginatedMatchesResponse>();
+
+    expect(response.statusCode).toBe(200);
+    expect(body.data).toHaveLength(50);
+    expect(body.pagination).toEqual({
+      page: 1,
+      limit: 50,
+      total: 380,
+      totalPages: 8,
+    });
+  });
+
+  it("returns the requested limit", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/matches?season=2024&limit=10",
+    });
+    const body = response.json<PaginatedMatchesResponse>();
+
+    expect(response.statusCode).toBe(200);
+    expect(body.data).toHaveLength(10);
+    expect(body.pagination).toEqual({
+      page: 1,
+      limit: 10,
+      total: 380,
+      totalPages: 38,
+    });
+  });
+
+  it("returns the requested page", async () => {
+    const firstPageResponse = await app.inject({
+      method: "GET",
+      url: "/matches?season=2024&limit=10",
+    });
+    const secondPageResponse = await app.inject({
+      method: "GET",
+      url: "/matches?season=2024&limit=10&page=2",
+    });
+    const firstPage = firstPageResponse.json<PaginatedMatchesResponse>();
+    const secondPage = secondPageResponse.json<PaginatedMatchesResponse>();
+
+    expect(secondPageResponse.statusCode).toBe(200);
+    expect(secondPage.data).toHaveLength(10);
+    expect(secondPage.pagination).toEqual({
+      page: 2,
+      limit: 10,
+      total: 380,
+      totalPages: 38,
+    });
+    expect(secondPage.data[0]?.id).not.toBe(firstPage.data[0]?.id);
+  });
+
+  it("combines filters with pagination", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/matches?season=2024&team=flamengo&limit=10&page=2",
+    });
+    const body = response.json<PaginatedMatchesResponse>();
+
+    expect(response.statusCode).toBe(200);
+    expect(body.data).toHaveLength(10);
+    expect(body.pagination).toEqual({
+      page: 2,
+      limit: 10,
+      total: 38,
+      totalPages: 4,
+    });
+    expect(
+      body.data.every(
+        (match) =>
+          match.season === 2024 &&
+          (match.homeTeam.slug === "flamengo" ||
+            match.awayTeam.slug === "flamengo"),
+      ),
+    ).toBe(true);
+  });
+
+  it("returns an empty page beyond the available range", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/matches?season=2024&limit=100&page=99",
+    });
+    const body = response.json<PaginatedMatchesResponse>();
+
+    expect(response.statusCode).toBe(200);
+    expect(body.data).toEqual([]);
+    expect(body.pagination).toEqual({
+      page: 99,
+      limit: 100,
+      total: 380,
+      totalPages: 4,
+    });
   });
 
   it.each([
     ["/matches?season=abc", "Season year must be a valid integer."],
     ["/matches?round=0", "Round must be a positive integer."],
     ["/matches?team=Flamengo", "Team slug must be a lowercase kebab-case string."],
+    ["/matches?limit=101", "Limit must be less than or equal to 100."],
+    ["/matches?page=0", "Page must be a positive integer."],
   ])("returns bad request for invalid query %s", async (url, message) => {
     const response = await app.inject({
       method: "GET",
@@ -242,7 +371,7 @@ describe("match routes", () => {
       method: "GET",
       url: "/matches?season=2024&round=1",
     });
-    const [match] = listResponse.json<PublicMatch[]>();
+    const [match] = listResponse.json<PaginatedMatchesResponse>().data;
     const response = await app.inject({
       method: "GET",
       url: `/matches/${match?.id}`,
@@ -283,7 +412,7 @@ describe("match routes", () => {
       method: "GET",
       url: "/matches?season=2024&round=1",
     });
-    const [match] = listResponse.json<PublicMatch[]>();
+    const [match] = listResponse.json<PaginatedMatchesResponse>().data;
     const response = await app.inject({
       method: "GET",
       url: `/matches/${match?.id}/stats`,
@@ -328,7 +457,7 @@ describe("match routes", () => {
       method: "GET",
       url: "/matches?season=2003&round=1",
     });
-    const [match] = listResponse.json<PublicMatch[]>();
+    const [match] = listResponse.json<PaginatedMatchesResponse>().data;
     const response = await app.inject({
       method: "GET",
       url: `/matches/${match?.id}/stats`,
@@ -355,7 +484,7 @@ describe("match routes", () => {
       method: "GET",
       url: "/matches?season=2024&round=1",
     });
-    const [match] = listResponse.json<PublicMatch[]>();
+    const [match] = listResponse.json<PaginatedMatchesResponse>().data;
     const response = await app.inject({
       method: "GET",
       url: `/matches/${match?.id}/stats`,
@@ -378,7 +507,7 @@ describe("match routes", () => {
       method: "GET",
       url: "/matches?season=2015&round=1&team=fluminense",
     });
-    const [match] = listResponse.json<PublicMatch[]>();
+    const [match] = listResponse.json<PaginatedMatchesResponse>().data;
     const response = await app.inject({
       method: "GET",
       url: `/matches/${match?.id}/stats`,

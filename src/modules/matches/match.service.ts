@@ -6,6 +6,8 @@ export type MatchFilters = {
   season?: number;
   team?: string;
   round?: number;
+  page: number;
+  limit: number;
 };
 
 const matchInclude = {
@@ -24,6 +26,7 @@ export type MatchListResult =
   | {
       status: "ok";
       matches: Prisma.MatchGetPayload<{ include: typeof matchInclude }>[];
+      total: number;
     }
   | {
       status: "season_not_found" | "team_not_found";
@@ -83,23 +86,35 @@ export async function listMatches(
     where.round = filters.round;
   }
 
-  return {
-    status: "ok",
-    matches: await prisma.match.findMany({
+  const skip = (filters.page - 1) * filters.limit;
+  const orderBy = [
+    {
+      matchDate: "asc",
+    },
+    {
+      kickoffTime: "asc",
+    },
+    {
+      id: "asc",
+    },
+  ] satisfies Prisma.MatchOrderByWithRelationInput[];
+  const [total, matches] = await prisma.$transaction([
+    prisma.match.count({
+      where,
+    }),
+    prisma.match.findMany({
       where,
       include: matchInclude,
-      orderBy: [
-        {
-          matchDate: "asc",
-        },
-        {
-          kickoffTime: "asc",
-        },
-        {
-          id: "asc",
-        },
-      ],
+      orderBy,
+      skip,
+      take: filters.limit,
     }),
+  ]);
+
+  return {
+    status: "ok",
+    matches,
+    total,
   };
 }
 
