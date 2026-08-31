@@ -100,4 +100,70 @@ describe("season routes", () => {
       statusCode: 400,
     });
   });
+
+  it("returns 2003 season teams", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/seasons/2003/teams",
+    });
+    const body = response.json<Array<Record<string, unknown>>>();
+
+    expect(response.statusCode).toBe(200);
+    expect(body).toHaveLength(24);
+    expect(Object.keys(body[0] ?? {}).sort()).toEqual([
+      "name",
+      "shortName",
+      "slug",
+      "state",
+    ]);
+    expect(body[0]).not.toHaveProperty("id");
+    expect(body[0]).not.toHaveProperty("createdAt");
+    expect(body[0]).not.toHaveProperty("updatedAt");
+  });
+
+  it("returns 2005 season teams", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/seasons/2005/teams",
+    });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.json()).toHaveLength(22);
+  });
+
+  it("returns 2024 season teams", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/seasons/2024/teams",
+    });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.json()).toHaveLength(20);
+  });
+
+  it("returns not found for teams from a missing season", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/seasons/9999/teams",
+    });
+
+    expect(response.statusCode).toBe(404);
+    expect(response.json()).toEqual({
+      error: "Season not found.",
+      statusCode: 404,
+    });
+  });
+
+  it("returns bad request for teams from an invalid season year", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/seasons/abc/teams",
+    });
+
+    expect(response.statusCode).toBe(400);
+    expect(response.json()).toEqual({
+      error: "Season year must be a valid integer.",
+      statusCode: 400,
+    });
+  });
 });
