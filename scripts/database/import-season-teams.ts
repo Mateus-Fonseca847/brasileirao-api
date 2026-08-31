@@ -46,84 +46,78 @@ async function importarEquipesPorTemporada(): Promise<void> {
     0,
   );
 
-  await prisma.$transaction(async (tx) => {
-    const seasons = await tx.season.findMany({
-      where: {
-        year: {
-          in: years,
-        },
+  const seasons = await prisma.season.findMany({
+    where: {
+      year: {
+        in: years,
       },
-      select: {
-        id: true,
-        year: true,
-      },
-    });
+    },
+    select: {
+      id: true,
+      year: true,
+    },
+  });
 
-    const teams = await tx.team.findMany({
-      where: {
-        slug: {
-          in: slugs,
-        },
+  const teams = await prisma.team.findMany({
+    where: {
+      slug: {
+        in: slugs,
       },
-      select: {
-        id: true,
-        slug: true,
-      },
-    });
+    },
+    select: {
+      id: true,
+      slug: true,
+    },
+  });
 
-    const seasonIdsByYear = new Map(
-      seasons.map((season) => [season.year, season.id]),
+  const seasonIdsByYear = new Map(
+    seasons.map((season) => [season.year, season.id]),
+  );
+
+  const teamIdsBySlug = new Map(teams.map((team) => [team.slug, team.id]));
+
+  const missingSeasons = years.filter((year) => !seasonIdsByYear.has(year));
+  const missingTeams = slugs.filter((slug) => !teamIdsBySlug.has(slug));
+
+  if (missingSeasons.length > 0 || missingTeams.length > 0) {
+    throw new Error(
+      [
+        missingSeasons.length > 0
+          ? `Temporadas não encontradas: ${missingSeasons.join(", ")}`
+          : null,
+        missingTeams.length > 0
+          ? `Equipes não encontradas: ${missingTeams.join(", ")}`
+          : null,
+      ]
+        .filter((message) => message !== null)
+        .join(" | "),
     );
+  }
 
-    const teamIdsBySlug = new Map(teams.map((team) => [team.slug, team.id]));
+  const data = seasonTeams.flatMap((entry) => {
+    const seasonId = seasonIdsByYear.get(entry.season);
 
-    const missingSeasons = years.filter((year) => !seasonIdsByYear.has(year));
-    const missingTeams = slugs.filter((slug) => !teamIdsBySlug.has(slug));
-
-    if (missingSeasons.length > 0 || missingTeams.length > 0) {
-      throw new Error(
-        [
-          missingSeasons.length > 0
-            ? `Temporadas não encontradas: ${missingSeasons.join(", ")}`
-            : null,
-          missingTeams.length > 0
-            ? `Equipes não encontradas: ${missingTeams.join(", ")}`
-            : null,
-        ]
-          .filter((message) => message !== null)
-          .join(" | "),
-      );
+    if (!seasonId) {
+      throw new Error(`Temporada não encontrada: ${entry.season}`);
     }
 
-    for (const entry of seasonTeams) {
-      const seasonId = seasonIdsByYear.get(entry.season);
+    return entry.teams.map((slug) => {
+      const teamId = teamIdsBySlug.get(slug);
 
-      if (!seasonId) {
-        throw new Error(`Temporada não encontrada: ${entry.season}`);
+      if (!teamId) {
+        throw new Error(`Equipe não encontrada: ${slug}`);
       }
 
-      for (const slug of entry.teams) {
-        const teamId = teamIdsBySlug.get(slug);
+      return {
+        seasonId,
+        teamId,
+      };
+    });
+  });
 
-        if (!teamId) {
-          throw new Error(`Equipe não encontrada: ${slug}`);
-        }
-
-        await tx.seasonTeam.upsert({
-          where: {
-            seasonId_teamId: {
-              seasonId,
-              teamId,
-            },
-          },
-          create: {
-            seasonId,
-            teamId,
-          },
-          update: {},
-        });
-      }
-    }
+  await prisma.seasonTeam.createMany({
+    data,
+    skipDuplicates: true,
   });
 
   console.log(`Vínculos de equipes por temporada importados: ${totalVinculos}`);

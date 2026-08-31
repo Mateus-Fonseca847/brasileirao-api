@@ -68,54 +68,68 @@ async function importStandings(): Promise<void> {
   const years = [...new Set(standings.map((standing) => standing.season))];
   const slugs = [...new Set(standings.map((standing) => standing.team))];
 
-  await prisma.$transaction(async (tx) => {
-    const seasons = await tx.season.findMany({
-      where: {
-        year: {
-          in: years,
-        },
-      },
-      select: {
-        id: true,
-        year: true,
-      },
-    });
+const seasons = await prisma.season.findMany({
+  where: {
+    year: {
+      in: years,
+    },
+  },
+  select: {
+    id: true,
+    year: true,
+  },
+});
 
-    const teams = await tx.team.findMany({
-      where: {
-        slug: {
-          in: slugs,
-        },
-      },
-      select: {
-        id: true,
-        slug: true,
-      },
-    });
+const teams = await prisma.team.findMany({
+  where: {
+    slug: {
+      in: slugs,
+    },
+  },
+  select: {
+    id: true,
+    slug: true,
+  },
+});
 
-    const seasonIdsByYear = new Map(
-      seasons.map((season) => [season.year, season.id]),
-    );
-    const teamIdsBySlug = new Map(teams.map((team) => [team.slug, team.id]));
-    const missingSeasons = years.filter((year) => !seasonIdsByYear.has(year));
-    const missingTeams = slugs.filter((slug) => !teamIdsBySlug.has(slug));
+const seasonIdsByYear = new Map(
+  seasons.map((season) => [season.year, season.id]),
+);
 
-    if (missingSeasons.length > 0 || missingTeams.length > 0) {
-      throw new Error(
-        [
-          missingSeasons.length > 0
-            ? `Missing seasons: ${missingSeasons.join(", ")}`
-            : null,
-          missingTeams.length > 0
-            ? `Missing teams: ${missingTeams.join(", ")}`
-            : null,
-        ]
-          .filter((message) => message !== null)
-          .join(" | "),
-      );
-    }
+const teamIdsBySlug = new Map(
+  teams.map((team) => [team.slug, team.id]),
+);
 
-    for (const standing of standings) {
+const missingSeasons = years.filter(
+  (year) => !seasonIdsByYear.has(year),
+);
+
+const missingTeams = slugs.filter(
+  (slug) => !teamIdsBySlug.has(slug),
+);
+
+if (missingSeasons.length > 0 || missingTeams.length > 0) {
+  throw new Error(
+    [
+      missingSeasons.length > 0
+        ? `Missing seasons: ${missingSeasons.join(", ")}`
+        : null,
+      missingTeams.length > 0
+        ? `Missing teams: ${missingTeams.join(", ")}`
+        : null,
+    ]
+      .filter((message) => message !== null)
+      .join(" | "),
+  );
+}
+
+const batchSize = 100;
+
+for (let index = 0; index < standings.length; index += batchSize) {
+  const batch = standings.slice(index, index + batchSize);
+
+  await Promise.all(
+    batch.map((standing) => {
       const seasonId = seasonIdsByYear.get(standing.season);
       const teamId = teamIdsBySlug.get(standing.team);
 
@@ -127,7 +141,7 @@ async function importStandings(): Promise<void> {
         throw new Error(`Missing team: ${standing.team}`);
       }
 
-      await tx.standing.upsert({
+      return prisma.standing.upsert({
         where: {
           seasonId_teamId: {
             seasonId,
@@ -161,8 +175,9 @@ async function importStandings(): Promise<void> {
           pointsAdjustment: standing.pointsAdjustment,
         },
       });
-    }
-  });
+    }),
+  );
+}
 
   console.log(`Standings imported: ${standings.length}`);
 }

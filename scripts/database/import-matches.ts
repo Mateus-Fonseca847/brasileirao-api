@@ -335,6 +335,8 @@ async function importarPartidas(): Promise<void> {
         data: createManyData.slice(index, index + batchSize),
       });
     }
+  }, {
+    timeout: 120_000,
   });
 
   console.log(`Partidas normalizadas importadas: ${matches.length}`);

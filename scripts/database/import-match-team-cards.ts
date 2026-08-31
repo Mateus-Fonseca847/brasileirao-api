@@ -495,41 +495,34 @@ async function importMatchTeamCards(): Promise<void> {
   const beforeSnapshots = await getStatSnapshots();
   const resolutions = await resolveMatchesAndTeams(cards);
 
-  await prisma.$transaction(
-    async (tx) => {
-      for (let index = 0; index < resolutions.length; index += batchSize) {
-        const batch = resolutions.slice(index, index + batchSize);
+  for (let index = 0; index < resolutions.length; index += batchSize) {
+  const batch = resolutions.slice(index, index + batchSize);
 
-        await Promise.all(
-          batch.map(({ matchId, teamId, card }) =>
-            tx.matchTeamStat.upsert({
-              where: {
-                matchId_teamId: {
-                  matchId,
-                  teamId,
-                },
-              },
-              create: {
-                matchId,
-                teamId,
-                shots: null,
-                possession: null,
-                yellowCards: card.yellowCards,
-                redCards: card.redCards,
-              },
-              update: {
-                yellowCards: card.yellowCards,
-                redCards: card.redCards,
-              },
-            }),
-          ),
-        );
-      }
-    },
-    {
-      timeout: 60_000,
-    },
+  await Promise.all(
+    batch.map(({ matchId, teamId, card }) =>
+      prisma.matchTeamStat.upsert({
+        where: {
+          matchId_teamId: {
+            matchId,
+            teamId,
+          },
+        },
+        create: {
+          matchId,
+          teamId,
+          shots: null,
+          possession: null,
+          yellowCards: card.yellowCards,
+          redCards: card.redCards,
+        },
+        update: {
+          yellowCards: card.yellowCards,
+          redCards: card.redCards,
+        },
+      }),
+    ),
   );
+}
 
   const rowsAfterImport = await prisma.matchTeamStat.count();
   const audit = await auditDatabase(cards, resolutions, beforeSnapshots);

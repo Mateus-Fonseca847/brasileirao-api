@@ -285,43 +285,36 @@ async function importMatchTeamStats(): Promise<void> {
 
   const resolutions = await resolveMatchesAndTeams(stats);
 
-  await prisma.$transaction(
-    async (tx) => {
-      for (let index = 0; index < resolutions.length; index += batchSize) {
-        const batch = resolutions.slice(index, index + batchSize);
+for (let index = 0; index < resolutions.length; index += batchSize) {
+  const batch = resolutions.slice(index, index + batchSize);
 
-        await Promise.all(
-          batch.map(({ matchId, teamId, stat }) =>
-            tx.matchTeamStat.upsert({
-              where: {
-                matchId_teamId: {
-                  matchId,
-                  teamId,
-                },
-              },
-              create: {
-                matchId,
-                teamId,
-                shots: stat.shots,
-                possession: stat.possession,
-                yellowCards: null,
-                redCards: null,
-              },
-              update: {
-                shots: stat.shots,
-                possession: stat.possession,
-                yellowCards: null,
-                redCards: null,
-              },
-            }),
-          ),
-        );
-      }
-    },
-    {
-      timeout: 60_000,
-    },
+  await Promise.all(
+    batch.map(({ matchId, teamId, stat }) =>
+      prisma.matchTeamStat.upsert({
+        where: {
+          matchId_teamId: {
+            matchId,
+            teamId,
+          },
+        },
+        create: {
+          matchId,
+          teamId,
+          shots: stat.shots,
+          possession: stat.possession,
+          yellowCards: null,
+          redCards: null,
+        },
+        update: {
+          shots: stat.shots,
+          possession: stat.possession,
+          yellowCards: null,
+          redCards: null,
+        },
+      }),
+    ),
   );
+}
 
   console.log(`Match-team stats imported: ${stats.length}`);
 }

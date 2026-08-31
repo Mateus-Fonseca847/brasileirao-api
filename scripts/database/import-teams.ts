@@ -30,22 +30,20 @@ async function importarEquipes(): Promise<void> {
     throw new Error("Catálogo canônico de equipes está em formato inválido.");
   }
 
-  await prisma.$transaction(
-    teams.map((team) =>
-      prisma.team.upsert({
-        where: {
-          slug: team.slug,
-        },
-        create: {
-          slug: team.slug,
-          name: team.name,
-        },
-        update: {
-          name: team.name,
-        },
-      }),
-    ),
-  );
+  for (const team of teams) {
+    await prisma.team.upsert({
+      where: {
+        slug: team.slug,
+      },
+      create: {
+        slug: team.slug,
+        name: team.name,
+      },
+      update: {
+        name: team.name,
+      },
+    });
+  }
 
   console.log(`Equipes canônicas importadas: ${teams.length}`);
 }
