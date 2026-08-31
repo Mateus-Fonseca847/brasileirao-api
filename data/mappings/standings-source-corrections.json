@@ -1,0 +1,19 @@
+[
+  {
+    "source": "czekster",
+    "season": 2023,
+    "type": "SOURCE_COLUMN_ORDER_CORRECTION",
+    "declaredOrder": [
+      "GOAL-BALANCE",
+      "GOALS-PRO",
+      "GOALS-AGAINST"
+    ],
+    "actualOrder": [
+      "GOALS-PRO",
+      "GOALS-AGAINST",
+      "GOAL-BALANCE"
+    ],
+    "affectedRows": 20,
+    "reason": "2023 rows consistently use a different column order than the declared header"
+  }
+]

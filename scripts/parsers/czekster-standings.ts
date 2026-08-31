@@ -32,6 +32,16 @@ export type ParsedCzeksterStandingsFile = {
   standings: ParsedCzeksterStanding[];
 };
 
+export type CzeksterSourceCorrection = {
+  source: "czekster";
+  season: number;
+  type: "SOURCE_COLUMN_ORDER_CORRECTION";
+  declaredOrder: string[];
+  actualOrder: string[];
+  affectedRows: number;
+  reason: string;
+};
+
 const delimiter = ";";
 
 const brazilianStateSuffixPattern =
@@ -86,14 +96,14 @@ function parseRows(content: string): {
   };
 }
 
-function parseNumber(row: RawCzeksterStandingRow, column: string): number {
-  const value = Number(row[column]);
+function parseNumber(value: string | undefined, column: string): number {
+  const numberValue = Number(value);
 
-  if (!Number.isFinite(value)) {
-    throw new Error(`Invalid numeric value for ${column}: ${row[column]}`);
+  if (!Number.isFinite(numberValue)) {
+    throw new Error(`Invalid numeric value for ${column}: ${value}`);
   }
 
-  return value;
+  return numberValue;
 }
 
 function stripBrazilianStateSuffix(team: string): string {
@@ -131,12 +141,46 @@ function findCanonicalTeam(
   };
 }
 
+function getCorrectedColumnValue(
+  row: RawCzeksterStandingRow,
+  column: string,
+  correction: CzeksterSourceCorrection | undefined,
+): string | undefined {
+  if (!correction || !correction.declaredOrder.includes(column)) {
+    return row[column];
+  }
+
+  const actualIndex = correction.actualOrder.indexOf(column);
+  const declaredColumn = correction.declaredOrder[actualIndex];
+
+  if (!declaredColumn) {
+    throw new Error(`Correction does not map column: ${column}`);
+  }
+
+  return row[declaredColumn];
+}
+
+function getCorrectionForSeason(
+  season: number,
+  corrections: CzeksterSourceCorrection[],
+): CzeksterSourceCorrection | undefined {
+  return corrections.find(
+    (correction) =>
+      correction.source === "czekster" &&
+      correction.type === "SOURCE_COLUMN_ORDER_CORRECTION" &&
+      correction.season === season,
+  );
+}
+
 function toParsedStanding(
   row: RawCzeksterStandingRow,
   aliases: Map<string, string>,
+  corrections: CzeksterSourceCorrection[],
 ): ParsedCzeksterStanding {
   const sourceTeam = row.TEAM ?? "";
   const normalizedTeamName = stripBrazilianStateSuffix(sourceTeam);
+  const season = parseNumber(row.YEAR, "YEAR");
+  const correction = getCorrectionForSeason(season, corrections);
   const teamResolution = findCanonicalTeam(
     sourceTeam,
     normalizedTeamName,
@@ -144,38 +188,53 @@ function toParsedStanding(
   );
 
   return {
-    season: parseNumber(row, "YEAR"),
-    ranking: parseNumber(row, "RANKING"),
+    season,
+    ranking: parseNumber(row.RANKING, "RANKING"),
     sourceTeam,
     normalizedTeamName,
     resolutionInput: teamResolution.resolutionInput,
     canonicalTeam: teamResolution.canonicalTeam,
-    points: parseNumber(row, "POINTS"),
-    wins: parseNumber(row, "WIN"),
-    draws: parseNumber(row, "DRAW"),
-    losses: parseNumber(row, "LOSE"),
-    goalBalance: parseNumber(row, "GOAL-BALANCE"),
-    goalsFor: parseNumber(row, "GOALS-PRO"),
-    goalsAgainst: parseNumber(row, "GOALS-AGAINST"),
-    matches: parseNumber(row, "MATCHES"),
+    points: parseNumber(row.POINTS, "POINTS"),
+    wins: parseNumber(row.WIN, "WIN"),
+    draws: parseNumber(row.DRAW, "DRAW"),
+    losses: parseNumber(row.LOSE, "LOSE"),
+    goalBalance: parseNumber(
+      getCorrectedColumnValue(row, "GOAL-BALANCE", correction),
+      "GOAL-BALANCE",
+    ),
+    goalsFor: parseNumber(
+      getCorrectedColumnValue(row, "GOALS-PRO", correction),
+      "GOALS-PRO",
+    ),
+    goalsAgainst: parseNumber(
+      getCorrectedColumnValue(row, "GOALS-AGAINST", correction),
+      "GOALS-AGAINST",
+    ),
+    matches: parseNumber(row.MATCHES, "MATCHES"),
   };
 }
 
 export async function parseCzeksterStandingsFile(
   rankingPath: string,
   aliasesPath: string,
+  correctionsPath?: string,
 ): Promise<ParsedCzeksterStandingsFile> {
   const bytes = await readFile(rankingPath);
   const encoding = detectEncoding(bytes);
   const content = decodeFile(bytes, encoding);
   const { columns, rows } = parseRows(content);
   const aliases = await carregarAliasesDeEquipes(aliasesPath);
+  const corrections = correctionsPath
+    ? (JSON.parse(
+        await readFile(correctionsPath, "utf-8"),
+      ) as CzeksterSourceCorrection[])
+    : [];
 
   return {
     encoding,
     delimiter,
     columns,
     rawRows: rows,
-    standings: rows.map((row) => toParsedStanding(row, aliases)),
+    standings: rows.map((row) => toParsedStanding(row, aliases, corrections)),
   };
 }

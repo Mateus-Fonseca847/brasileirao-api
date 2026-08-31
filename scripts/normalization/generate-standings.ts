@@ -40,7 +40,7 @@ type NormalizedStanding = {
 };
 
 const rankingPath = resolve(
-  "data/raw/czekster/ranking-2003-2019.txt",
+  "data/raw/czekster/ranking-2003-2024.txt",
 );
 
 const aliasesPath = resolve(
@@ -57,6 +57,10 @@ const seasonTeamsPath = resolve(
 
 const standingsAdjustmentsPath = resolve(
   "data/mappings/standings-adjustments.json",
+);
+
+const standingsSourceCorrectionsPath = resolve(
+  "data/mappings/standings-source-corrections.json",
 );
 
 const outputPath = resolve(
@@ -81,6 +85,11 @@ const expectedRowsBySeason = new Map([
   [2017, 20],
   [2018, 20],
   [2019, 20],
+  [2020, 20],
+  [2021, 20],
+  [2022, 20],
+  [2023, 20],
+  [2024, 20],
 ]);
 
 function getKey(season: number, value: string | number): string {
@@ -109,6 +118,7 @@ function validateStandings(
   teams: TeamEntry[],
   seasonTeams: SeasonTeamEntry[],
   adjustments: StandingAdjustmentEntry[],
+  previousValidatedStandings: NormalizedStanding[],
 ): {
   totalRecords: number;
   seasons: number[];
@@ -130,6 +140,10 @@ function validateStandings(
     standingAdjustment: number;
     mappedAdjustment: number;
   }>;
+  nonZeroAdjustmentsBefore2020: number;
+  nonZeroAdjustmentsFrom2020To2024: number;
+  first350RecordsSemanticallyIdentical: boolean;
+  invalidCorrected2023GoalFields: Array<{ team: string }>;
 } {
   const teamSlugs = new Set(teams.map((team) => team.slug));
   const seasonTeamMap = new Map(
@@ -254,6 +268,11 @@ function validateStandings(
       },
     ];
   });
+  const first350RecordsSemanticallyIdentical =
+    previousValidatedStandings.length === 0 ||
+    JSON.stringify(
+      standings.filter((standing) => standing.season <= 2019),
+    ) === JSON.stringify(previousValidatedStandings);
 
   return {
     totalRecords: standings.length,
@@ -273,6 +292,23 @@ function validateStandings(
     missingAdjustmentMappings,
     extraAdjustmentMappings,
     mismatchedAdjustmentMappings,
+    nonZeroAdjustmentsBefore2020: adjustedStandings.filter(
+      (standing) => standing.season < 2020,
+    ).length,
+    nonZeroAdjustmentsFrom2020To2024: adjustedStandings.filter(
+      (standing) => standing.season >= 2020 && standing.season <= 2024,
+    ).length,
+    first350RecordsSemanticallyIdentical,
+    invalidCorrected2023GoalFields: standings
+      .filter(
+        (standing) =>
+          standing.season === 2023 &&
+          standing.goalDifference !==
+            standing.goalsFor - standing.goalsAgainst,
+      )
+      .map((standing) => ({
+        team: standing.team,
+      })),
   };
 }
 
@@ -284,7 +320,7 @@ function assertValidation(
     ({ season, rows }) => rows !== expectedRowsBySeason.get(season),
   );
   const hasUnexpectedResult =
-    validation.totalRecords !== 350 ||
+    validation.totalRecords !== 450 ||
     JSON.stringify(validation.seasons) !== JSON.stringify(expectedSeasons) ||
     invalidRowsPerSeason.length > 0 ||
     validation.duplicateSeasonTeams.length > 0 ||
@@ -295,10 +331,14 @@ function assertValidation(
     validation.invalidGoalDifferenceFormula.length > 0 ||
     validation.invalidPointsFormula.length > 0 ||
     validation.nonZeroPointsAdjustmentCount !== 11 ||
+    validation.nonZeroAdjustmentsBefore2020 !== 11 ||
+    validation.nonZeroAdjustmentsFrom2020To2024 !== 0 ||
     validation.adjustmentMappingsCount !== 11 ||
     validation.missingAdjustmentMappings.length > 0 ||
     validation.extraAdjustmentMappings.length > 0 ||
-    validation.mismatchedAdjustmentMappings.length > 0;
+    validation.mismatchedAdjustmentMappings.length > 0 ||
+    !validation.first350RecordsSemanticallyIdentical ||
+    validation.invalidCorrected2023GoalFields.length > 0;
 
   if (hasUnexpectedResult) {
     console.error(JSON.stringify(validation, null, 2));
@@ -307,9 +347,13 @@ function assertValidation(
 }
 
 async function main(): Promise<void> {
+  const previousValidatedStandings = await readJsonFile<NormalizedStanding[]>(
+    outputPath,
+  );
   const parsedFile = await parseCzeksterStandingsFile(
     rankingPath,
     aliasesPath,
+    standingsSourceCorrectionsPath,
   );
   const teams = await readJsonFile<TeamEntry[]>(teamsPath);
   const seasonTeams = await readJsonFile<SeasonTeamEntry[]>(seasonTeamsPath);
@@ -354,6 +398,7 @@ async function main(): Promise<void> {
     teams,
     seasonTeams,
     adjustments,
+    previousValidatedStandings,
   );
 
   assertValidation(validation);
