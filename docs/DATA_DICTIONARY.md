@@ -47,7 +47,9 @@ Correções conhecidas devem ser registradas através dos mecanismos de normaliz
 
 ## 2.3 Identificadores internos não dependem das fontes
 
-Clubes, jogadores, temporadas e partidas possuirão identificadores internos.
+Clubes, temporadas e partidas possuirão identificadores internos na V1.
+
+Jogadores também deverão possuir identificadores internos quando o modelo de jogadores for implementado na V2.
 
 Identificadores utilizados por fontes externas não serão utilizados como chave principal do banco.
 
@@ -379,6 +381,8 @@ também deve ser única para uma classificação final validada.
 
 # 9. Player
 
+Planejado para a V2.
+
 Representa um jogador identificado nas fontes utilizadas pelo projeto.
 
 ## Campos
@@ -401,6 +405,8 @@ Jogadores homônimos poderão exigir atributos adicionais para desambiguação.
 ---
 
 # 10. PlayerSeasonTeam
+
+Planejado para a V2.
 
 Representa o vínculo de um jogador com um clube durante uma temporada.
 
@@ -431,6 +437,8 @@ deve ser única.
 ---
 
 # 11. PlayerSeasonStat
+
+Planejado para a V2.
 
 Representa estatísticas agregadas de um jogador em uma temporada e por clube.
 
@@ -473,7 +481,11 @@ mesmo quando o projeto ainda não possui a lista completa das 15 partidas em que
 
 # 12. GoalEvent
 
+Planejado para a V2.
+
 Representa um evento individual de gol quando essa informação estiver disponível.
+
+Eventos individuais de gol não fazem parte dos recursos públicos da V1.
 
 Nem todas as temporadas possuirão cobertura desse nível de detalhe.
 
@@ -555,6 +567,20 @@ A persistência de campos derivados deverá ser utilizada apenas quando existir 
 
 # 15. Relacionamentos principais
 
+Na V1, os relacionamentos públicos e persistidos são:
+
+Season
+├── SeasonTeam
+│   └── Team
+├── Match
+│   ├── Team (home)
+│   ├── Team (away)
+│   └── MatchTeamStat
+└── Standing
+    └── Team
+
+As entidades abaixo permanecem planejadas para a V2:
+
 Season
 ├── SeasonTeam
 │   └── Team
@@ -621,11 +647,15 @@ Cada clube possui no máximo um registro oficial de classificação por temporad
 
 ## Player ↔ Team ↔ Season
 
+Planejado para a V2.
+
 O vínculo é representado por:
 
 PlayerSeasonTeam
 
 ## Match → GoalEvent
+
+Planejado para a V2.
 
 Uma partida pode possuir zero ou vários eventos individuais de gol.
 
@@ -645,9 +675,9 @@ Correções históricas não devem sobrescrever silenciosamente a proveniência 
 
 ---
 
-# 18. Escopo inicial de persistência
+# 18. Escopo V1 de persistência
 
-A primeira versão do banco deverá priorizar:
+A V1 do banco inclui:
 
 1. Season
 2. Team
@@ -656,14 +686,14 @@ A primeira versão do banco deverá priorizar:
 5. MatchTeamStat
 6. Standing
 
-Em seguida:
+Ficam planejados para a V2:
 
-7. Player
-8. PlayerSeasonTeam
-9. PlayerSeasonStat
-10. GoalEvent
+1. Player
+2. PlayerSeasonTeam
+3. PlayerSeasonStat
+4. GoalEvent
 
-Essa ordem permite primeiro disponibilizar a base estrutural da competição e os resultados históricos já validados.
+A V1 disponibiliza a base estrutural da competição, resultados históricos validados, estatísticas agregadas por equipe, cartões amarelos e vermelhos agregados, classificações oficiais e ajustes administrativos de pontuação.
 
 ---
 

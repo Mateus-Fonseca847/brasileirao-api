@@ -41,6 +41,30 @@ finished
 
 A API deverá disponibilizar os seguintes grupos de informações.
 
+### Escopo V1 congelado
+
+A V1 inclui:
+
+* temporadas;
+* clubes;
+* participação de clubes por temporada;
+* partidas;
+* placares oficiais e placares em campo;
+* estatísticas de equipe por partida;
+* cartões amarelos e vermelhos agregados por equipe;
+* classificações oficiais;
+* ajustes administrativos de pontuação na classificação.
+
+A V1 não inclui:
+
+* jogadores;
+* estatísticas de jogadores;
+* transferências de jogadores;
+* eventos de gol como recursos públicos;
+* eventos de cartão como recursos públicos.
+
+Recursos relacionados a jogadores ficam planejados para a V2.
+
 ### 3.1 Temporadas
 
 Para cada temporada serão armazenadas informações como:
@@ -138,14 +162,16 @@ Essas informações deverão ser derivadas dos resultados das partidas sempre qu
 
 ## 3.6 Jogadores e artilharia
 
-A API deverá disponibilizar:
+Jogadores e artilharia não fazem parte da V1.
+
+Esses recursos ficam planejados para a V2 e poderão incluir:
 
 * jogadores;
 * quantidade de gols;
 * equipe representada;
 * artilharia de cada temporada.
 
-Quando houver informações suficientes, gols individuais poderão ser associados diretamente à partida em que aconteceram.
+Quando houver informações suficientes em uma fase futura, gols individuais poderão ser associados diretamente à partida em que aconteceram.
 
 ---
 
@@ -353,9 +379,10 @@ O projeto será considerado funcional quando um consumidor externo conseguir:
 2. consultar a classificação de determinada temporada;
 3. consultar os clubes participantes;
 4. consultar as partidas;
-5. visualizar os resultados;
+5. visualizar placares oficiais e placares em campo;
 6. consultar estatísticas separadas por equipe;
-7. consultar gols marcados e sofridos;
-8. consultar os artilheiros da temporada;
-9. identificar quando uma informação histórica não estiver disponível;
-10. compreender a origem e o nível de confiabilidade dos dados através da documentação.
+7. consultar cartões amarelos e vermelhos agregados por equipe;
+8. consultar gols marcados e sofridos;
+9. consultar classificações oficiais e ajustes administrativos de pontuação;
+10. identificar quando uma informação histórica não estiver disponível;
+11. compreender a origem e o nível de confiabilidade dos dados através da documentação.

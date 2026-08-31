@@ -1,8 +1,12 @@
-# Modelo Relacional de Jogadores e Gols — API do Brasileirão
+# Modelo Relacional de Jogadores e Gols — Planejado para V2
 
 ## 1. Objetivo
 
-Este documento complementa `RELATIONAL_MODEL.md` e define o modelo relacional das entidades relacionadas a:
+Este documento complementa `RELATIONAL_MODEL.md` e descreve um modelo planejado para a V2.
+
+As entidades abaixo não fazem parte do escopo público da V1.
+
+O documento define o modelo relacional das entidades relacionadas a:
 
 - jogadores;
 - vínculo entre jogador, clube e temporada;
@@ -10,7 +14,7 @@ Este documento complementa `RELATIONAL_MODEL.md` e define o modelo relacional da
 - artilharia;
 - eventos individuais de gol.
 
-As entidades descritas aqui serão posteriormente incorporadas ao `schema.prisma`.
+As entidades descritas aqui serão incorporadas ao `schema.prisma` somente em uma fase posterior.
 
 O modelo foi projetado levando em consideração que a cobertura histórica dessas informações não é uniforme.
 
@@ -18,9 +22,9 @@ Portanto, a ausência de um evento individual não implica necessariamente que o
 
 ---
 
-# 2. Entidades desta etapa
+# 2. Entidades planejadas para V2
 
-Serão modeladas:
+Serão modeladas em uma fase futura:
 
 1. players;
 2. player_season_teams;
@@ -281,7 +285,7 @@ Permite consultar jogadores associados a um clube em determinada temporada.
 
 Representa estatísticas agregadas de um jogador em uma temporada por clube.
 
-A primeira versão será orientada principalmente para:
+A V2 poderá ser orientada inicialmente para:
 
 artilharia
 
@@ -1109,9 +1113,9 @@ Season
 
 ---
 
-# 36. Resultado da modelagem relacional
+# 36. Resultado da modelagem relacional planejada
 
-O modelo relacional completo previsto para a primeira versão passa a possuir:
+O modelo relacional completo planejado para a V2 poderá possuir:
 
 seasons
 
@@ -1133,7 +1137,7 @@ player_season_stats
 
 goal_events
 
-Essas tabelas representam a base estrutural necessária para disponibilizar:
+Essas tabelas representam a base estrutural necessária para disponibilizar, em fase posterior:
 
 - temporadas;
 - clubes;
