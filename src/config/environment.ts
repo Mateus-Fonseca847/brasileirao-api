@@ -21,7 +21,7 @@ function readPort(value: string | undefined): number {
 
 function readHost(value: string | undefined): string {
   if (value === undefined) {
-    return "127.0.0.1";
+    return "0.0.0.0";
   }
 
   const host = value.trim();
