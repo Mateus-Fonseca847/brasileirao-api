@@ -111,6 +111,7 @@ Documentação interativa:
 GET /docs
 ```
 
+
 Documento OpenAPI:
 
 ```text
@@ -319,8 +320,12 @@ A rota `/health` valida tanto a aplicação quanto a conexão com o PostgreSQL. 
 URL pública:
 
 ```text
-A definir
+https://http--api--qghgnx9pq7tb.code.run
 ```
+
+Documentação interativa:
+
+https://http--api--qghgnx9pq7tb.code.run/docs
 
 ## Limitações Conhecidas
 
