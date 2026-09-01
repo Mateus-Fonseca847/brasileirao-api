@@ -179,6 +179,10 @@ RATE_LIMIT_MAX=100
 
 Use `.env.example` como referência. Não coloque segredos reais no repositório.
 
+`CORS_ORIGIN=*` permite consumo público por qualquer frontend e é adequado para a versão pública da API v1, que é somente leitura, sem autenticação, cookies ou sessão. Ambientes restritos podem informar múltiplas origens específicas separadas por vírgulas, por exemplo `CORS_ORIGIN=https://site-a.com,https://site-b.com`.
+
+A API não habilita `credentials: true` no CORS. `RATE_LIMIT_MAX` define o limite global de requisições por janela e mantém uma proteção básica contra abuso.
+
 ## Desenvolvimento Local
 
 Instale as dependências:
@@ -298,9 +302,28 @@ docker run --rm -p 3000:3000 --env-file .env brasileirao-api
 
 O PostgreSQL local do projeto é definido em `compose.yaml` e permanece separado da imagem da API.
 
+## Produção
+
+A API v1 está publicada em produção com aplicação containerizada em Docker e deploy no Northflank. O CI/CD está conectado à branch `main`, e o serviço Fastify expõe a porta `3000`.
+
+O PostgreSQL de produção roda em rede privada no Northflank. A `DATABASE_URL` é injetada em runtime por Secret Group, sem versionar credenciais, tokens ou strings reais de conexão.
+
+A readiness probe usa:
+
+```text
+GET /health
+```
+
+A rota `/health` valida tanto a aplicação quanto a conexão com o PostgreSQL. Em produção pública, o CORS pode ser configurado com `CORS_ORIGIN=*` e o rate limit padrão recomendado é `RATE_LIMIT_MAX=100`.
+
+URL pública:
+
+```text
+A definir
+```
+
 ## Limitações Conhecidas
 
-- A API não está publicada publicamente por este repositório.
 - A v1 expõe estatísticas agregadas, não eventos individuais.
 - Estatísticas de chutes e posse têm cobertura histórica parcial.
 - Eventos de cartões e gols são usados em auditorias/datasets internos, mas não são recursos públicos da v1.
