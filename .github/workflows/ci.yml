@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Quality
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: brasileirao
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_DB: brasileirao_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U brasileirao -d brasileirao_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://brasileirao:test_password@127.0.0.1:5432/brasileirao_test?schema=public
+      HOST: 127.0.0.1
+      PORT: 3000
+      CORS_ORIGIN: http://localhost:3000,http://127.0.0.1:3000
+      RATE_LIMIT_MAX: 100
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npx prisma generate --config prisma7.config.ts
+
+      - name: Apply database migrations
+        run: npx prisma migrate deploy --config prisma7.config.ts
+
+      - name: Import historical datasets
+        run: |
+          npm run db:import:seasons
+          npm run db:import:teams
+          npm run db:import:season-teams
+          npm run db:import:matches
+          npm run db:import:match-team-stats
+          npm run db:import:match-team-cards
+          npm run db:import:standings
+
+      - name: TypeScript check
+        run: npx tsc --noEmit
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
