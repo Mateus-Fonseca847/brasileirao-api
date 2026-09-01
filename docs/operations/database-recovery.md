@@ -125,20 +125,26 @@ curl -i "$API_BASE_URL/matches?season=2024&limit=10"
 
 ## Production Backup Policy
 
-Status atual: `To be configured/verified in Northflank`.
+Status atual: `Configured and verified in Northflank`.
 
-Checklist para preencher após a configuração manual:
+Configuração atual de produção:
 
-- backup automático configurado: sim/não;
-- tipo de backup: snapshot/dump/outro;
-- frequência verificada;
-- retenção verificada;
-- procedimento de restore testado;
-- data do último teste de restore;
-- responsável pela verificação;
-- observações operacionais.
+- backup automático configurado: sim;
+- tipo de backup automático: snapshot;
+- frequência: semanal;
+- execução: segunda-feira às 06:00 UTC (03:00 em UTC-3);
+- retenção: 60 dias;
+- backup manual verificado: sim;
+- último backup manual de verificação: `manual-pre-v2-check`, concluído com sucesso em 2026-09-01;
+- procedimento de restore testado: não;
+- data do último teste de restore: ainda não realizado.
 
-Não assuma capacidades, frequência, retenção ou recursos do plano sem confirmação direta no Northflank.
+A criação de um backup manual foi validada diretamente no PostgreSQL de produção do Northflank. Isso confirma o funcionamento do mecanismo de criação de snapshots, mas não valida o processo completo de restauração.
+
+Um restore deve ser testado futuramente em um ambiente não produtivo antes de ser considerado validado operacionalmente.
+
+Antes de migrations, importações extensas ou alterações estruturais relevantes no banco, considere criar também um backup manual adicional.
+
 
 ## Procedimento de Incidente
 
