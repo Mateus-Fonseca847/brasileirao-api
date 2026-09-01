@@ -1,6 +1,6 @@
 {
   "name": "brasileirao-api",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "API REST com dados históricos do Campeonato Brasileiro Série A desde 2003.",
   "private": true,
   "type": "module",
