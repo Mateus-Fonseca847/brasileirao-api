@@ -1,9 +1,13 @@
+type CorsOrigins = "*" | string[];
+
 type EnvironmentConfig = {
   host: string;
   port: number;
-  corsOrigins: string[];
+  corsOrigins: CorsOrigins;
   rateLimitMax: number;
 };
+
+const publicCorsOrigin: CorsOrigins = "*";
 
 function readPort(value: string | undefined): number {
   if (!value) {
@@ -33,12 +37,18 @@ function readHost(value: string | undefined): string {
   return host;
 }
 
-function readCorsOrigins(value: string | undefined): string[] {
+function readCorsOrigins(value: string | undefined): CorsOrigins {
   if (!value) {
     return ["http://localhost:3000", "http://127.0.0.1:3000"];
   }
 
-  return value
+  const trimmedValue = value.trim();
+
+  if (trimmedValue === publicCorsOrigin) {
+    return publicCorsOrigin;
+  }
+
+  return trimmedValue
     .split(",")
     .map((origin) => origin.trim())
     .filter((origin) => origin.length > 0);
