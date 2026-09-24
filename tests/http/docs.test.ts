@@ -11,8 +11,90 @@ type OpenApiDocument = {
     version: string;
     description: string;
   };
-  paths: Record<string, unknown>;
+  paths: Record<string, Record<string, unknown>>;
 };
+
+type OpenApiOperation = {
+  summary?: string;
+  tags?: string[];
+  parameters?: Array<{ name: string; in: string }>;
+  responses?: Record<
+    string,
+    { content?: Record<string, { schema?: unknown }> }
+  >;
+};
+
+// Métodos HTTP que o OpenAPI reconhece como operação de um path.
+const HTTP_METHODS = [
+  "get",
+  "put",
+  "post",
+  "delete",
+  "options",
+  "head",
+  "patch",
+  "trace",
+];
+
+// O @fastify/swagger em modo dinâmico gera os paths a partir das próprias
+// rotas registradas. Uma rota sem schema aparece no documento do mesmo jeito,
+// mas sem summary, tags ou resposta descrita. Por isso este helper mede a
+// qualidade de cada operação, e não a presença do path.
+function findOperationProblems(document: OpenApiDocument): string[] {
+  const problems: string[] = [];
+
+  for (const [path, item] of Object.entries(document.paths)) {
+    for (const method of HTTP_METHODS) {
+      const operation = item[method] as OpenApiOperation | undefined;
+
+      if (operation === undefined) {
+        continue;
+      }
+
+      const missing: string[] = [];
+
+      if (!operation.tags || operation.tags.length === 0) {
+        missing.push("sem tags");
+      }
+
+      if (!operation.summary || operation.summary.trim() === "") {
+        missing.push("sem summary");
+      }
+
+      const hasDocumentedSuccess = Object.entries(
+        operation.responses ?? {},
+      ).some(
+        ([status, response]) =>
+          /^2\d\d$/.test(status) &&
+          Object.values(response.content ?? {}).some(
+            (media) => media.schema !== undefined,
+          ),
+      );
+
+      if (!hasDocumentedSuccess) {
+        missing.push("sem resposta 2xx com schema de conteúdo");
+      }
+
+      const declaredPathParams = new Set(
+        (operation.parameters ?? [])
+          .filter((parameter) => parameter.in === "path")
+          .map((parameter) => parameter.name),
+      );
+
+      for (const [, name] of path.matchAll(/\{([^}]+)\}/g)) {
+        if (!declaredPathParams.has(name as string)) {
+          missing.push(`parâmetro de path {${name}} não declarado`);
+        }
+      }
+
+      if (missing.length > 0) {
+        problems.push(`${method.toUpperCase()} ${path}: ${missing.join(", ")}`);
+      }
+    }
+  }
+
+  return problems;
+}
 
 describe("OpenAPI documentation", () => {
   let app: FastifyInstance;
@@ -74,5 +156,34 @@ describe("OpenAPI documentation", () => {
         "/matches/{id}/stats",
       ]),
     );
+  });
+
+  it("fully documents every operation in the OpenAPI document", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/docs/json",
+    });
+    const body = response.json<OpenApiDocument>();
+
+    const problems = findOperationProblems(body);
+
+    expect(
+      problems,
+      `Operações do OpenAPI com documentação incompleta:\n${problems.join("\n")}`,
+    ).toEqual([]);
+  });
+
+  it("does not expose automatic HEAD operations in the OpenAPI document", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/docs/json",
+    });
+    const body = response.json<OpenApiDocument>();
+
+    const headPaths = Object.entries(body.paths)
+      .filter(([, item]) => "head" in item)
+      .map(([path]) => path);
+
+    expect(headPaths).toEqual([]);
   });
 });
